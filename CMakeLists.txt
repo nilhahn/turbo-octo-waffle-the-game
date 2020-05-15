@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.10)
+project(turbo-octo-waffle-the-game VERSION 0.1)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR})
+
+add_executable(
+        turbo-octo-waffle-the-game
+        src/main.cpp
+        src/Resource/Resource.cpp src/Resource/Resource.h
+        src/Entity/BaseEntity.cpp src/Entity/BaseEntity.h src/System/Game.cpp src/System/Game.h src/System/Window.cpp src/System/Window.h)
+
+target_include_directories(turbo-octo-waffle-the-game PUBLIC
+        "${PROJECT_BINARY_DIR}"
+        "${PROJECT_SOURCE_DIR}/Resource"
+        )
+
+target_link_libraries(turbo-octo-waffle-the-game ${SDL2_LIBRARY})
