@@ -10,7 +10,8 @@ Game::Game() {
 }
 
 bool Game::init() {
-    this->window = Window::create("turbo-octo-waffel",512,512);
+    std::string title = "turbo-octo-waffel";
+    this->window = Window::create(title,512,512);
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
 }
@@ -35,10 +36,6 @@ void Game::run() {
         this->render();
     }
     SDL_Delay(5000);
-}
-
-void Game::clean() {
-
 }
 
 

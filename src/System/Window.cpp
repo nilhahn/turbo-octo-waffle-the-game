@@ -7,8 +7,8 @@
 
 Window* Window::window = nullptr;
 
-const Window *Window::create(std::string &title, int width, int height) {
-    if(window != nullptr) {
+Window *Window::create(std::string &title, int width, int height) {
+    if(window == nullptr) {
         window = new Window();
         if(window->init(title, width, height) == false) {
             delete window;

@@ -12,7 +12,7 @@ class Window {
 public:
     ~Window();
 
-    static const Window* create(std::string& title, int width, int height);
+    static Window* create(std::string& title, int width, int height);
     SDL_Renderer* getRenderer();
 
 private:
