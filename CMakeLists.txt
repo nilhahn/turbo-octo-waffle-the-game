@@ -15,7 +15,7 @@ add_executable(
         turbo-octo-waffle-the-game
         src/main.cpp
         src/Resource/Resource.cpp src/Resource/Resource.h
-        src/Entity/BaseEntity.cpp src/Entity/BaseEntity.h src/System/Game.cpp src/System/Game.h src/System/Window.cpp src/System/Window.h)
+        src/Entity/BaseEntity.cpp src/Entity/BaseEntity.h src/System/Game.cpp src/System/Game.h src/window/Window.cpp src/window/Window.h src/Resource/TextureManager.cpp src/Resource/TextureManager.h src/System/Texture.cpp src/System/Texture.h)
 
 target_include_directories(turbo-octo-waffle-the-game PUBLIC
         "${PROJECT_BINARY_DIR}"

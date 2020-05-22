@@ -5,12 +5,16 @@
 #ifndef SFRPG_GAME_H
 #define SFRPG_GAME_H
 
-#include "Window.h"
+#include "SDL.h"
+#include "SDL_image.h"
+#include "../Resource/Resource.h"
+#include "../window/Window.h"
+#include "../Resource/TextureManager.h"
 
 class Game {
 public:
     Game();
-    ~Game() = default;
+    ~Game();
 
     void run();
 private:
@@ -22,6 +26,8 @@ private:
     bool running;
 
     Window* window;
+    TextureManager* textureManager;
+    SDL_Texture* player;
 };
 
 
