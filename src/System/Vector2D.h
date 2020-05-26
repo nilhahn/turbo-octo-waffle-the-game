@@ -14,6 +14,9 @@ public:
 
     float length();
 
+    float getY();
+    float getX();
+
     float operator* (Vector2D& vector);
     Vector2D operator* (float scalar);
     Vector2D operator+ (Vector2D& vector);

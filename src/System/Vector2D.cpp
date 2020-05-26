@@ -43,3 +43,12 @@ Vector2D &Vector2D::operator-=(Vector2D &vector) {
     this->y -= vector.y;
     return *this;
 }
+
+
+float Vector2D::getX() {
+    return this->x;
+}
+
+float Vector2D::getY() {
+    return this->y;
+}
