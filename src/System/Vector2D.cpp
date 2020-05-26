@@ -14,10 +14,6 @@ float Vector2D::length() {
     return std::sqrt(x*x + y*y);
 }
 
-float Vector2D::operator*(Vector2D &vector) {
-    return 0;
-}
-
 Vector2D Vector2D::operator*(float scalar) {
     return Vector2D(this->x * scalar, this->y * scalar);
 }
