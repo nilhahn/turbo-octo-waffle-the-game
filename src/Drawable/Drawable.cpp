@@ -59,3 +59,7 @@ void Drawable::scaleFrame(SDL_Rect *pRect, unsigned scale) {
     pRect->w = width;
     pRect->h = height;
 }
+
+std::string Drawable::getId() {
+    return this->id;
+}

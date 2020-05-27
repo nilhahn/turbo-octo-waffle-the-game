@@ -14,6 +14,8 @@ public:
     Drawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
 
     void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale);
+
+    std::string getId();
 private:
     std::string id;
     std::string file;
