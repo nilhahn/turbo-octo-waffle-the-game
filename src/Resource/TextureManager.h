@@ -9,7 +9,6 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "../System/Texture.h"
 
 class TextureManager {
 public:
@@ -25,6 +24,5 @@ private:
 
     static TextureManager* manager;
 };
-
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_TEXTUREMANAGER_H
