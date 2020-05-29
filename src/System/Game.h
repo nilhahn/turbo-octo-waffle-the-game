@@ -6,6 +6,7 @@
 #define SFRPG_GAME_H
 
 #include <vector>
+#include <memory>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "../Resource/Resource.h"
@@ -16,7 +17,7 @@
 class Game {
 public:
     Game();
-    ~Game();
+    ~Game() = default;
 
     void run();
 private:
@@ -29,7 +30,7 @@ private:
 
     Window* window;
     TextureManager* textureManager;
-    std::vector<WorldObject*> objects;
+    std::vector<std::unique_ptr<WorldObject> > objects;
 
     void initPlayer();
 };

@@ -13,6 +13,14 @@ Drawable::Drawable(const char* id, const char* fileName, int widhtOfFrame, int h
     this->numberOfFrames = numberOfFrames;
 }
 
+Drawable::Drawable(Drawable *drawable) {
+    this->id = drawable->getId();
+    this->file = drawable->getFileName();
+    this->encapsulatingRect = drawable->getEncapsulatingRect();
+    this->currentFrame = drawable->getCurrentFrame();
+    this->numberOfFrames = drawable->getNumberOfFrames();
+}
+
 void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *position, bool flip, unsigned scale) {
     SDL_Texture* texture = textureManager->getTexture(this->id.data());
     if(texture == nullptr && textureManager->load(this->file.data(), this->id.data(), renderer)) {
@@ -44,7 +52,7 @@ SDL_Rect Drawable::prepareFrame(Vector2D* position, unsigned scale) {
 }
 
 void Drawable::renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect *destination, bool flip) {
-    SDL_RenderCopyEx(pRenderer, pTexture, &this->encapsulatingRect, destination, 0, 0, flip ? SDL_FLIP_HORIZONTAL: SDL_FLIP_NONE);
+    SDL_RenderCopyEx(pRenderer, pTexture, &this->encapsulatingRect, destination, 0, nullptr, flip ? SDL_FLIP_HORIZONTAL: SDL_FLIP_NONE);
 }
 
 void Drawable::scaleFrame(SDL_Rect *pRect, unsigned scale) {
@@ -62,4 +70,20 @@ void Drawable::scaleFrame(SDL_Rect *pRect, unsigned scale) {
 
 std::string Drawable::getId() {
     return this->id;
+}
+
+std::string Drawable::getFileName() {
+    return this->file;
+}
+
+SDL_Rect Drawable::getEncapsulatingRect() {
+    return this->encapsulatingRect;
+}
+
+unsigned int Drawable::getCurrentFrame() {
+    return this->currentFrame;
+}
+
+unsigned int Drawable::getNumberOfFrames() {
+    return this->numberOfFrames;
 }

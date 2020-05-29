@@ -7,8 +7,13 @@
 Player::Player(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
     this->setState(init->getInitalState());
-    std::map<WorldObject::ObjectState, std::pair<std::string, std::string> >* tex =
-            init->getTextures();
+    this->health = 100;
+
+    std::map<WorldObject::ObjectState, Drawable* >* tex = init->getTextures();
+
+    for(auto & iter: *tex) {
+        this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
+    }
 }
 
 Vector2D Player::move(Vector2D vector) {
@@ -28,5 +33,5 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
 }
 
 Drawable* Player::getDrawable() {
-    return &this->textures.at(this->getState());
+    return this->textures.at(this->getState()).get();
 }

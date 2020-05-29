@@ -23,3 +23,12 @@ Vector2D& WorldObject::getPositon() {
 float WorldObject::distance(WorldObject *object) {
     return (this->getPositon() - object->getPositon()).length();
 }
+
+WorldObject::WorldObject() {
+    this->state = INIT;
+
+    this->hitbox.y = 0;
+    this->hitbox.w = 0;
+    this->hitbox.x = 0;
+    this->hitbox.h = 0;
+}

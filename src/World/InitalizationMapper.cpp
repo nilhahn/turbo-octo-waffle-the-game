@@ -12,19 +12,23 @@ Vector2D &InitalizationMapper::getPosition() {
     return this->initalPosition;
 }
 
-void InitalizationMapper::addNewTextureForState(WorldObject::ObjectState state, const char* textureId, const char* file) {
-this->stateTextures.insert({state, std::pair<std::string, std::string>(textureId, file)});
-}
-
-std::map<WorldObject::ObjectState, std::pair<std::string, std::string> > *InitalizationMapper::getTextures() {
-    return &this->stateTextures;
-}
-
 void InitalizationMapper::setInitalState(WorldObject::ObjectState state) {
     this->initalState = state;
 }
 
 WorldObject::ObjectState InitalizationMapper::getInitalState() {
     return this->initalState;
+}
+
+void InitalizationMapper::addNewDrawableForState(WorldObject::ObjectState state, Drawable *drawable) {
+    this->stateTextures.insert({state, drawable});
+}
+
+std::map<WorldObject::ObjectState, Drawable *> *InitalizationMapper::getTextures() {
+    return &this->stateTextures;
+}
+
+InitalizationMapper::InitalizationMapper() {
+    this->initalState = WorldObject::ObjectState::INIT;
 }
 

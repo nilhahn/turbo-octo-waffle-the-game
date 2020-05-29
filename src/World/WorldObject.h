@@ -5,11 +5,9 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_WORLDOBJECT_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_WORLDOBJECT_H
 
-
 #include <string>
 #include <SDL.h>
 
-#include "InitalizationMapper.h"
 #include "../System/Vector2D.h"
 #include "../Drawable/Drawable.h"
 
@@ -17,7 +15,7 @@ class WorldObject {
 public:
     typedef enum {INIT = -1, IDLE, UP, DOWN, LEFT, RIGHT, DEAD} ObjectState;
 
-    WorldObject() = default;
+    WorldObject();
 
     void setState(ObjectState state);
     ObjectState getState();
