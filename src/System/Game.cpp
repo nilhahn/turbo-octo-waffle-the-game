@@ -3,6 +3,7 @@
 //
 
 #include "Game.h"
+#include "../World/Objects/Player.h"
 
 Game::Game() {
     this->running = false;
@@ -19,6 +20,8 @@ bool Game::init() {
     this->textureManager = TextureManager::instance(Resource::getResourcePath());
     this->textureManager->load("Knight_Base_idle.png","Player_Idle",this->window->getRenderer());
     this->player = this->textureManager->getTexture("Player_Idle");
+    this->initPlayer();
+
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
 }
@@ -62,6 +65,14 @@ void Game::run() {
             SDL_Delay(1000);
         }
     }
+}
+
+void Game::initPlayer() {
+    InitalizationMapper init;
+    init.setInitalPosition(Vector2D(0,0));
+    init.addNewTextureForState(WorldObject::ObjectState::IDLE, "Player_Idle", "Knight_Base_idle.png");
+    init.setInitalState(WorldObject::ObjectState::IDLE);
+    this->objects.push_back(new Player(&init));
 }
 
 

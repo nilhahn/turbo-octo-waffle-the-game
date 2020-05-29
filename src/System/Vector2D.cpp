@@ -48,3 +48,7 @@ float Vector2D::getX() {
 float Vector2D::getY() {
     return this->y;
 }
+
+Vector2D Vector2D::operator-(Vector2D &vector) {
+    return Vector2D(this->x - vector.x, this->y - vector.y);
+}

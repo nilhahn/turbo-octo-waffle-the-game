@@ -19,6 +19,7 @@ public:
 
     Vector2D operator* (float scalar);
     Vector2D operator+ (Vector2D& vector);
+    Vector2D operator- (Vector2D& vector);
     Vector2D& operator= (Vector2D vector);
     Vector2D& operator+= (Vector2D& vector);
     Vector2D& operator-= (Vector2D& vector);

@@ -5,11 +5,13 @@
 #ifndef SFRPG_GAME_H
 #define SFRPG_GAME_H
 
+#include <vector>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "../Resource/Resource.h"
 #include "../window/Window.h"
 #include "../Resource/TextureManager.h"
+#include "../World/WorldObject.h"
 
 class Game {
 public:
@@ -27,7 +29,9 @@ private:
 
     Window* window;
     TextureManager* textureManager;
-    SDL_Texture* player;
+    std::vector<WorldObject*> objects;
+
+    void initPlayer();
 };
 
 
