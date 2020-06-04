@@ -22,6 +22,8 @@ public:
     void setHealth(int health_) override;
     int getHealth() override;
 
+    void draw(TextureManager* textureManager, SDL_Renderer* renderer) override;
+
     Drawable* getDrawable() override;
 private:
     int health{};

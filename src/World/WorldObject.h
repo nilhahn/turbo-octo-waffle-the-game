@@ -30,6 +30,8 @@ public:
     virtual void setHealth(int health) = 0;
     virtual int getHealth() = 0;
 
+    virtual void draw(TextureManager* textureManager, SDL_Renderer* renderer) = 0;
+
     virtual Drawable* getDrawable() = 0;
 protected:
     ObjectState state;

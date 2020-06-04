@@ -32,6 +32,10 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
     return IDLE;
 }
 
+void Player::draw(TextureManager *textureManager, SDL_Renderer *renderer) {
+    this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), false, 2);
+}
+
 Drawable* Player::getDrawable() {
     return this->textures.at(this->getState()).get();
 }
