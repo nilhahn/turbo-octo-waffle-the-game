@@ -30,9 +30,15 @@ private:
 
     Window* window;
     TextureManager* textureManager;
-    std::vector<std::unique_ptr<WorldObject> > objects;
+    std::vector< std::unique_ptr<WorldObject> > objects;
 
     void initPlayer();
+
+    void inputEvent(WorldObject* object);
+
+    bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
+
+    void moveEvent(WorldObject* pObject);
 };
 
 

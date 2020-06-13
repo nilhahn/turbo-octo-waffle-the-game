@@ -32,3 +32,14 @@ InitalizationMapper::InitalizationMapper() {
     this->initalState = WorldObject::ObjectState::INIT;
 }
 
+void InitalizationMapper::setObjectId(const char *id) {
+    this->objectId = id;
+}
+
+const char *InitalizationMapper::getId(int* size) {
+    if(size != nullptr) {
+        *size = this->objectId.size();
+    }
+    return this->objectId.data();
+}
+

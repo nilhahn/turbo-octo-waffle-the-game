@@ -6,6 +6,8 @@
 #include "../World/Objects/Player.h"
 #include "../World/InitalizationMapper.h"
 
+#define PLAYER_ID "player"
+
 Game::Game() {
     this->running = false;
     this->window = nullptr;
@@ -35,6 +37,11 @@ void Game::render() {
 }
 
 void Game::handleEvents() {
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    for(auto iter = this->objects.begin(); iter < this->objects.end(); iter++ ) {
+        this->moveEvent(iter->get());
+    }
 
 }
 
@@ -54,6 +61,7 @@ void Game::run() {
 
 void Game::initPlayer() {
     InitalizationMapper init;
+    init.setObjectId(PLAYER_ID);
     init.setInitalPosition(Vector2D(0,0));
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
@@ -61,6 +69,45 @@ void Game::initPlayer() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.push_back(std::make_unique<Player>(&init));
+}
+
+void Game::inputEvent(WorldObject* object) {
+    int size = 0;
+    float x = 0;
+    float y = 0;
+    const Uint8* keystates = SDL_GetKeyboardState(&size);
+
+
+    if(isKeyDown(keystates, SDL_SCANCODE_W)) {
+        std::cout << "Move up" << std::endl;
+        y = -10.;
+    } else if(isKeyDown(keystates, SDL_SCANCODE_S)) {
+        std::cout << "Move down" << std::endl;
+        y = +10.;
+    }
+
+    if(isKeyDown(keystates, SDL_SCANCODE_A)) {
+        std::cout << "Move left" << std::endl;
+        x = -10.;
+    } else if(isKeyDown(keystates, SDL_SCANCODE_D)) {
+        std::cout << "Move right" << std::endl;
+        x = +10.;
+    }
+
+    object->move(Vector2D(x,y));
+}
+
+bool Game::isKeyDown(const Uint8* keyStates, SDL_Scancode key) {
+    if(keyStates != NULL) {
+        return keyStates[key] == 1;
+    }
+    return false;
+}
+
+void Game::moveEvent(WorldObject* object) {
+    if(object->getId() == PLAYER_ID) {
+        this->inputEvent(object);
+    }
 }
 
 

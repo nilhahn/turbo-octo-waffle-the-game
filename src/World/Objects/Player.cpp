@@ -7,6 +7,7 @@
 Player::Player(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
     this->setState(init->getInitalState());
+    this->setId(init->getId(nullptr));
     this->health = 100;
 
     std::map<WorldObject::ObjectState, Drawable* >* tex = init->getTextures();

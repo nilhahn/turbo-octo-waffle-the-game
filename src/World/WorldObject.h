@@ -18,6 +18,7 @@ public:
     WorldObject();
 
     void setState(ObjectState state);
+    virtual std::string getId();
     ObjectState getState();
 
     void setPosition(Vector2D position_);
@@ -34,6 +35,9 @@ public:
 
     virtual Drawable* getDrawable() = 0;
 protected:
+    void setId(const char* id);
+
+    std::string objectId;
     ObjectState state;
     Vector2D position;
     SDL_Rect hitbox;
