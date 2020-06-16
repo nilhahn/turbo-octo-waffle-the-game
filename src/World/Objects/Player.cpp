@@ -9,6 +9,7 @@ Player::Player(InitalizationMapper *init) {
     this->setState(init->getInitalState());
     this->setId(init->getId(nullptr));
     this->health = 100;
+    this->updateCnt = 0;
 
     std::map<WorldObject::ObjectState, Drawable* >* tex = init->getTextures();
 
@@ -34,9 +35,23 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
 }
 
 void Player::draw(TextureManager *textureManager, SDL_Renderer *renderer) {
-    this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), false, 2);
+    this->updateCnt++;
+    if(this->updateCnt >= 1000) {
+        this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), this->isInStateLeftOrDown(), 2);
+        this->updateCnt = 0;
+    } else {
+        this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), this->isInStateLeftOrDown(), 2, false);
+    }
 }
 
 Drawable* Player::getDrawable() {
     return this->textures.at(this->getState()).get();
+}
+
+bool Player::isInStateLeftOrDown() {
+    return this->state == LEFT || this->state == DOWN;
+}
+
+void Player::setState(WorldObject::ObjectState state) {
+    WorldObject::setState(state);
 }

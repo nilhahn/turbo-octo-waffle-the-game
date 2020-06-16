@@ -4,13 +4,13 @@
 
 #include "Game.h"
 #include "../World/Objects/Player.h"
-#include "../World/InitalizationMapper.h"
 
 #define PLAYER_ID "player"
 
-Game::Game() {
+Game::Game():FPS(60) {
     this->running = false;
     this->window = nullptr;
+    this->textureManager = nullptr;
 }
 
 bool Game::init() {
@@ -25,24 +25,25 @@ bool Game::init() {
 
 void Game::render() {
     SDL_Renderer* renderer = this->window->getRenderer();
-    SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
+    //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
 
-    for(auto iter = this->objects.begin(); iter < this->objects.end(); iter++) {
-        auto elem = iter->get();
-        elem->getDrawable()->drawFrameToRenderer(this->textureManager, renderer, &elem->getPositon(), false, 2);
+    for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
+        auto elem = iter->second.get();
+        elem->draw(this->textureManager, this->window->getRenderer());
     }
 
     SDL_RenderPresent(renderer);
 }
 
-void Game::handleEvents() {
+void Game::handleEvents(long delta) {
     SDL_Event event;
     SDL_PollEvent(&event);
-    for(auto iter = this->objects.begin(); iter < this->objects.end(); iter++ ) {
-        this->moveEvent(iter->get());
+    if(event.type == SDL_QUIT) {
+        this->quit();
+    } else {
+        this->inputEvent(this->objects.at(PLAYER_ID).get(), delta);
     }
-
 }
 
 bool Game::isRunning() {
@@ -50,11 +51,19 @@ bool Game::isRunning() {
 }
 
 void Game::run() {
+    long frameStart = 0;
+    long frameTime = 0;
+    long delayTime = static_cast<long>(1000.00f / static_cast<float>(FPS));
+
     if(this->init()) {
         while(this->isRunning()) {
+            frameStart = SDL_GetTicks();
             this->render();
-            this->handleEvents();
-            SDL_Delay(500);
+            this->handleEvents(frameTime);
+            frameTime = SDL_GetTicks() - frameStart;
+            if(frameTime < delayTime) {
+                SDL_Delay(frameTime - frameTime);
+            }
         }
     }
 }
@@ -66,34 +75,39 @@ void Game::initPlayer() {
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
-    this->objects.push_back(std::make_unique<Player>(&init));
+    this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(PLAYER_ID, std::make_unique<Player>(&init)));
 }
 
-void Game::inputEvent(WorldObject* object) {
+void Game::inputEvent(WorldObject* object, long deltaMs) {
     int size = 0;
     float x = 0;
     float y = 0;
     const Uint8* keystates = SDL_GetKeyboardState(&size);
+    if(object->getState() != WorldObject::DEAD) {
+        object->setState(WorldObject::IDLE);
 
+        if(isKeyDown(keystates, SDL_SCANCODE_W)) {
+            object->setState(WorldObject::UP);
+            y = -0.1f * static_cast<float>(deltaMs);
+        } else if(isKeyDown(keystates, SDL_SCANCODE_S)) {
+            object->setState(WorldObject::DOWN);
+            y = +0.1f * static_cast<float>(deltaMs);
+        }
 
-    if(isKeyDown(keystates, SDL_SCANCODE_W)) {
-        std::cout << "Move up" << std::endl;
-        y = -10.;
-    } else if(isKeyDown(keystates, SDL_SCANCODE_S)) {
-        std::cout << "Move down" << std::endl;
-        y = +10.;
+        if(isKeyDown(keystates, SDL_SCANCODE_A)) {
+            object->setState(WorldObject::LEFT);
+            x = -0.1f * static_cast<float>(deltaMs);
+        } else if(isKeyDown(keystates, SDL_SCANCODE_D)) {
+            object->setState(WorldObject::RIGHT);
+            x = +0.1f * static_cast<float>(deltaMs);
+        }
     }
-
-    if(isKeyDown(keystates, SDL_SCANCODE_A)) {
-        std::cout << "Move left" << std::endl;
-        x = -10.;
-    } else if(isKeyDown(keystates, SDL_SCANCODE_D)) {
-        std::cout << "Move right" << std::endl;
-        x = +10.;
-    }
-
     object->move(Vector2D(x,y));
 }
 
@@ -104,10 +118,11 @@ bool Game::isKeyDown(const Uint8* keyStates, SDL_Scancode key) {
     return false;
 }
 
-void Game::moveEvent(WorldObject* object) {
-    if(object->getId() == PLAYER_ID) {
-        this->inputEvent(object);
+void Game::quit(const char* reason) {
+    if(reason != nullptr) {
+        std::cout << "Application quit due to " << std::endl;
     }
+    this->running = false;
 }
 
 

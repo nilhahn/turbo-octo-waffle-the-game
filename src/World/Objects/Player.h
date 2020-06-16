@@ -15,6 +15,8 @@ public:
 
     /* TODO: add destructor */
 
+    void setState(ObjectState state) override;
+
     Vector2D move(Vector2D vector) override;
 
     ObjectState hit(WorldObject* object) override;
@@ -26,7 +28,10 @@ public:
 
     Drawable* getDrawable() override;
 private:
-    int health{};
+    bool isInStateLeftOrDown();
+
+    int health;
+    int updateCnt;
     std::map<ObjectState, std::unique_ptr<Drawable> > textures;
 };
 

@@ -21,7 +21,7 @@ Drawable::Drawable(Drawable *drawable) {
     this->numberOfFrames = drawable->getNumberOfFrames();
 }
 
-void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *position, bool flip, unsigned scale) {
+void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *position, bool flip, unsigned scale, bool increment) {
     SDL_Texture* texture = textureManager->getTexture(this->id.data());
     if(texture == nullptr && textureManager->load(this->file.data(), this->id.data(), renderer)) {
         // Something bad happened TODO: Decide what should happen here
@@ -29,7 +29,9 @@ void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer 
     }
     SDL_Rect destinationRect = this->prepareFrame(position, scale);
     this->renderFrame(texture, renderer, &destinationRect, flip);
-    this->updateFrameCnt();
+    if(increment == true) {
+        this->updateFrameCnt();
+    }
 }
 
 void Drawable::updateFrameCnt() {

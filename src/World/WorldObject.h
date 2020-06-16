@@ -17,7 +17,7 @@ public:
 
     WorldObject();
 
-    void setState(ObjectState state);
+    virtual void setState(ObjectState state);
     virtual std::string getId();
     ObjectState getState();
 

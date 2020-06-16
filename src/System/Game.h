@@ -23,22 +23,20 @@ public:
 private:
     bool init();
     void render();
-    void handleEvents();
+    void handleEvents(long delta);
     bool isRunning();
+    void initPlayer();
+    void inputEvent(WorldObject* object, long deltaMs);
+    bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
+    void quit(const char* reason = nullptr);
 
     bool running;
 
+    const int FPS;
+
     Window* window;
     TextureManager* textureManager;
-    std::vector< std::unique_ptr<WorldObject> > objects;
-
-    void initPlayer();
-
-    void inputEvent(WorldObject* object);
-
-    bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
-
-    void moveEvent(WorldObject* pObject);
+    std::map<std::string, std::unique_ptr<WorldObject> > objects;
 };
 
 

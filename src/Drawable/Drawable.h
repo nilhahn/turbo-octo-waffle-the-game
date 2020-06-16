@@ -15,7 +15,7 @@ public:
 
     explicit Drawable(Drawable *drawable);
 
-    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale);
+    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale, bool increment = true);
 
     std::string getId();
 private:
