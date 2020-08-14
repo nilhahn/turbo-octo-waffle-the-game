@@ -29,7 +29,7 @@ void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer 
     }
     SDL_Rect destinationRect = this->prepareFrame(position, scale);
     this->renderFrame(texture, renderer, &destinationRect, flip);
-    if(increment == true) {
+    if(increment) {
         this->updateFrameCnt();
     }
 }
@@ -42,6 +42,7 @@ void Drawable::updateFrameCnt() {
 
 SDL_Rect Drawable::prepareFrame(Vector2D* position, unsigned scale) {
     SDL_Rect frameDest;
+
     this->encapsulatingRect.x = this->encapsulatingRect.w * this->currentFrame;
     this->encapsulatingRect.y = 0;
 

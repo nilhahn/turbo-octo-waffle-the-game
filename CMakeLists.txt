@@ -18,7 +18,7 @@ add_executable(
         src/System/Game.cpp src/System/Game.h
         src/window/Window.cpp src/window/Window.h
         src/Resource/TextureManager.cpp src/Resource/TextureManager.h
-        src/System/Vector2D.cpp src/System/Vector2D.h src/Drawable/Drawable.cpp src/Drawable/Drawable.h src/World/WorldObject.cpp src/World/WorldObject.h src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h src/World/Objects/Player.cpp src/World/Objects/Player.h)
+        src/System/Vector2D.cpp src/System/Vector2D.h src/Drawable/Drawable.cpp src/Drawable/Drawable.h src/World/WorldObject.cpp src/World/WorldObject.h src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h src/World/Objects/Player.cpp src/World/Objects/Player.h src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h)
 
 target_include_directories(turbo-octo-waffle-the-game PUBLIC
         "${PROJECT_BINARY_DIR}"

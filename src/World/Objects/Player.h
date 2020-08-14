@@ -28,7 +28,6 @@ public:
 
     Drawable* getDrawable() override;
 private:
-    bool isInStateLeftOrDown();
 
     int health;
     int updateCnt;

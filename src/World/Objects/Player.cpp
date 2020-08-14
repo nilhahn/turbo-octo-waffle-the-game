@@ -6,8 +6,8 @@
 
 Player::Player(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
-    this->setState(init->getInitalState());
     this->setId(init->getId(nullptr));
+    this->state = init->getInitalState();
     this->health = 100;
     this->updateCnt = 0;
 
@@ -48,9 +48,6 @@ Drawable* Player::getDrawable() {
     return this->textures.at(this->getState()).get();
 }
 
-bool Player::isInStateLeftOrDown() {
-    return this->state == LEFT || this->state == DOWN;
-}
 
 void Player::setState(WorldObject::ObjectState state) {
     WorldObject::setState(state);

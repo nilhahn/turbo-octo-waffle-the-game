@@ -22,7 +22,7 @@ private:
     std::string id;
     std::string file;
     SDL_Rect encapsulatingRect;
-    unsigned currentFrame;
+    int currentFrame;
     unsigned numberOfFrames;
 
     void updateFrameCnt();

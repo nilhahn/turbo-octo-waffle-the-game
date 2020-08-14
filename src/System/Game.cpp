@@ -4,8 +4,10 @@
 
 #include "Game.h"
 #include "../World/Objects/Player.h"
+#include "../World/Objects/Skeleton.h"
 
 #define PLAYER_ID "player"
+#define SKELETON_ID "skeleton"
 
 Game::Game():FPS(60) {
     this->running = false;
@@ -17,7 +19,9 @@ bool Game::init() {
     std::string title = "turbo-octo-waffel";
     this->window = Window::create(title,512,512);
     this->textureManager = TextureManager::instance(Resource::getResourcePath());
+
     this->initPlayer();
+    this->initMonster(0);
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -60,6 +64,7 @@ void Game::run() {
             frameStart = SDL_GetTicks();
             this->render();
             this->handleEvents(frameTime);
+            this->update(frameTime);
             frameTime = SDL_GetTicks() - frameStart;
             if(frameTime < delayTime) {
                 SDL_Delay(frameTime - frameTime);
@@ -70,8 +75,10 @@ void Game::run() {
 
 void Game::initPlayer() {
     InitalizationMapper init;
+
     init.setObjectId(PLAYER_ID);
     init.setInitalPosition(Vector2D(0,0));
+
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
@@ -89,6 +96,7 @@ void Game::inputEvent(WorldObject* object, long deltaMs) {
     float x = 0;
     float y = 0;
     const Uint8* keystates = SDL_GetKeyboardState(&size);
+
     if(object->getState() != WorldObject::DEAD) {
         object->setState(WorldObject::IDLE);
 
@@ -108,11 +116,12 @@ void Game::inputEvent(WorldObject* object, long deltaMs) {
             x = +0.1f * static_cast<float>(deltaMs);
         }
     }
+
     object->move(Vector2D(x,y));
 }
 
 bool Game::isKeyDown(const Uint8* keyStates, SDL_Scancode key) {
-    if(keyStates != NULL) {
+    if(keyStates != nullptr) {
         return keyStates[key] == 1;
     }
     return false;
@@ -123,6 +132,44 @@ void Game::quit(const char* reason) {
         std::cout << "Application quit due to " << std::endl;
     }
     this->running = false;
+}
+
+void Game::initMonster(int monster) {
+    if(monster == 0) {
+        this->initSkeleton();
+    }
+}
+
+void Game::initSkeleton() {
+    InitalizationMapper init;
+
+    std::string skeletonId = SKELETON_ID;
+
+    init.setObjectId(skeletonId.data());
+    init.setInitalPosition(Vector2D(512/2,512/2));
+
+    auto idleDrawable = new Drawable("Skeleton_Idle","Skeleton_Base.png",17,19,1 );
+
+    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
+    init.setInitalState(WorldObject::ObjectState::IDLE);
+
+    this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(), std::make_unique<Skeleton>(&init)));
+}
+
+void Game::update(long i) {
+    Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
+    Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
+
+    if(playerPos.absDistance(skeletonPos) > 0.) {
+        Vector2D move = playerPos - skeletonPos;
+        move.norm();
+        this->objects.at(SKELETON_ID)->move(move);
+    }
+
 }
 
 

@@ -35,6 +35,7 @@ public:
 
     virtual Drawable* getDrawable() = 0;
 protected:
+    bool isInStateLeftOrDown();
     void setId(const char* id);
 
     std::string objectId;

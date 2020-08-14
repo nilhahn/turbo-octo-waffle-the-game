@@ -23,6 +23,10 @@ public:
     Vector2D& operator= (Vector2D vector);
     Vector2D& operator+= (Vector2D& vector);
     Vector2D& operator-= (Vector2D& vector);
+
+    float absDistance(Vector2D& vector2D);
+    void norm();
+
 private:
     float x;
     float y;
