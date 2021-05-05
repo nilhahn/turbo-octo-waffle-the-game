@@ -50,6 +50,14 @@ float Vector2D::getY() {
     return this->y;
 }
 
+void Vector2D::setX(float x) {
+    this->x = x;
+}
+
+void Vector2D::setY(float y) {
+    this->y = y;
+}
+
 Vector2D Vector2D::operator-(Vector2D &vector) {
     return Vector2D(this->x - vector.x, this->y - vector.y);
 }

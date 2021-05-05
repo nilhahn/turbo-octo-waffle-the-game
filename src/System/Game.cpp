@@ -35,9 +35,18 @@ void Game::render() {
     //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
 
-    for(auto iter = this->background.begin(); iter != this->background.end(); iter++) {
-        auto elem = iter->second.get();
-        elem->draw(this->textureManager, this->window->getRenderer());
+    auto background = this->background.find("GRASSLAND")->second.get();
+    Vector2D position;
+    Vector2D incX(64, 0);
+    Vector2D incY(0, 64);
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 8; j++) {
+            background->setPosition(position);
+            background->draw(this->textureManager, this->window->getRenderer());
+            position += incX;
+        }
+        position.setX(0);
+        position += incY;
     }
 
     for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
@@ -105,7 +114,7 @@ void Game::loadBackgroundTile() {
     init.setObjectId("GRASSLAND");
     init.setInitalPosition(Vector2D(0,0));
 
-    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64,1 );
+    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64 , 4);
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
     init.setInitalState(WorldObject::ObjectState::IDLE);
@@ -184,15 +193,15 @@ void Game::initSkeleton() {
 
 void Game::update(long i) {
     Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
-/*
-    Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
 
-    if(playerPos.absDistance(skeletonPos) > 0.) {
+   /* Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
+
+    if(playerPos.absDistance(skeletonPos) > 2.) {
         Vector2D move = playerPos - skeletonPos;
         move.norm();
-        this->objects.at(SKELETON_ID)->move(move);
+        this->objects.at(SKELETON_ID)->move(move.operator*(0.25));
     }
-*/
+    */
 }
 
 

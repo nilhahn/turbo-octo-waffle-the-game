@@ -17,6 +17,9 @@ public:
     float getY();
     float getX();
 
+    void setY(float y);
+    void setX(float x);
+
     Vector2D operator* (float scalar);
     Vector2D operator+ (Vector2D& vector);
     Vector2D operator- (Vector2D& vector);

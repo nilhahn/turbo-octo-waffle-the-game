@@ -18,7 +18,6 @@ Window *Window::create(std::string &title, int width, int height) {
     return window;
 }
 
-
 Window::Window() {
     this->sdlWindow = nullptr;
     std::cout << "Window create" << std::endl;
