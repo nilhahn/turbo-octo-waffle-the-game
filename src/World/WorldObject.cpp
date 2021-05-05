@@ -39,7 +39,6 @@ WorldObject::WorldObject() {
 
 void WorldObject::setId(const char* id) {
     this->objectId = id;
-
 }
 
 bool WorldObject::isInStateLeftOrDown() {

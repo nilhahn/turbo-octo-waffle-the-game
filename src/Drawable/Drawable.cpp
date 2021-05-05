@@ -5,12 +5,15 @@
 #include "Drawable.h"
 
 Drawable::Drawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames) {
-    this->id = id;
-    this->file = fileName;
-    this->encapsulatingRect.w = widhtOfFrame;
-    this->encapsulatingRect.h = heightOfFrame;
-    this->currentFrame = 0;
-    this->numberOfFrames = numberOfFrames;
+    this->prepareDrawable(id, fileName, widhtOfFrame, heightOfFrame, numberOfFrames);
+    this->frameOffset.x = 0;
+    this->frameOffset.y = 0;
+}
+
+Drawable::Drawable(const char* id, const char* fileName, int frameOffsetX, int frameOffsetY, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames) {
+    this->prepareDrawable(id, fileName, widhtOfFrame, heightOfFrame, numberOfFrames);
+    this->frameOffset.x = frameOffsetX;
+    this->frameOffset.y = frameOffsetY;
 }
 
 Drawable::Drawable(Drawable *drawable) {
@@ -19,6 +22,7 @@ Drawable::Drawable(Drawable *drawable) {
     this->encapsulatingRect = drawable->getEncapsulatingRect();
     this->currentFrame = drawable->getCurrentFrame();
     this->numberOfFrames = drawable->getNumberOfFrames();
+    this->frameOffset = drawable->getFrameOffset();
 }
 
 void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *position, bool flip, unsigned scale, bool increment) {
@@ -40,11 +44,21 @@ void Drawable::updateFrameCnt() {
     }
 }
 
+void Drawable::prepareDrawable(const char *id, const char *fileName, int widhtOfFrame, int heightOfFrame,
+                               unsigned int numberOfFrames) {
+    this->id = id;
+    this->file = fileName;
+    this->encapsulatingRect.w = widhtOfFrame;
+    this->encapsulatingRect.h = heightOfFrame;
+    this->currentFrame = 0;
+    this->numberOfFrames = numberOfFrames;
+}
+
 SDL_Rect Drawable::prepareFrame(Vector2D* position, unsigned scale) {
     SDL_Rect frameDest;
 
-    this->encapsulatingRect.x = this->encapsulatingRect.w * this->currentFrame;
-    this->encapsulatingRect.y = 0;
+    this->encapsulatingRect.x = this->frameOffset.x + this->encapsulatingRect.w * this->currentFrame;
+    this->encapsulatingRect.y = this->frameOffset.y;
 
     frameDest.x = static_cast<int>(position->getX());
     frameDest.y = static_cast<int>(position->getY());
@@ -81,6 +95,10 @@ std::string Drawable::getFileName() {
 
 SDL_Rect Drawable::getEncapsulatingRect() {
     return this->encapsulatingRect;
+}
+
+SDL_Rect Drawable::getFrameOffset() {
+    return this->frameOffset;
 }
 
 unsigned int Drawable::getCurrentFrame() {

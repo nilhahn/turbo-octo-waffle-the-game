@@ -26,6 +26,7 @@ private:
     void handleEvents(long delta);
     bool isRunning();
     void initPlayer();
+    void loadBackgroundTile();
     void initMonster(int monster);
     void initSkeleton();
     void inputEvent(WorldObject* object, long deltaMs);
@@ -39,6 +40,8 @@ private:
     Window* window;
     TextureManager* textureManager;
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
+    std::map<std::string, std::unique_ptr<WorldObject> > background;
+
 
     void update(long i);
 };

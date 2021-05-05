@@ -12,6 +12,7 @@
 class Drawable {
 public:
     Drawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
+    Drawable(const char* id, const char* fileName, int frameOffsetX, int frameOffsetY, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
 
     explicit Drawable(Drawable *drawable);
 
@@ -21,11 +22,13 @@ public:
 private:
     std::string id;
     std::string file;
+    SDL_Rect frameOffset;
     SDL_Rect encapsulatingRect;
     int currentFrame;
     unsigned numberOfFrames;
 
     void updateFrameCnt();
+    void prepareDrawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
     SDL_Rect prepareFrame(Vector2D* position, unsigned scale);
 
     void renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect* pD, bool );
@@ -35,6 +38,8 @@ private:
     std::string getFileName();
 
     SDL_Rect getEncapsulatingRect();
+
+    SDL_Rect getFrameOffset();
 
     unsigned int getCurrentFrame();
 

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "../World/Objects/Player.h"
 #include "../World/Objects/Skeleton.h"
+#include "../World/Objects/BackgroundObject.h"
 
 #define PLAYER_ID "player"
 #define SKELETON_ID "skeleton"
@@ -21,7 +22,9 @@ bool Game::init() {
     this->textureManager = TextureManager::instance(Resource::getResourcePath());
 
     this->initPlayer();
-    this->initMonster(0);
+    this->loadBackgroundTile();
+    // scrap this for now (2021-5-5)
+    // this->initMonster(0);
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -31,6 +34,11 @@ void Game::render() {
     SDL_Renderer* renderer = this->window->getRenderer();
     //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
+
+    for(auto iter = this->background.begin(); iter != this->background.end(); iter++) {
+        auto elem = iter->second.get();
+        elem->draw(this->textureManager, this->window->getRenderer());
+    }
 
     for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();
@@ -89,6 +97,20 @@ void Game::initPlayer() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(PLAYER_ID, std::make_unique<Player>(&init)));
+}
+
+void Game::loadBackgroundTile() {
+    InitalizationMapper init;
+
+    init.setObjectId("GRASSLAND");
+    init.setInitalPosition(Vector2D(0,0));
+
+    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64,1 );
+
+    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
+    init.setInitalState(WorldObject::ObjectState::IDLE);
+
+    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND", std::make_unique<BackgroundObject>(&init)));
 }
 
 void Game::inputEvent(WorldObject* object, long deltaMs) {
@@ -162,6 +184,7 @@ void Game::initSkeleton() {
 
 void Game::update(long i) {
     Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
+/*
     Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
 
     if(playerPos.absDistance(skeletonPos) > 0.) {
@@ -169,7 +192,7 @@ void Game::update(long i) {
         move.norm();
         this->objects.at(SKELETON_ID)->move(move);
     }
-
+*/
 }
 
 
