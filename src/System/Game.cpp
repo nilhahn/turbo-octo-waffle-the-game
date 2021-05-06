@@ -7,6 +7,8 @@
 #include "../World/Objects/Skeleton.h"
 #include "../World/Objects/BackgroundObject.h"
 
+#include <iostream>
+
 #define PLAYER_ID "player"
 #define SKELETON_ID "skeleton"
 
@@ -26,6 +28,20 @@ bool Game::init() {
     // scrap this for now (2021-5-5)
     // this->initMonster(0);
 
+    int x = 0;
+    int y = 0;
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 8; j++) {
+            chunk[i][j].x = x;
+            chunk[i][j].y = y;
+            chunk[i][j].w = 64;
+            chunk[i][j].h = 64;
+            x += 64;
+        }
+        x = 0;
+        y += 64;
+    }
+
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
 }
@@ -35,14 +51,31 @@ void Game::render() {
     //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
 
+    Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
     auto background = this->background.find("GRASSLAND")->second.get();
     Vector2D position;
     Vector2D incX(64, 0);
     Vector2D incY(0, 64);
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++) {
+            SDL_Rect currentChunk = chunk[i][j];
             background->setPosition(position);
-            background->draw(this->textureManager, this->window->getRenderer());
+            int plx = static_cast<int>(playerPos.getX());
+            int ply = static_cast<int>(playerPos.getY());
+            if(currentChunk.x <= plx && (currentChunk.x + currentChunk.w) > plx &&
+                    currentChunk.y <= ply && (currentChunk.y + currentChunk.h) > ply
+                    ||
+                    currentChunk.x <= (plx + 17) && (currentChunk.x + currentChunk.w) > (plx + 17) &&
+                    currentChunk.y <= (ply + 19) && (currentChunk.y + currentChunk.h) > (ply + 19)
+                    ||
+                    currentChunk.x <= plx && (currentChunk.x + currentChunk.w) > plx &&
+                    currentChunk.y <= (ply + 19) && (currentChunk.y + currentChunk.h) > (ply + 19)
+                    ||
+                    currentChunk.x <= (plx + 17) && (currentChunk.x + currentChunk.w) > (plx + 17) &&
+                    currentChunk.y <= ply && (currentChunk.y + currentChunk.h) > ply
+            ) {
+                background->draw(this->textureManager, this->window->getRenderer());
+            }
             position += incX;
         }
         position.setX(0);
@@ -114,7 +147,7 @@ void Game::loadBackgroundTile() {
     init.setObjectId("GRASSLAND");
     init.setInitalPosition(Vector2D(0,0));
 
-    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64 , 4);
+    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64 , 1);
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
     init.setInitalState(WorldObject::ObjectState::IDLE);
@@ -193,7 +226,6 @@ void Game::initSkeleton() {
 
 void Game::update(long i) {
     Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
-
    /* Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
 
     if(playerPos.absDistance(skeletonPos) > 2.) {

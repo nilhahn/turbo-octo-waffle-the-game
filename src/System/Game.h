@@ -41,7 +41,7 @@ private:
     TextureManager* textureManager;
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
     std::map<std::string, std::unique_ptr<WorldObject> > background;
-
+    SDL_Rect chunk[8][8];
 
     void update(long i);
 };
