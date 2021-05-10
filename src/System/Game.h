@@ -45,7 +45,7 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > background;
     SDL_Rect chunk[8][8];
 
-    void update(long i);
+    void update(long delta);
 };
 
 

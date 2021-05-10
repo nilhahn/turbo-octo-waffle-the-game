@@ -57,41 +57,29 @@ void Game::render() {
     //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
 
-    Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
+    auto player = &this->objects.at(PLAYER_ID);
+
     auto background = this->background.find("GRASSLAND")->second.get();
-    Vector2D position;
-    Vector2D incX(64, 0);
-    Vector2D incY(0, 64);
+    Vector2D position = camera.getCoord();
+    Vector2D incX(64.0, 0.0);
+    Vector2D incY(0.0, 64.0);
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++) {
-            SDL_Rect currentChunk = chunk[i][j];
             background->setPosition(position);
-            int plx = static_cast<int>(playerPos.getX());
-            int ply = static_cast<int>(playerPos.getY());
-            if(currentChunk.x <= plx && (currentChunk.x + currentChunk.w) > plx &&
-                    currentChunk.y <= ply && (currentChunk.y + currentChunk.h) > ply
-                    ||
-                    currentChunk.x <= (plx + 17) && (currentChunk.x + currentChunk.w) > (plx + 17) &&
-                    currentChunk.y <= (ply + 19) && (currentChunk.y + currentChunk.h) > (ply + 19)
-                    ||
-                    currentChunk.x <= plx && (currentChunk.x + currentChunk.w) > plx &&
-                    currentChunk.y <= (ply + 19) && (currentChunk.y + currentChunk.h) > (ply + 19)
-                    ||
-                    currentChunk.x <= (plx + 17) && (currentChunk.x + currentChunk.w) > (plx + 17) &&
-                    currentChunk.y <= ply && (currentChunk.y + currentChunk.h) > ply
-            ) {
-                background->draw(this->textureManager, this->window->getRenderer());
-            }
+            background->draw(this->textureManager, this->window->getRenderer());
             position += incX;
         }
-        position.setX(0);
+        position.setX(camera.getCoord().getX());
         position += incY;
     }
 
-    for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
-        auto elem = iter->second.get();
-        elem->draw(this->textureManager, this->window->getRenderer());
-    }
+    player->get()->draw(this->textureManager, this->window->getRenderer());
+    /*
+        for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
+            auto elem = iter->second.get();
+            elem->draw(this->textureManager, this->window->getRenderer());
+        }
+    */
 
     SDL_RenderPresent(renderer);
 }
@@ -133,7 +121,7 @@ void Game::initPlayer() {
     InitalizationMapper init;
 
     init.setObjectId(PLAYER_ID);
-    init.setInitalPosition(Vector2D(0,0));
+    init.setInitalPosition(Vector2D(camera.getCenter().getX() - 8.5,camera.getCenter().getY() - 9.5));
 
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
@@ -149,16 +137,24 @@ void Game::initPlayer() {
 
 void Game::loadBackgroundTile() {
     InitalizationMapper init;
+    InitalizationMapper init2;
 
     init.setObjectId("GRASSLAND");
     init.setInitalPosition(Vector2D(0,0));
+    init2.setObjectId("GRASSLAND_2");
+    init2.setInitalPosition(Vector2D(0,0));
 
-    auto drawable = new Drawable("Grassland","Grassland64x64.png",64, 64,64,64 , 1);
+    auto drawable = new Drawable("Grassland","Grassland64x64.png",3*64, 64,64,64 , 1);
+    auto drawable2 = new Drawable("Grassland2","Grassland64x64.png",3*64, 3*64,64,64 , 1);
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
+    init2.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable2);
+    init2.setInitalState(WorldObject::ObjectState::IDLE);
+
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND", std::make_unique<BackgroundObject>(&init)));
+    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND2", std::make_unique<BackgroundObject>(&init2)));
 }
 
 void Game::inputEvent(WorldObject* object, long deltaMs) {
@@ -166,28 +162,29 @@ void Game::inputEvent(WorldObject* object, long deltaMs) {
     float x = 0;
     float y = 0;
     const Uint8* keystates = SDL_GetKeyboardState(&size);
+    Vector2D vector;
 
     if(object->getState() != WorldObject::DEAD) {
         object->setState(WorldObject::IDLE);
 
         if(isKeyDown(keystates, SDL_SCANCODE_W)) {
             object->setState(WorldObject::UP);
-            y = -0.1f * static_cast<float>(deltaMs);
+            vector.setY(+0.1f * static_cast<float>(deltaMs));
         } else if(isKeyDown(keystates, SDL_SCANCODE_S)) {
             object->setState(WorldObject::DOWN);
-            y = +0.1f * static_cast<float>(deltaMs);
+            vector.setY(-0.1f * static_cast<float>(deltaMs));
         }
 
         if(isKeyDown(keystates, SDL_SCANCODE_A)) {
             object->setState(WorldObject::LEFT);
-            x = -0.1f * static_cast<float>(deltaMs);
+            vector.setX(+0.1f * static_cast<float>(deltaMs));
         } else if(isKeyDown(keystates, SDL_SCANCODE_D)) {
             object->setState(WorldObject::RIGHT);
-            x = +0.1f * static_cast<float>(deltaMs);
+            vector.setX(-0.1f * static_cast<float>(deltaMs));
         }
     }
 
-    object->move(Vector2D(x,y));
+    camera.move(vector);
 }
 
 bool Game::isKeyDown(const Uint8* keyStates, SDL_Scancode key) {
@@ -230,7 +227,7 @@ void Game::initSkeleton() {
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(), std::make_unique<Skeleton>(&init)));
 }
 
-void Game::update(long i) {
+void Game::update(long delta) {
     Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
    /* Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
 
