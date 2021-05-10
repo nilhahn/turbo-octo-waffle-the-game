@@ -7,16 +7,16 @@
 Camera::Camera() {
 }
 
-void Camera::init(int width, int height, Vector2D inital) {
+void Camera::init(int width, int height, Vector2D& initalPosition) {
     this->width = width;
     this->height = height;
-    this->coord = inital;
+    this->coord = initalPosition;
 
     this->center.setX(this->coord.getX() + (this->width/2.));
     this->center.setY(this->coord.getY() + (this->height/2.));
 }
 
-void Camera::move(Vector2D delta) {
+void Camera::move(Vector2D& delta) {
     this->coord += delta;
 }
 

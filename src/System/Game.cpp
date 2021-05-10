@@ -20,7 +20,13 @@ Game::Game():FPS(60) {
 
 bool Game::init() {
     std::string title = "turbo-octo-waffel";
-    this->window = Window::create(title,512,512);
+
+    int windowWidth = 512;
+    int windowHeight = 512;
+    Vector2D initalCameraPos(0,0);
+
+    this->window = Window::create(title,windowWidth,windowHeight);
+    this->camera.init(windowWidth, windowHeight, initalCameraPos);
     this->textureManager = TextureManager::instance(Resource::getResourcePath());
 
     this->initPlayer();

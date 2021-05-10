@@ -12,8 +12,8 @@ class Camera {
 public:
     Camera();
 
-    void init(int width, int height, Vector2D inital);
-    void move(Vector2D delta);
+    void init(int width, int height, Vector2D& initalPosition);
+    void move(Vector2D& delta);
 
     int getWidth();
     int getHeight();

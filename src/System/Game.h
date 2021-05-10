@@ -13,6 +13,7 @@
 #include "../window/Window.h"
 #include "../Resource/TextureManager.h"
 #include "../World/WorldObject.h"
+#include "../window/Camera.h"
 
 class Game {
 public:
@@ -38,6 +39,7 @@ private:
     const int FPS;
 
     Window* window;
+    Camera camera;
     TextureManager* textureManager;
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
     std::map<std::string, std::unique_ptr<WorldObject> > background;
