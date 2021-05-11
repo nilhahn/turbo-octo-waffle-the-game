@@ -36,14 +36,18 @@ int Skeleton::getHealth() {
     return this->health;
 }
 
-void Skeleton::draw(TextureManager *textureManager, SDL_Renderer *renderer) {
+void Skeleton::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
+    bool nextFrame = false;
+
     this->updateCnt++;
+
     if(this->updateCnt >= 1000) {
-        this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), this->isInStateLeftOrDown(), 2);
+        nextFrame = true;
         this->updateCnt = 0;
-    } else {
-        this->getDrawable()->drawFrameToRenderer(textureManager, renderer, &this->getPositon(), this->isInStateLeftOrDown(), 2, false);
     }
+
+    this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
+                                             const_cast<SDL_Renderer *>(renderer), &this->getPositon(), this->isInStateLeftOrDown(), 2, nextFrame);
 }
 
 Drawable *Skeleton::getDrawable() {

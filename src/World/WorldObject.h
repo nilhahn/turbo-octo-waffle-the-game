@@ -21,7 +21,8 @@ public:
     virtual std::string getId();
     ObjectState getState();
 
-    void setPosition(Vector2D position_);
+    void setPosition(Vector2D& position_);
+    void setPosition(float x, float y);
     virtual Vector2D move(Vector2D vector) = 0;
     Vector2D& getPositon();
 
@@ -31,7 +32,7 @@ public:
     virtual void setHealth(int health) = 0;
     virtual int getHealth() = 0;
 
-    virtual void draw(TextureManager* textureManager, SDL_Renderer* renderer) = 0;
+    virtual void draw(TextureManager const* textureManager, SDL_Renderer const* renderer) = 0;
 
     virtual Drawable* getDrawable() = 0;
 protected:

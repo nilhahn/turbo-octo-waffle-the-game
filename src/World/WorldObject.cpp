@@ -16,8 +16,13 @@ WorldObject::ObjectState WorldObject::getState() {
     return this->state;
 }
 
-void WorldObject::setPosition(Vector2D position_) {
+void WorldObject::setPosition(Vector2D& position_) {
     this->position = position_;
+}
+
+void WorldObject::setPosition(float x, float y) {
+    this->position.setX(x);
+    this->position.setY(y);
 }
 
 Vector2D& WorldObject::getPositon() {
