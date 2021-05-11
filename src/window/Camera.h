@@ -18,8 +18,8 @@ public:
     int getWidth();
     int getHeight();
 
-    Vector2D getCenter();
-    Vector2D getCoord();
+    Vector2D const* getCenter();
+    const Vector2D* getCoord();
 
 private:
     Vector2D coord;

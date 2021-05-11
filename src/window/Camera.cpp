@@ -28,10 +28,10 @@ int Camera::getHeight() {
     return this->height;
 }
 
-Vector2D Camera::getCenter() {
-    return this->center;
+Vector2D const* Camera::getCenter() {
+    return &this->center;
 }
 
-Vector2D Camera::getCoord() {
-    return this->coord;
+const Vector2D* Camera::getCoord() {
+    return &this->coord;
 }
