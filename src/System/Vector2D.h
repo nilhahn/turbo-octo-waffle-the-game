@@ -14,8 +14,8 @@ public:
 
     float length();
 
-    float getY();
-    float getX();
+    float getY() const;
+    float getX() const;
 
     void setY(float y);
     void setX(float x);

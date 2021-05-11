@@ -29,24 +29,9 @@ bool Game::init() {
     this->camera.init(windowWidth, windowHeight, initalCameraPos);
     this->textureManager = TextureManager::instance(Resource::getResourcePath());
 
-    this->initPlayer();
-    this->loadBackgroundTile();
-    // scrap this for now (2021-5-5)
-    // this->initMonster(0);
+    this->background.init();
 
-    int x = 0;
-    int y = 0;
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            chunk[i][j].x = x;
-            chunk[i][j].y = y;
-            chunk[i][j].w = 64;
-            chunk[i][j].h = 64;
-            x += 64;
-        }
-        x = 0;
-        y += 64;
-    }
+    this->initPlayer();
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -59,19 +44,7 @@ void Game::render() {
 
     auto player = &this->objects.at(PLAYER_ID);
 
-    auto background = this->background.find("GRASSLAND")->second.get();
-    Vector2D position = camera.getCoord();
-    Vector2D incX(64.0, 0.0);
-    Vector2D incY(0.0, 64.0);
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            background->setPosition(position);
-            background->draw(this->textureManager, this->window->getRenderer());
-            position += incX;
-        }
-        position.setX(camera.getCoord().getX());
-        position += incY;
-    }
+    this->background.draw(textureManager, renderer, camera.getCoord());
 
     player->get()->draw(this->textureManager, this->window->getRenderer());
     /*
@@ -121,7 +94,7 @@ void Game::initPlayer() {
     InitalizationMapper init;
 
     init.setObjectId(PLAYER_ID);
-    init.setInitalPosition(Vector2D(camera.getCenter().getX() - 8.5,camera.getCenter().getY() - 9.5));
+    init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5, camera.getCenter()->getY() - 9.5));
 
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
@@ -133,28 +106,6 @@ void Game::initPlayer() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(PLAYER_ID, std::make_unique<Player>(&init)));
-}
-
-void Game::loadBackgroundTile() {
-    InitalizationMapper init;
-    InitalizationMapper init2;
-
-    init.setObjectId("GRASSLAND");
-    init.setInitalPosition(Vector2D(0,0));
-    init2.setObjectId("GRASSLAND_2");
-    init2.setInitalPosition(Vector2D(0,0));
-
-    auto drawable = new Drawable("Grassland","Grassland64x64.png",3*64, 64,64,64 , 1);
-    auto drawable2 = new Drawable("Grassland2","Grassland64x64.png",3*64, 3*64,64,64 , 1);
-
-    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
-    init.setInitalState(WorldObject::ObjectState::IDLE);
-
-    init2.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable2);
-    init2.setInitalState(WorldObject::ObjectState::IDLE);
-
-    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND", std::make_unique<BackgroundObject>(&init)));
-    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND2", std::make_unique<BackgroundObject>(&init2)));
 }
 
 void Game::inputEvent(WorldObject* object, long deltaMs) {

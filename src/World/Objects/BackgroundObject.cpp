@@ -21,10 +21,12 @@ WorldObject::ObjectState BackgroundObject::hit(WorldObject* object) {
 void BackgroundObject::setHealth(int health_) {};
 int BackgroundObject::getHealth() {};
 
-void BackgroundObject::draw(TextureManager* textureManager, SDL_Renderer* renderer) {
-    this->getDrawable()->drawFrameToRenderer(textureManager, renderer,&this->getPositon(), false , 0);
+void BackgroundObject::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
+    this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
+                                             const_cast<SDL_Renderer *>(renderer),
+                                             &this->getPositon(), false , 0);
 }
 
 Drawable* BackgroundObject::getDrawable(){
     return this->texture.get();
-};
+}

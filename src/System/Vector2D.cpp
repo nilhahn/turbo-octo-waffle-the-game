@@ -42,11 +42,11 @@ Vector2D &Vector2D::operator-=(Vector2D &vector) {
 }
 
 
-float Vector2D::getX() {
+float Vector2D::getX() const {
     return this->x;
 }
 
-float Vector2D::getY() {
+float Vector2D::getY() const {
     return this->y;
 }
 

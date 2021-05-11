@@ -14,6 +14,7 @@
 #include "../Resource/TextureManager.h"
 #include "../World/WorldObject.h"
 #include "../window/Camera.h"
+#include "Layer/BackgroundLayer.h"
 
 class Game {
 public:
@@ -27,7 +28,6 @@ private:
     void handleEvents(long delta);
     bool isRunning();
     void initPlayer();
-    void loadBackgroundTile();
     void initMonster(int monster);
     void initSkeleton();
     void inputEvent(WorldObject* object, long deltaMs);
@@ -41,9 +41,9 @@ private:
     Window* window;
     Camera camera;
     TextureManager* textureManager;
+    BackgroundLayer background;
+
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
-    std::map<std::string, std::unique_ptr<WorldObject> > background;
-    SDL_Rect chunk[8][8];
 
     void update(long delta);
 };
