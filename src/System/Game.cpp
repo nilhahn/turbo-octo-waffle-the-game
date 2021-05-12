@@ -5,7 +5,6 @@
 #include "Game.h"
 #include "../World/Objects/Player.h"
 #include "../World/Objects/Skeleton.h"
-#include "../World/Objects/BackgroundObject.h"
 
 #include <iostream>
 
@@ -37,9 +36,11 @@ bool Game::init() {
     return this->running;
 }
 
+/**
+ * draw stuff to the window
+ */
 void Game::render() {
     SDL_Renderer* renderer = this->window->getRenderer();
-    //SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
     SDL_RenderClear(renderer);
 
     auto player = &this->objects.at(PLAYER_ID);
@@ -178,16 +179,6 @@ void Game::initSkeleton() {
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(), std::make_unique<Skeleton>(&init)));
 }
 
-void Game::update(long delta) {
-    Vector2D playerPos = this->objects.at(PLAYER_ID)->getPositon();
-   /* Vector2D skeletonPos = this->objects.at(SKELETON_ID)->getPositon();
-
-    if(playerPos.absDistance(skeletonPos) > 2.) {
-        Vector2D move = playerPos - skeletonPos;
-        move.norm();
-        this->objects.at(SKELETON_ID)->move(move.operator*(0.25));
-    }
-    */
-}
+void Game::update(long delta) {}
 
 

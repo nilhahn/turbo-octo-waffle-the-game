@@ -9,9 +9,11 @@
 #include <map>
 #include <memory>
 
+#include "Layer.h"
+
 #include "../../World/WorldObject.h"
 #include "../../World/InitalizationMapper.h"
-#include "Layer.h"
+#include "../../World/Chunk.h"
 
 class BackgroundLayer: public Layer {
 public:
@@ -22,9 +24,11 @@ public:
     void draw(TextureManager const* textureManager, SDL_Renderer const* renderer, Vector2D const* position) override;
 
 private:
+    static constexpr int chunkElem = 32;
+
     std::map<std::string, std::unique_ptr<WorldObject> > background;
 
-    SDL_Rect chunk[8][8];
+    Chunk chunk[chunkElem][chunkElem];
 
     int width;
     int height;

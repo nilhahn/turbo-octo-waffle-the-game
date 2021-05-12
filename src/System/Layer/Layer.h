@@ -5,6 +5,9 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_LAYER_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_LAYER_H
 
+#include "../../Resource/TextureManager.h"
+#include "../Vector2D.h"
+
 class Layer {
 public:
     virtual ~Layer() {}
