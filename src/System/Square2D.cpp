@@ -57,6 +57,12 @@ void Square2D::setHeight(float height){
     this->height = height;
 }
 
+Square2D& Square2D::operator=(Square2D& origin) {
+    this->corner = origin.corner;
+    this->width = origin.width;
+    this->height = origin.height;
+}
+
 bool Square2D::isIn(Vector2D& coord){
     return coord.getX() >= corner.getX() && coord.getY() >= corner.getY() &&
     coord.getX() < getLowerCornerX() && coord.getY() < getLowerCornerY();

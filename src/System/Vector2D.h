@@ -29,7 +29,6 @@ public:
 
     float absDistance(Vector2D& vector2D);
     void norm();
-
 private:
     float x;
     float y;

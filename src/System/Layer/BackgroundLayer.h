@@ -13,7 +13,7 @@
 
 #include "../../World/WorldObject.h"
 #include "../../World/InitalizationMapper.h"
-#include "../../World/Chunk.h"
+#include "../../World/BuildingBlocks/Chunk.h"
 
 class BackgroundLayer: public Layer {
 public:

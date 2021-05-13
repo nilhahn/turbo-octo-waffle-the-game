@@ -32,6 +32,8 @@ public:
 
     // checks if a given coordinate is in this square
     bool isIn(Vector2D& coord);
+
+    Square2D& operator=(Square2D&);
 private:
     Vector2D corner; // the upper left corner of this square
     float width; //  width of this square

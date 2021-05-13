@@ -17,7 +17,7 @@ public:
     SDL_Rect const& getDimension();
     std::string const& getIdentifier();
 private:
-    SDL_Rect dimension;
+    Square2D dimension;
     std::string identifier;
 };
 

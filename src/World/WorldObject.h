@@ -13,31 +13,42 @@
 
 class WorldObject {
 public:
-    typedef enum {INIT = -1, IDLE, UP, DOWN, LEFT, RIGHT, DEAD} ObjectState;
+    typedef enum {
+        INIT = -1, IDLE, UP, DOWN, LEFT, RIGHT, DEAD
+    } ObjectState;
 
     WorldObject();
 
     virtual void setState(ObjectState state);
+
     virtual std::string getId();
+
     ObjectState getState();
 
-    void setPosition(Vector2D& position_);
-    void setPosition(float x, float y);
-    virtual Vector2D move(Vector2D vector) = 0;
-    Vector2D& getPositon();
+    void setPosition(Vector2D &position_);
 
-    float distance(WorldObject* object);
-    virtual ObjectState hit(WorldObject* object) = 0;
+    void setPosition(float x, float y);
+
+    virtual Vector2D move(Vector2D vector) = 0;
+
+    Vector2D &getPositon();
+
+    float distance(WorldObject *object);
+
+    virtual ObjectState hit(WorldObject *object) = 0;
 
     virtual void setHealth(int health) = 0;
+
     virtual int getHealth() = 0;
 
-    virtual void draw(TextureManager const* textureManager, SDL_Renderer const* renderer) = 0;
+    virtual void draw(TextureManager const *textureManager, SDL_Renderer const *renderer) = 0;
 
-    virtual Drawable* getDrawable() = 0;
+    virtual Drawable *getDrawable() = 0;
+
 protected:
     bool isInStateLeftOrDown();
-    void setId(const char* id);
+
+    void setId(const char *id);
 
     std::string objectId;
     ObjectState state;

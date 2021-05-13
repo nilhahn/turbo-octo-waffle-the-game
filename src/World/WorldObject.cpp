@@ -16,7 +16,7 @@ WorldObject::ObjectState WorldObject::getState() {
     return this->state;
 }
 
-void WorldObject::setPosition(Vector2D& position_) {
+void WorldObject::setPosition(Vector2D &position_) {
     this->position = position_;
 }
 
@@ -25,7 +25,7 @@ void WorldObject::setPosition(float x, float y) {
     this->position.setY(y);
 }
 
-Vector2D& WorldObject::getPositon() {
+Vector2D &WorldObject::getPositon() {
     return this->position;
 }
 
@@ -42,7 +42,7 @@ WorldObject::WorldObject() {
     this->hitbox.h = 0;
 }
 
-void WorldObject::setId(const char* id) {
+void WorldObject::setId(const char *id) {
     this->objectId = id;
 }
 
