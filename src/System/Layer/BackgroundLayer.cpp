@@ -18,7 +18,7 @@ void BackgroundLayer::init() {
 
     init.setObjectId("GRASSLAND");
 
-    auto drawable = new Drawable("Grassland", "Grassland64x64.png", 3*64, 64, 64,64, 1);
+    auto drawable = new Drawable("Grassland", "Grassland.png", 0, 0, 64,64, 1);
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
     init.setInitalState(WorldObject::ObjectState::IDLE);

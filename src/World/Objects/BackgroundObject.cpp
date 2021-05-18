@@ -27,7 +27,7 @@ int BackgroundObject::getHealth() {
 void BackgroundObject::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
-                                             &this->getPositon(), false , 0);
+                                             &this->getPositon(), false , 1);
 }
 
 Drawable* BackgroundObject::getDrawable(){
