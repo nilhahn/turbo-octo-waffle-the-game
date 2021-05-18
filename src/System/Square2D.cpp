@@ -61,6 +61,7 @@ Square2D& Square2D::operator=(Square2D& origin) {
     this->corner = origin.corner;
     this->width = origin.width;
     this->height = origin.height;
+    return *this;
 }
 
 bool Square2D::isIn(Vector2D& coord){

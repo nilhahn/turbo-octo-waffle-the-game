@@ -19,7 +19,10 @@ WorldObject::ObjectState BackgroundObject::hit(WorldObject* object) {
 }
 
 void BackgroundObject::setHealth(int health_) {};
-int BackgroundObject::getHealth() {};
+
+int BackgroundObject::getHealth() {
+    return 0;
+};
 
 void BackgroundObject::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),

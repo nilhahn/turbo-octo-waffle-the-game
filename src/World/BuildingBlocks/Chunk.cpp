@@ -4,15 +4,22 @@
 
 #include "Chunk.h"
 
-void Chunk::setDimension(SDL_Rect& dimension) {
+void Chunk::setDimension(Square2D& dimension) {
     this->dimension = dimension;
+}
+
+void Chunk::setDimension(SDL_Rect& dimension) {
+    Vector2D corner(static_cast<float>(dimension.x), static_cast<float>(dimension.y));
+    this->dimension.setCorner(corner);
+    this->dimension.setHeight(static_cast<float>(dimension.h));
+    this->dimension.setWidth(static_cast<float>(dimension.w));
 }
 
 void Chunk::setIdentifier(std::string& identifier) {
     this->identifier = identifier;
 }
 
-SDL_Rect const& Chunk::getDimension() {
+Square2D const& Chunk::getDimension() {
     return this->dimension;
 }
 
