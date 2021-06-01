@@ -16,9 +16,9 @@ add_executable(
         src/main.cpp
         src/Resource/Resource.cpp src/Resource/Resource.h
         src/System/Game.cpp src/System/Game.h
-        src/window/Window.cpp src/window/Window.h
+        src/Window/Window.cpp src/Window/Window.h
         src/Resource/TextureManager.cpp src/Resource/TextureManager.h
-        src/System/Vector2D.cpp src/System/Vector2D.h src/Drawable/Drawable.cpp src/Drawable/Drawable.h src/World/WorldObject.cpp src/World/WorldObject.h src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h src/World/Objects/Player.cpp src/World/Objects/Player.h src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h src/World/Objects/BackgroundObject.cpp src/World/Objects/BackgroundObject.h src/window/Camera.cpp src/window/Camera.h src/System/Layer/BackgroundLayer.cpp src/System/Layer/BackgroundLayer.h src/System/Layer/Layer.h src/World/BuildingBlocks/Chunk.cpp src/World/BuildingBlocks/Chunk.h src/System/Square2D.cpp src/System/Square2D.h src/World/BuildingBlocks/Tile.cpp src/World/BuildingBlocks/Tile.h)
+        src/System/Vector2D.cpp src/System/Vector2D.h src/Drawable/Drawable.cpp src/Drawable/Drawable.h src/World/WorldObject.cpp src/World/WorldObject.h src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h src/World/Objects/Player.cpp src/World/Objects/Player.h src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h src/World/Objects/BackgroundObject.cpp src/World/Objects/BackgroundObject.h src/Window/Camera.cpp src/Window/Camera.h src/System/Layer/BackgroundLayer.cpp src/System/Layer/BackgroundLayer.h src/System/Layer/Layer.h src/World/BuildingBlocks/Chunk.cpp src/World/BuildingBlocks/Chunk.h src/System/Square2D.cpp src/System/Square2D.h src/World/BuildingBlocks/Tile.cpp src/World/BuildingBlocks/Tile.h)
 
 target_include_directories(turbo-octo-waffle-the-game PUBLIC
         "${PROJECT_BINARY_DIR}"

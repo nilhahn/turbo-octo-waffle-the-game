@@ -37,7 +37,7 @@ bool Game::init() {
 }
 
 /**
- * draw stuff to the window
+ * draw stuff to the Window
  */
 void Game::render() {
     SDL_Renderer* renderer = this->window->getRenderer();
@@ -51,7 +51,7 @@ void Game::render() {
     /*
         for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
             auto elem = iter->second.get();
-            elem->draw(this->textureManager, this->window->getRenderer());
+            elem->draw(this->textureManager, this->Window->getRenderer());
         }
     */
 
