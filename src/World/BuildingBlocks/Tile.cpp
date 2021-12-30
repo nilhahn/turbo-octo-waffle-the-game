@@ -20,13 +20,6 @@ void Tile::setIdentifier(std::string &identifier) {
 }
 
 void Tile::addNeighbor(Tile::Neighbor position, Tile *tile, bool reversalAdd) {
-    if (tile != nullptr) {
-        this->neighbors[position].reset(tile);
-        if (reversalAdd) {
-            tile->addNeighbor(this->reverseNeighbor(position), this, false);
-        }
-
-    }
 }
 
 Tile::Neighbor Tile::reverseNeighbor(Neighbor origin) {

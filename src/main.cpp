@@ -5,6 +5,10 @@
 #include "Resource/Resource.h"
 #include "System/Game.h"
 
+/**
+ * Main entry point
+ * @return -
+ */
 int main()
 {
     std::cout << Resource::getResourcePath() << std::endl;

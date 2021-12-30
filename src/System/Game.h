@@ -16,6 +16,7 @@
 #include "../window/Camera.h"
 #include "Layer/BackgroundLayer.h"
 
+// TODO: create super class state, in order to manage state changes
 class Game {
 public:
     Game();
@@ -27,12 +28,15 @@ private:
     void render();
     void handleEvents(long delta);
     bool isRunning();
-    void initPlayer();
-    void initMonster(int monster);
-    void initSkeleton();
+
     void inputEvent(WorldObject* object, long deltaMs);
     bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
     void quit(const char* reason = nullptr);
+
+    void initMonster(int monster);
+    void initSkeleton();
+    void initPlayer();
+    void initMarker();
 
     bool running;
 

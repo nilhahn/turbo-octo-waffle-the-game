@@ -22,7 +22,7 @@
 # and providing a more controlled/consistent search behavior.
 # Added new modifications to recognize OS X frameworks and
 # additional Unix paths (FreeBSD, etc).
-# Also corrected the header search path to follow "proper" SDL2 guidelines.
+# Also corrected the header search path to followState "proper" SDL2 guidelines.
 # Added a search for SDL2main which is needed by some platforms.
 # Added a search for threads which is needed by some platforms.
 # Added needed compile switches for MinGW.

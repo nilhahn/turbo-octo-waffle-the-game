@@ -1,7 +1,3 @@
-//
-// Created by matze on 29.05.20.
-//
-
 #include "Player.h"
 
 Player::Player(InitalizationMapper *init) {
@@ -39,6 +35,8 @@ void Player::draw(TextureManager const* textureManager, SDL_Renderer const* rend
     this->updateCnt++;
 
     /* todo: find better way to do this */
+    // delay the time between two frames (maybe use the delta time from the game loop (?))
+    // -> may be hard to do at the current state of the development
     if(this->updateCnt >= 1000) {
         nextFrame = true;
         this->updateCnt = 0;

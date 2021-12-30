@@ -16,7 +16,7 @@ public:
 
     explicit Drawable(Drawable *drawable);
 
-    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale, bool increment = true);
+    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale, bool increment = true, double angle = 0.0);
 
     std::string getId();
 private:
@@ -31,7 +31,7 @@ private:
     void prepareDrawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
     SDL_Rect prepareFrame(Vector2D* position, unsigned scale);
 
-    void renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect* pD, bool );
+    void renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect* pD, bool flip, double angle = 0.0);
 
     void scaleFrame(SDL_Rect *pRect, unsigned scale);
 

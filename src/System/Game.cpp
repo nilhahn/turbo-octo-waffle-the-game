@@ -5,11 +5,13 @@
 #include "Game.h"
 #include "../World/Objects/Player.h"
 #include "../World/Objects/Skeleton.h"
+#include "../World/Objects/Marker.h"
 
 #include <iostream>
 
 #define PLAYER_ID "player"
 #define SKELETON_ID "skeleton"
+#define DEBUG_MARKER_ID "__marker__"
 
 Game::Game():FPS(60) {
     this->running = false;
@@ -31,6 +33,7 @@ bool Game::init() {
     this->background.init();
 
     this->initPlayer();
+    this->initMarker();
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -43,11 +46,13 @@ void Game::render() {
     SDL_Renderer* renderer = this->window->getRenderer();
     SDL_RenderClear(renderer);
 
-    auto player = &this->objects.at(PLAYER_ID);
+    auto player = &this->objects.at(PLAYER_ID); // hint: I'm not sure if this is the correct approach to do this, but it works so whom I am to judge?
+    auto marker = &this->objects.at(DEBUG_MARKER_ID);
 
     this->background.draw(textureManager, renderer, camera.getCoord());
 
     player->get()->draw(this->textureManager, this->window->getRenderer());
+    marker->get()->draw(this->textureManager, this->window->getRenderer());
     /*
         for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
             auto elem = iter->second.get();
@@ -64,7 +69,13 @@ void Game::handleEvents(long delta) {
     if(event.type == SDL_QUIT) {
         this->quit();
     } else {
-        this->inputEvent(this->objects.at(PLAYER_ID).get(), delta);
+        auto playerObj = &this->objects.at(PLAYER_ID);
+        WorldObject::ObjectState playerState = playerObj->get()->getState();
+        this->inputEvent(playerObj->get(), delta);
+
+        if(playerState != playerObj->get()->getState()) {
+            this->objects.at(DEBUG_MARKER_ID)->setState(playerObj->get()->getState());
+        }
     }
 }
 
@@ -97,6 +108,7 @@ void Game::initPlayer() {
     init.setObjectId(PLAYER_ID);
     init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5, camera.getCenter()->getY() - 9.5));
 
+    // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Player_Idle","Knight_Base_idle.png",17,19,4 );
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
@@ -117,7 +129,7 @@ void Game::inputEvent(WorldObject* object, long deltaMs) {
     Vector2D vector;
 
     if(object->getState() != WorldObject::DEAD) {
-        object->setState(WorldObject::IDLE);
+        //object->setState(WorldObject::IDLE);
 
         if(isKeyDown(keystates, SDL_SCANCODE_W)) {
             object->setState(WorldObject::UP);
@@ -167,6 +179,7 @@ void Game::initSkeleton() {
     init.setObjectId(skeletonId.data());
     init.setInitalPosition(Vector2D(512/2,512/2));
 
+    // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Skeleton_Idle","Skeleton_Base.png",17,19,1 );
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
@@ -177,6 +190,23 @@ void Game::initSkeleton() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(), std::make_unique<Skeleton>(&init)));
+}
+
+void Game::initMarker() {
+    InitalizationMapper init;
+
+    std::string debugMarkerId = DEBUG_MARKER_ID;
+
+    init.setObjectId(debugMarkerId.data());
+    init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 64, camera.getCenter()->getY() - 9.5));
+
+    auto drawable = new Drawable("RED_DEBUG_MARKER", "red_arrow.png" , 24, 11, 1);
+
+    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
+    init.setInitalState(WorldObject::ObjectState::IDLE);
+
+    this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(debugMarkerId.data(), std::make_unique<Marker>(&init)));
+
 }
 
 void Game::update(long delta) {}

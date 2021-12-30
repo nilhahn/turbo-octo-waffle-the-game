@@ -32,7 +32,7 @@ public:
 private:
     Neighbor reverseNeighbor(Neighbor origin);
 
-    std::shared_ptr<Tile> neighbors[4];
+    Tile* neighbors[4];
     std::string identifier;
     Square2D dimension;
 };
