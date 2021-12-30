@@ -10,10 +10,10 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "../Resource/Resource.h"
-#include "../window/Window.h"
+#include "../Window/Window.h"
 #include "../Resource/TextureManager.h"
 #include "../World/WorldObject.h"
-#include "../window/Camera.h"
+#include "../Window/Camera.h"
 #include "Layer/BackgroundLayer.h"
 
 // TODO: create super class state, in order to manage state changes
