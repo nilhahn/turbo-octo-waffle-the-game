@@ -53,7 +53,7 @@ void BackgroundLayer::draw(TextureManager const* textureManager, SDL_Renderer co
         for(int j = (static_cast<int>(position->getY())/64); j < chunkElem; j++) {
 
             background->setPosition(vector2D);
-            background->draw(textureManager, renderer);
+            background->draw(textureManager, renderer, 0);
             vector2D += incX;
         }
         vector2D.setX(const_cast<Vector2D*>(position)->getX());

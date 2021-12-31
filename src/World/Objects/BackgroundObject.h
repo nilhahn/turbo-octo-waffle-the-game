@@ -23,7 +23,7 @@ public:
     void setHealth(int health_) override;
     int getHealth() override;
 
-    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer) override;
+    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) override;
 
     Drawable* getDrawable() override;
 

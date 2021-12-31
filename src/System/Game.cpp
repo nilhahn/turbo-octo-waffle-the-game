@@ -42,7 +42,7 @@ bool Game::init() {
 /**
  * draw stuff to the Window
  */
-void Game::render() {
+void Game::render(long delta) {
     SDL_Renderer* renderer = this->window->getRenderer();
     SDL_RenderClear(renderer);
 
@@ -51,8 +51,8 @@ void Game::render() {
 
     this->background.draw(textureManager, renderer, camera.getCoord());
 
-    player->get()->draw(this->textureManager, this->window->getRenderer());
-    marker->get()->draw(this->textureManager, this->window->getRenderer());
+    player->get()->draw(this->textureManager, this->window->getRenderer(), delta);
+    marker->get()->draw(this->textureManager, this->window->getRenderer(), delta);
     /*
         for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
             auto elem = iter->second.get();
@@ -91,7 +91,7 @@ void Game::run() {
     if(this->init()) {
         while(this->isRunning()) {
             frameStart = SDL_GetTicks();
-            this->render();
+            this->render(frameTime);
             this->handleEvents(frameTime);
             this->update(frameTime);
             frameTime = SDL_GetTicks() - frameStart;

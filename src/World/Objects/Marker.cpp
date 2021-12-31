@@ -35,7 +35,7 @@ int Marker::getHealth() {
     return 0;
 }
 
-void Marker::draw(const TextureManager *textureManager, const SDL_Renderer *renderer) {
+void Marker::draw(const TextureManager *textureManager, const SDL_Renderer *renderer, long delta) {
     this->getDrawable()->drawFrameToRenderer(
             const_cast<TextureManager*>(textureManager),
             const_cast<SDL_Renderer *>(renderer),

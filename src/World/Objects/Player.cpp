@@ -4,10 +4,12 @@ Player::Player(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
     this->setId(init->getId(nullptr));
     this->state = init->getInitalState();
+    this->oldState = this->state;
+
     this->health = 100;
-    this->updateCnt = 0;
 
     std::map<WorldObject::ObjectState, Drawable* >* tex = init->getTextures();
+    this->interFrameTime = 0;
 
     for(auto & iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
@@ -30,16 +32,13 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
     return IDLE;
 }
 
-void Player::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
+void Player::draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) {
     bool nextFrame = false;
-    this->updateCnt++;
 
-    /* todo: find better way to do this */
-    // delay the time between two frames (maybe use the delta time from the game loop (?))
-    // -> may be hard to do at the current state of the development
-    if(this->updateCnt >= 1000) {
+    this->interFrameTime += delta;
+    if(this->interFrameTime >= 500) {
         nextFrame = true;
-        this->updateCnt = 0;
+        this->interFrameTime = 0;
     }
 
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
@@ -56,5 +55,8 @@ Drawable* Player::getDrawable() {
 
 
 void Player::setState(WorldObject::ObjectState state) {
-    WorldObject::setState(state);
+    if(state != this->oldState) {
+        WorldObject::setState(state);
+        this->interFrameTime = 1000;
+    }
 }

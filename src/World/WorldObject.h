@@ -41,7 +41,7 @@ public:
 
     virtual int getHealth() = 0;
 
-    virtual void draw(TextureManager const *textureManager, SDL_Renderer const *renderer) = 0;
+    virtual void draw(TextureManager const *textureManager, SDL_Renderer const *renderer, long delta) = 0;
 
     virtual Drawable *getDrawable() = 0;
 

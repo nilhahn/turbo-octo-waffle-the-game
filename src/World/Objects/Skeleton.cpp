@@ -36,7 +36,7 @@ int Skeleton::getHealth() {
     return this->health;
 }
 
-void Skeleton::draw(TextureManager const* textureManager, SDL_Renderer const* renderer) {
+void Skeleton::draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) {
     bool nextFrame = false;
 
     this->updateCnt++;

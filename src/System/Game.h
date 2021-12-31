@@ -25,7 +25,7 @@ public:
     void run();
 private:
     bool init();
-    void render();
+    void render(long delta);
     void handleEvents(long delta);
     bool isRunning();
 

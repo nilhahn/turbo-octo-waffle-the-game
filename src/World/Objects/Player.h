@@ -20,13 +20,14 @@ public:
     void setHealth(int health_) override;
     int getHealth() override;
 
-    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer) override;
+    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) override;
 
     Drawable* getDrawable() override;
 private:
 
     int health;
-    int updateCnt;
+    long interFrameTime;
+    WorldObject::ObjectState oldState;
     std::map<ObjectState, std::unique_ptr<Drawable> > textures;
 };
 
