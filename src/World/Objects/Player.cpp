@@ -32,7 +32,7 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
     return IDLE;
 }
 
-void Player::draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) {
+void Player::draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, long delta) {
     bool nextFrame = false;
 
     this->interFrameTime += delta;
@@ -57,6 +57,5 @@ Drawable* Player::getDrawable() {
 void Player::setState(WorldObject::ObjectState state) {
     if(state != this->oldState) {
         WorldObject::setState(state);
-        this->interFrameTime = 1000;
     }
 }

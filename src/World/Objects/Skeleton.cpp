@@ -3,6 +3,7 @@
 //
 
 #include "Skeleton.h"
+#include <iostream>
 
 Skeleton::Skeleton(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
@@ -11,7 +12,7 @@ Skeleton::Skeleton(InitalizationMapper *init) {
 
     auto tex = init->getTextures();
 
-    for(auto& iter: *tex) {
+    for (auto &iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
     }
 }
@@ -36,18 +37,26 @@ int Skeleton::getHealth() {
     return this->health;
 }
 
-void Skeleton::draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) {
+void
+Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
     bool nextFrame = false;
 
     this->updateCnt++;
 
-    if(this->updateCnt >= 1000) {
+    if (this->updateCnt >= 1000) {
         nextFrame = true;
         this->updateCnt = 0;
     }
 
-    this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
-                                             const_cast<SDL_Renderer *>(renderer), &this->getPositon(), this->isInStateLeftOrDown(), 2, nextFrame);
+    if (camera.isObjectVisible(this->getPositon(), 64., 64.)) {
+        Vector2D relPosition = this->getPositon().operator+(*camera.getCoord());
+
+        this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
+                                                 const_cast<SDL_Renderer *>(renderer), &relPosition,
+                                                 this->isInStateLeftOrDown(), 2, nextFrame);
+    } else {
+        std::cout << "not visible" << std::endl;
+    }
 }
 
 Drawable *Skeleton::getDrawable() {

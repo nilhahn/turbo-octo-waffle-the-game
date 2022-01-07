@@ -21,7 +21,7 @@ public:
     ~BackgroundLayer() override;
 
     void init() override;
-    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer, Vector2D const* position) override;
+    void draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, Vector2D const* position) override;
 
 private:
     static constexpr int chunkElem = 32;

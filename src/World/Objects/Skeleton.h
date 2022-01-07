@@ -25,7 +25,7 @@ public:
     void setHealth(int health_) override;
     int getHealth() override;
 
-    void draw(TextureManager const* textureManager, SDL_Renderer const* renderer, long delta) override;
+    void draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, long delta) override;
 
     Drawable* getDrawable() override;
 private:
@@ -34,6 +34,7 @@ private:
     int updateCnt;
     std::map<ObjectState, std::unique_ptr<Drawable> > textures;
 
+    bool isVisible(const Camera &camera);
 };
 
 

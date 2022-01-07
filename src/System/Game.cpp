@@ -34,6 +34,7 @@ bool Game::init() {
 
     this->initPlayer();
     this->initMarker();
+    this->initMonster(0);
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -46,19 +47,18 @@ void Game::render(long delta) {
     SDL_Renderer* renderer = this->window->getRenderer();
     SDL_RenderClear(renderer);
 
-    auto player = &this->objects.at(PLAYER_ID); // hint: I'm not sure if this is the correct approach to do this, but it works so whom I am to judge?
-    auto marker = &this->objects.at(DEBUG_MARKER_ID);
+    //auto player = &this->objects.at(PLAYER_ID); // hint: I'm not sure if this is the correct approach to do this, but it works so whom I am to judge?
+    //auto marker = &this->objects.at(DEBUG_MARKER_ID);
 
-    this->background.draw(textureManager, renderer, camera.getCoord());
+    this->background.draw(textureManager, this->camera, renderer, camera.getCoord());
 
-    player->get()->draw(this->textureManager, this->window->getRenderer(), delta);
-    marker->get()->draw(this->textureManager, this->window->getRenderer(), delta);
-    /*
-        for(auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
-            auto elem = iter->second.get();
-            elem->draw(this->textureManager, this->Window->getRenderer());
-        }
-    */
+    //player->get()->draw(this->textureManager, this->window->getRenderer(), delta);
+    //marker->get()->draw(this->textureManager, this->window->getRenderer(), delta);
+
+    for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
+        auto elem = iter->second.get();
+        elem->draw(this->textureManager, this->camera, this->window->getRenderer(), delta);
+    }
 
     SDL_RenderPresent(renderer);
 }
@@ -177,7 +177,7 @@ void Game::initSkeleton() {
     std::string skeletonId = SKELETON_ID;
 
     init.setObjectId(skeletonId.data());
-    init.setInitalPosition(Vector2D(512/2,512/2));
+    init.setInitalPosition(Vector2D(0,0));
 
     // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Skeleton_Idle","Skeleton_Base.png",17,19,1 );
@@ -206,7 +206,6 @@ void Game::initMarker() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(debugMarkerId.data(), std::make_unique<Marker>(&init)));
-
 }
 
 void Game::update(long delta) {}

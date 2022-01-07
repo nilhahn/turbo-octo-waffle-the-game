@@ -5,7 +5,9 @@
 #include "WorldObject.h"
 
 void WorldObject::setState(WorldObject::ObjectState state_) {
-    this->state = state_;
+    if(state_ != this->state) {
+        this->state = state_;
+    }
 }
 
 std::string WorldObject::getId() {

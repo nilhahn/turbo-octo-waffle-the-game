@@ -12,14 +12,19 @@ class Camera {
 public:
     Camera();
 
-    void init(int width, int height, Vector2D& initalPosition);
-    void move(Vector2D& delta);
+    void init(int width, int height, Vector2D &initalPosition);
 
-    int getWidth();
-    int getHeight();
+    void move(Vector2D &delta);
 
-    Vector2D const* getCenter();
-    const Vector2D* getCoord();
+    int getWidth() const;
+
+    int getHeight() const;
+
+    Vector2D const *getCenter();
+
+    const Vector2D *getCoord() const;
+
+    bool isObjectVisible(Vector2D &vector2D, float width, float height) const;
 
 private:
     Vector2D coord;

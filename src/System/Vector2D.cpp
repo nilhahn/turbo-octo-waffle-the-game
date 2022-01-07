@@ -16,11 +16,11 @@ float Vector2D::length() {
 }
 
 Vector2D Vector2D::operator*(float scalar) {
-    return Vector2D(this->x * scalar, this->y * scalar);
+    return {this->x * scalar, this->y * scalar};
 }
 
-Vector2D Vector2D::operator+(Vector2D &vector) {
-    return Vector2D(this->x + vector.x, this->y + vector.y);
+Vector2D Vector2D::operator+ (const Vector2D& vector) const {
+    return {this->x + vector.x, this->y + vector.y};
 }
 
 Vector2D &Vector2D::operator=(Vector2D &vector) {
@@ -58,8 +58,8 @@ void Vector2D::setY(float y) {
     this->y = y;
 }
 
-Vector2D Vector2D::operator-(Vector2D &vector) {
-    return Vector2D(this->x - vector.x, this->y - vector.y);
+Vector2D Vector2D::operator-(const Vector2D &vector) const {
+    return {this->x - vector.x, this->y - vector.y};
 }
 
 float Vector2D::absDistance(Vector2D& vector) {

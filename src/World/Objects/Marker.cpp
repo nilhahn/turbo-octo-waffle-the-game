@@ -35,7 +35,7 @@ int Marker::getHealth() {
     return 0;
 }
 
-void Marker::draw(const TextureManager *textureManager, const SDL_Renderer *renderer, long delta) {
+void Marker::draw(const TextureManager *textureManager, const Camera& camera, const SDL_Renderer *renderer, long delta) {
     this->getDrawable()->drawFrameToRenderer(
             const_cast<TextureManager*>(textureManager),
             const_cast<SDL_Renderer *>(renderer),
@@ -61,6 +61,6 @@ double Marker::getRotation() {
         case WorldObject::DOWN:
             return 90.0;
         default:
-            0.0;
+            return 0.0;
     }
 }

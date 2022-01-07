@@ -21,8 +21,8 @@ public:
     void setX(float x);
 
     Vector2D operator* (float scalar);
-    Vector2D operator+ (Vector2D& vector);
-    Vector2D operator- (Vector2D& vector);
+    Vector2D operator+ (const Vector2D& vector) const;
+    Vector2D operator- (const Vector2D& vector) const;
     Vector2D& operator= (Vector2D& vector);
     Vector2D& operator+= (Vector2D& vector);
     Vector2D& operator-= (Vector2D& vector);

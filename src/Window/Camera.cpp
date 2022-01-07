@@ -3,6 +3,7 @@
 //
 
 #include "Camera.h"
+#include <iostream>
 
 Camera::Camera() {
 }
@@ -20,11 +21,11 @@ void Camera::move(Vector2D& delta) {
     this->coord += delta;
 }
 
-int Camera::getWidth() {
+int Camera::getWidth() const {
     return this->width;
 }
 
-int Camera::getHeight() {
+int Camera::getHeight() const {
     return this->height;
 }
 
@@ -32,6 +33,28 @@ Vector2D const* Camera::getCenter() {
     return &this->center;
 }
 
-const Vector2D* Camera::getCoord() {
+const Vector2D* Camera::getCoord() const {
     return &this->coord;
+}
+
+/**
+ * Determine if a object is within the bounding rect of the camera
+ * param: &position - reference to the upper left corner if the object
+ * param: objWidth - the width if the object
+ * param: objHeight - the height of the object
+ */
+bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight) const{
+    float lowerRightCameraCornerX = (this->coord.getX() - static_cast<float>(this->width));
+    float lowerRightCameraCornerY = (this->coord.getX() - static_cast<float>(this->height));
+    float lowerRightObjectCornerX = (position.getX() - objWidth);
+    float lowerRightObjectCornerY = (position.getY() - objHeight);
+
+    return (position.getX() <= this->coord.getX() &&
+    position.getY() <= this->coord.getY() &&
+    position.getX() >= lowerRightCameraCornerX &&
+    position.getY() >= lowerRightCameraCornerY ||
+    (lowerRightObjectCornerX <= this->coord.getX() &&
+    lowerRightObjectCornerY <= this->coord.getY() &&
+    lowerRightObjectCornerX >= lowerRightCameraCornerX &&
+    lowerRightObjectCornerY >= lowerRightCameraCornerY));
 }

@@ -42,7 +42,7 @@ void BackgroundLayer::init() {
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND", std::make_unique<BackgroundObject>(&init)));
 }
 
-void BackgroundLayer::draw(TextureManager const* textureManager, SDL_Renderer const* renderer,const Vector2D* position = nullptr) {
+void BackgroundLayer::draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer,const Vector2D* position = nullptr) {
     auto background= this->background.find("GRASSLAND")->second.get();
 
     Vector2D incX(64.0, 0.0);
@@ -53,7 +53,7 @@ void BackgroundLayer::draw(TextureManager const* textureManager, SDL_Renderer co
         for(int j = (static_cast<int>(position->getY())/64); j < chunkElem; j++) {
 
             background->setPosition(vector2D);
-            background->draw(textureManager, renderer, 0);
+            background->draw(textureManager, camera, renderer, 0);
             vector2D += incX;
         }
         vector2D.setX(const_cast<Vector2D*>(position)->getX());
