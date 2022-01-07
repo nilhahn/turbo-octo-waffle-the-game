@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 10.05.21.
-//
-
 #include "BackgroundLayer.h"
 #include "../../World/Objects/BackgroundObject.h"
 

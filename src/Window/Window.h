@@ -1,7 +1,3 @@
-//
-// Created by matze on 15.05.20.
-//
-
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 

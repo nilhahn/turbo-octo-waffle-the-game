@@ -1,7 +1,3 @@
-//
-// Created by matze on 15.05.20.
-//
-
 #include <iostream>
 #include "Window.h"
 

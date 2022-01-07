@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 13.05.21.
-//
-
 #include "Tile.h"
 
 Tile::Tile() {}

@@ -1,9 +1,4 @@
-//
-// Created by mheisler on 07.05.21.
-//
-
 #include "Camera.h"
-#include <iostream>
 
 Camera::Camera() {
 }

@@ -1,7 +1,3 @@
-//
-// Created by matze on 18.05.20.
-//
-
 #include "TextureManager.h"
 
 TextureManager* TextureManager::manager = nullptr;

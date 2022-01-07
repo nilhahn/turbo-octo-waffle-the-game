@@ -1,7 +1,3 @@
-//
-// Created by matze on 14.08.20.
-//
-
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_SKELETON_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_SKELETON_H
 

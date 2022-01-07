@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 05.05.21.
-//
-
 #include "BackgroundObject.h"
 
 BackgroundObject::BackgroundObject(InitalizationMapper *init) {

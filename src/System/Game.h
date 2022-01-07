@@ -1,7 +1,3 @@
-//
-// Created by matze on 11.05.20.
-//
-
 #ifndef SFRPG_GAME_H
 #define SFRPG_GAME_H
 

@@ -1,7 +1,3 @@
-//
-// Created by matze on 28.05.20.
-//
-
 #include "InitalizationMapper.h"
 
 void InitalizationMapper::setInitalPosition(Vector2D vector) {

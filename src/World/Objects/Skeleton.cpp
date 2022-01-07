@@ -1,7 +1,3 @@
-//
-// Created by matze on 14.08.20.
-//
-
 #include "Skeleton.h"
 #include <iostream>
 

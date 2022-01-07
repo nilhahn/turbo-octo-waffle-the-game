@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 13.05.21.
-//
-
 #include "Square2D.h"
 
 Square2D::Square2D(): corner(0,0), width(0), height(0) {}

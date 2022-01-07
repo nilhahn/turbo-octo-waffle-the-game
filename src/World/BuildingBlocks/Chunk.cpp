@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 12.05.21.
-//
-
 #include "Chunk.h"
 
 void Chunk::setDimension(Square2D& dimension) {

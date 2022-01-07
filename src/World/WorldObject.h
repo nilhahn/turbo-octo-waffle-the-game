@@ -1,7 +1,3 @@
-//
-// Created by matze on 28.05.20.
-//
-
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_WORLDOBJECT_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_WORLDOBJECT_H
 

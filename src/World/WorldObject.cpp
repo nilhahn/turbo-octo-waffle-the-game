@@ -1,7 +1,3 @@
-//
-// Created by matze on 28.05.20.
-//
-
 #include "WorldObject.h"
 
 void WorldObject::setState(WorldObject::ObjectState state_) {

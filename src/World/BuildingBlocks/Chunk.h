@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 12.05.21.
-//
-
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_CHUNK_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_CHUNK_H
 

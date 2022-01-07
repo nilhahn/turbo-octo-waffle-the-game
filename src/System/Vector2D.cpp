@@ -1,7 +1,3 @@
-//
-// Created by matze on 22.05.20.
-//
-
 #include "Vector2D.h"
 
 #include <cmath>

@@ -1,7 +1,3 @@
-//
-// Created by matze on 11.05.20.
-//
-
 #include "Game.h"
 #include "../World/Objects/Player.h"
 #include "../World/Objects/Skeleton.h"

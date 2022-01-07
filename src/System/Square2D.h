@@ -1,7 +1,3 @@
-//
-// Created by mheisler on 13.05.21.
-//
-
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_SQUARE2D_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_SQUARE2D_H
 
