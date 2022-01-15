@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <iostream>
+
 Camera::Camera() {
 }
 
@@ -39,17 +41,13 @@ const Vector2D* Camera::getCoord() const {
  * param: objHeight - the height of the object
  */
 bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight) const{
-    float lowerRightCameraCornerX = (this->coord.getX() - static_cast<float>(this->width));
-    float lowerRightCameraCornerY = (this->coord.getX() - static_cast<float>(this->height));
-    float lowerRightObjectCornerX = (position.getX() - objWidth);
-    float lowerRightObjectCornerY = (position.getY() - objHeight);
+    float lowerRightCameraCornerX = (this->coord.getX() + static_cast<float>(this->width));
+    float lowerRightCameraCornerY = (this->coord.getY() + static_cast<float>(this->height));
+    float lowerRightObjectCornerX = (position.getX() + objWidth);
+    float lowerRightObjectCornerY = (position.getY() + objHeight);
 
-    return (position.getX() <= this->coord.getX() &&
-    position.getY() <= this->coord.getY() &&
-    position.getX() >= lowerRightCameraCornerX &&
-    position.getY() >= lowerRightCameraCornerY ||
-    (lowerRightObjectCornerX <= this->coord.getX() &&
-    lowerRightObjectCornerY <= this->coord.getY() &&
-    lowerRightObjectCornerX >= lowerRightCameraCornerX &&
-    lowerRightObjectCornerY >= lowerRightCameraCornerY));
+    return (position.getX() >= this->getCoord()->getX() && position.getY() >= this->getCoord()->getY() &&
+    position.getX() <= lowerRightCameraCornerX && position.getY() <= lowerRightCameraCornerY ||
+    (lowerRightObjectCornerX >= this->getCoord()->getX() && lowerRightObjectCornerY >= this->getCoord()->getY() &&
+    lowerRightObjectCornerX <= lowerRightCameraCornerX && lowerRightObjectCornerY <= lowerRightCameraCornerY));
 }

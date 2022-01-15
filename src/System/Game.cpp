@@ -129,18 +129,18 @@ void Game::inputEvent(WorldObject* object, long deltaMs) {
 
         if(isKeyDown(keystates, SDL_SCANCODE_W)) {
             object->setState(WorldObject::UP);
-            vector.setY(+0.1f * static_cast<float>(deltaMs));
+            vector.setY(-0.1f * static_cast<float>(deltaMs));
         } else if(isKeyDown(keystates, SDL_SCANCODE_S)) {
             object->setState(WorldObject::DOWN);
-            vector.setY(-0.1f * static_cast<float>(deltaMs));
+            vector.setY(+0.1f * static_cast<float>(deltaMs));
         }
 
         if(isKeyDown(keystates, SDL_SCANCODE_A)) {
             object->setState(WorldObject::LEFT);
-            vector.setX(+0.1f * static_cast<float>(deltaMs));
+            vector.setX(-0.1f * static_cast<float>(deltaMs));
         } else if(isKeyDown(keystates, SDL_SCANCODE_D)) {
             object->setState(WorldObject::RIGHT);
-            vector.setX(-0.1f * static_cast<float>(deltaMs));
+            vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
     }
 
@@ -173,7 +173,7 @@ void Game::initSkeleton() {
     std::string skeletonId = SKELETON_ID;
 
     init.setObjectId(skeletonId.data());
-    init.setInitalPosition(Vector2D(0,0));
+    init.setInitalPosition(Vector2D(2,2));
 
     // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Skeleton_Idle","Skeleton_Base.png",17,19,1 );

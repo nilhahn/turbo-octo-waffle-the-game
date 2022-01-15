@@ -1,6 +1,8 @@
 #include "Skeleton.h"
 #include <iostream>
 
+#include <iostream>
+
 Skeleton::Skeleton(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
     this->setId(init->getId());
@@ -45,13 +47,10 @@ Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_R
     }
 
     if (camera.isObjectVisible(this->getPositon(), 64., 64.)) {
-        Vector2D relPosition = this->getPositon().operator+(*camera.getCoord());
-
+        Vector2D relPosition = this->getPositon().operator-(*camera.getCoord());
         this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                                  const_cast<SDL_Renderer *>(renderer), &relPosition,
                                                  this->isInStateLeftOrDown(), 2, nextFrame);
-    } else {
-        std::cout << "not visible" << std::endl;
     }
 }
 
