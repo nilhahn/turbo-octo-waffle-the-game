@@ -21,14 +21,14 @@ Drawable::Drawable(Drawable *drawable) {
     this->frameOffset = drawable->getFrameOffset();
 }
 
-void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *position, bool flip, unsigned scale, bool increment, double angle) {
+void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *windowPosition, bool flip, unsigned scale, bool increment, double angle) {
     SDL_Texture* texture = textureManager->getTexture(this->id.data());
     if(texture == nullptr && textureManager->load(this->file.data(), this->id.data(), renderer)) {
         // Something bad happened
         // TODO: Decide what should happen here
         return;
     }
-    SDL_Rect destinationRect = this->prepareFrame(position, scale);
+    SDL_Rect destinationRect = this->prepareFrame(windowPosition, scale);
     this->renderFrame(texture, renderer, &destinationRect, flip, angle);
     if(increment) {
         this->updateFrameCnt();

@@ -46,8 +46,12 @@ bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight
     float lowerRightObjectCornerX = (position.getX() + objWidth);
     float lowerRightObjectCornerY = (position.getY() + objHeight);
 
-    return (position.getX() >= this->getCoord()->getX() && position.getY() >= this->getCoord()->getY() &&
-    position.getX() <= lowerRightCameraCornerX && position.getY() <= lowerRightCameraCornerY ||
-    (lowerRightObjectCornerX >= this->getCoord()->getX() && lowerRightObjectCornerY >= this->getCoord()->getY() &&
-    lowerRightObjectCornerX <= lowerRightCameraCornerX && lowerRightObjectCornerY <= lowerRightCameraCornerY));
+    return ((position.getX() >= this->getCoord()->getX() &&
+    lowerRightObjectCornerX <= lowerRightCameraCornerX)  ||
+    position.getY() >= this->getCoord()->getY() &&
+    position.getX() <= lowerRightCameraCornerX &&
+    position.getY() <= lowerRightCameraCornerY ||
+    (lowerRightObjectCornerX >= this->getCoord()->getX() &&
+    lowerRightObjectCornerY >= this->getCoord()->getY() &&
+    lowerRightObjectCornerY <= lowerRightCameraCornerY));
 }

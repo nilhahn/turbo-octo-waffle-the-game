@@ -25,9 +25,6 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > background;
 
     Chunk chunk[chunkElem][chunkElem];
-
-    int width;
-    int height;
 };
 
 

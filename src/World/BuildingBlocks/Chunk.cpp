@@ -15,7 +15,7 @@ void Chunk::setIdentifier(std::string& identifier) {
     this->identifier = identifier;
 }
 
-Square2D const& Chunk::getDimension() {
+Square2D& Chunk::getDimension() {
     return this->dimension;
 }
 

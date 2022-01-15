@@ -23,9 +23,10 @@ int BackgroundObject::getHealth() {
 
 void BackgroundObject::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
                             long delta) {
+    Vector2D relPosition = this->getPositon().operator-(*camera.getCoord());
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
-                                             &this->getPositon(), false, 1);
+                                             &relPosition, false, 1);
 }
 
 Drawable *BackgroundObject::getDrawable() {

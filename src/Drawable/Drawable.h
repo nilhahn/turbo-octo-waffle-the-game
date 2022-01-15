@@ -12,7 +12,7 @@ public:
 
     explicit Drawable(Drawable *drawable);
 
-    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* position, bool flip, unsigned scale, bool increment = true, double angle = 0.0);
+    void drawFrameToRenderer(TextureManager* textureManager, SDL_Renderer* renderer, Vector2D* windowPosition, bool flip, unsigned scale, bool increment = true, double angle = 0.0);
 
     std::string getId();
 private:

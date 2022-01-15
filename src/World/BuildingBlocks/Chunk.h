@@ -13,7 +13,7 @@ public:
     void setDimension(SDL_Rect& dimension);
     void setIdentifier(std::string& identifier);
 
-    Square2D const& getDimension();
+    Square2D& getDimension();
     std::string const& getIdentifier();
 private:
     Square2D dimension;

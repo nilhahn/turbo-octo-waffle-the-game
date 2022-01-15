@@ -41,15 +41,9 @@ bool Game::init() {
  */
 void Game::render(long delta) {
     SDL_Renderer* renderer = this->window->getRenderer();
-    SDL_RenderClear(renderer);
-
-    //auto player = &this->objects.at(PLAYER_ID); // hint: I'm not sure if this is the correct approach to do this, but it works so whom I am to judge?
-    //auto marker = &this->objects.at(DEBUG_MARKER_ID);
+    SDL_RenderClear(renderer);;
 
     this->background.draw(textureManager, this->camera, renderer, camera.getCoord());
-
-    //player->get()->draw(this->textureManager, this->window->getRenderer(), delta);
-    //marker->get()->draw(this->textureManager, this->window->getRenderer(), delta);
 
     for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();

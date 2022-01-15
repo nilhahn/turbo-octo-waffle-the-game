@@ -2,7 +2,6 @@
 #include "../../World/Objects/BackgroundObject.h"
 
 #include <iostream>
-#include <iostream>
 
 BackgroundLayer::BackgroundLayer() {
 }
@@ -43,25 +42,17 @@ void BackgroundLayer::init() {
 
 void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
                            const Vector2D *position = nullptr) {
-    auto background = this->background.find("GRASSLAND")->second.get();
-
-    Vector2D incX(64.0, 0.0);
-    Vector2D incY(0.0, 64.0);
-    Vector2D vector2D = *position;
-
-    for (int i = (static_cast<int>(position->getY()) / 64); i < chunkElem; i++) {
-        for (int j = (static_cast<int>(position->getX()) / 64); j < chunkElem; j++) {
-
-            //Vector2D relPosition = vector2D.operator-(*camera.getCoord());
-            background->setPosition(vector2D);
-            //if (camera.isObjectVisible(relPosition, 64., 64.)) {
-                background->draw(textureManager, camera, renderer, 0);
-            //} /*else {
-                //std::cout << "not visible " << i << " " << j << " (x: " << vector2D.getX() << "|y: " << vector2D.getY() << " )" << std::endl;
-            //}*/
-            vector2D += incX;
+    for (int i = 0; i < chunkElem; i++) {
+        for (int j = 0; j < chunkElem; j++) {
+            Chunk currentChunk = this->chunk[i][j];
+            Vector2D chunkPosition = {currentChunk.getDimension().getCornerX(),
+                                      currentChunk.getDimension().getCornerY()};
+            if (camera.isObjectVisible(chunkPosition, currentChunk.getDimension().getWidth(),
+                                       currentChunk.getDimension().getHeight())) {
+                auto backgroundSprite = this->background.find(currentChunk.getIdentifier())->second.get();
+                backgroundSprite->setPosition(chunkPosition);
+                backgroundSprite->draw(textureManager, camera, renderer, 0);
+            }
         }
-        vector2D.setX(const_cast<Vector2D *>(position)->getX());
-        vector2D += incY;
     }
 }
