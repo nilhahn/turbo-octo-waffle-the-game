@@ -55,3 +55,7 @@ bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight
     lowerRightObjectCornerY >= this->getCoord()->getY() &&
     lowerRightObjectCornerY <= lowerRightCameraCornerY));
 }
+
+Square2D Camera::getBoundingRect() const {
+    return {const_cast<Vector2D&>(this->coord), static_cast<float>(width), static_cast<float>(height)};
+}

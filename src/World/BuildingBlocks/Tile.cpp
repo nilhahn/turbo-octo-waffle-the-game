@@ -28,8 +28,9 @@ Tile::Neighbor Tile::reverseNeighbor(Neighbor origin) {
             return UPPER;
         case LEFT:
             return RIGHT;
+        default:
+            return LOWER;
     }
-
 }
 
 Square2D const &Tile::getDimension() {

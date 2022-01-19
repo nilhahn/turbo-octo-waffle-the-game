@@ -53,8 +53,9 @@ void Square2D::setHeight(float height){
     this->height = height;
 }
 
-Square2D& Square2D::operator=(Square2D& origin) {
-    this->corner = origin.corner;
+Square2D& Square2D::operator=(Square2D const& origin) {
+    this->corner.setX(origin.corner.getX());
+    this->corner.setY(origin.corner.getY());
     this->width = origin.width;
     this->height = origin.height;
     return *this;
@@ -63,4 +64,12 @@ Square2D& Square2D::operator=(Square2D& origin) {
 bool Square2D::isIn(Vector2D& coord){
     return coord.getX() >= corner.getX() && coord.getY() >= corner.getY() &&
     coord.getX() < getLowerCornerX() && coord.getY() < getLowerCornerY();
+}
+
+bool Square2D::operator<(const Square2D& square) const{
+    return this->corner.getX() < square.corner.getX() && this->corner.getY() < this->corner.getY();
+}
+
+bool Square2D::operator()(const Square2D& squareA, const Square2D& squareB) {
+    return squareA < squareB;
 }

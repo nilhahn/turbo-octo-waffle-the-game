@@ -29,7 +29,11 @@ public:
     // checks if a given coordinate is in this square
     bool isIn(Vector2D& coord);
 
-    Square2D& operator=(Square2D&);
+    Square2D& operator=(Square2D const&);
+
+    bool operator<(const Square2D& square) const;
+    bool operator()(const Square2D& squareA, const Square2D& squareB);
+
 private:
     Vector2D corner; // the upper left corner of this square
     float width; //  width of this square

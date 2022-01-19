@@ -22,10 +22,10 @@ public:
 private:
     static constexpr int chunkElem = 32;
 
+    void createNewChunk(Vector2D& start, int elements);
+
     std::map<std::string, std::unique_ptr<WorldObject> > background;
-
-    Chunk chunk[chunkElem][chunkElem];
+    std::map<Square2D, Chunk**> chunks;
 };
-
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

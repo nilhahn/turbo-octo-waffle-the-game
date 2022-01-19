@@ -3,6 +3,7 @@
 
 
 #include "../System/Vector2D.h"
+#include "../System/Square2D.h"
 
 class Camera {
 public:
@@ -21,6 +22,8 @@ public:
     const Vector2D *getCoord() const;
 
     bool isObjectVisible(Vector2D &vector2D, float width, float height) const;
+
+    Square2D getBoundingRect() const;
 
 private:
     Vector2D coord;
