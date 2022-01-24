@@ -26,6 +26,9 @@ private:
 
     std::map<std::string, std::unique_ptr<WorldObject> > background;
     std::map<Square2D, Chunk**> chunks;
+
+    void
+    drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

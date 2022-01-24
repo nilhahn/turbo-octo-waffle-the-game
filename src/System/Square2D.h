@@ -15,8 +15,8 @@ public:
     void setCornerX(float cornerX);
     void setCornerY(float cornerY);
 
-    float getLowerCornerX();
-    float getLowerCornerY();
+    float getLowerCornerX() const;
+    float getLowerCornerY() const;
 
     float getWidth();
     float getHeight();
@@ -27,14 +27,17 @@ public:
     void setHeight(float height);
 
     // checks if a given coordinate is in this square
-    bool isIn(Vector2D& coord);
+    bool isIn(const Vector2D& coord) const;
 
     Square2D& operator=(Square2D const&);
 
     bool operator<(const Square2D& square) const;
+    bool operator>(const Square2D& square) const;
     bool operator()(const Square2D& squareA, const Square2D& squareB);
+    static int count;
 
 private:
+
     Vector2D corner; // the upper left corner of this square
     float width; //  width of this square
     float height; // height of this square

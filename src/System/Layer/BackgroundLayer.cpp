@@ -28,6 +28,10 @@ void BackgroundLayer::init() {
     Vector2D start(0.f, 0.f);
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
+    // TODO: remove
+    Vector2D second(-2048.f, -2048.f);
+    this->createNewChunk(second, BackgroundLayer::chunkElem);
+
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND",
                                                                                   std::make_unique<BackgroundObject>(
                                                                                           &init)));
@@ -35,18 +39,11 @@ void BackgroundLayer::init() {
 
 void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
                            const Vector2D *position = nullptr) {
-    Chunk** currentChunk = this->chunks.find(camera.getBoundingRect())->second;
-    for (int i = 0; i < chunkElem; i++) {
-        for (int j = 0; j < chunkElem; j++) {
-            Vector2D chunkPosition = {currentChunk[i][j].getDimension().getCornerX(),
-                                      currentChunk[i][j].getDimension().getCornerY()};
-            if (camera.isObjectVisible(chunkPosition, currentChunk[i][j].getDimension().getWidth(),
-                                       currentChunk[i][j].getDimension().getHeight())) {
-                auto backgroundSprite = this->background.find(currentChunk[i][j].getIdentifier())->second.get();
-                backgroundSprite->setPosition(chunkPosition);
-                backgroundSprite->draw(textureManager, camera, renderer, 0);
-            }
-        }
+    Chunk **currentChunk = this->chunks.find(camera.getBoundingRect())->second;
+    if(currentChunk != nullptr) {
+        this->drawChunk(currentChunk, textureManager, camera, renderer);
+    } else {
+        std::cout << "currentChunk is null" << std::endl;
     }
 }
 
@@ -75,4 +72,20 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
     float dimension = static_cast<float>(elements) * 64.f;
     this->chunks.insert(std::pair<Square2D, Chunk **>(Square2D(start, dimension, dimension), chunk));
 
+}
+
+void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera,
+                                const SDL_Renderer *pRenderer) {
+    for (int i = 0; i < chunkElem; i++) {
+        for (int j = 0; j < chunkElem; j++) {
+            Vector2D chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
+                                      pChunk[i][j].getDimension().getCornerY()};
+            if (camera.isObjectVisible(chunkPosition, pChunk[i][j].getDimension().getWidth(),
+                                       pChunk[i][j].getDimension().getHeight())) {
+                auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
+                backgroundSprite->setPosition(chunkPosition);
+                backgroundSprite->draw(pManager, camera, pRenderer, 0);
+            }
+        }
+    }
 }

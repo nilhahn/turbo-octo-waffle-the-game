@@ -1,8 +1,12 @@
 #include "Square2D.h"
+#include <iostream>
+
+int Square2D::count = 0;
 
 Square2D::Square2D(): corner(0,0), width(0), height(0) {}
 
-Square2D::Square2D(Vector2D& corner_, float width_, float height_): corner(corner_.getX(),corner_.getY()), width(width_), height(height_){}
+Square2D::Square2D(Vector2D& corner_, float width_, float height_): corner(corner_.getX(),corner_.getY()), width(width_), height(height_){
+}
 
 float Square2D::getCornerX(){
     return this->corner.getX();
@@ -25,12 +29,12 @@ void Square2D::setCornerY(float cornerY){
     this->corner.setY(cornerY);
 }
 
-float Square2D::getLowerCornerX(){
-    return this->getCornerX() + width;
+float Square2D::getLowerCornerX() const {
+    return this->corner.getX() + width;
 }
 
-float Square2D::getLowerCornerY(){
-    return this->getCornerY() + height;
+float Square2D::getLowerCornerY() const {
+    return this->corner.getY() + height;
 }
 
 float Square2D::area() {
@@ -61,18 +65,22 @@ Square2D& Square2D::operator=(Square2D const& origin) {
     return *this;
 }
 
-bool Square2D::isIn(Vector2D& coord){
+bool Square2D::isIn(const Vector2D& coord) const {
     return coord.getX() >= corner.getX() && coord.getY() >= corner.getY() &&
     coord.getX() < getLowerCornerX() && coord.getY() < getLowerCornerY();
 }
 
 bool Square2D::operator<(const Square2D& square) const{
-    return this->corner.getX() < square.corner.getX() 
-        && this->corner.getY() < square.corner.getY()
-        && square.corner.getX() < (this->corner.getX() + this->width) 
-        && square.corner.getY() < (this->corner.getY() + this->height);
+    Square2D::count++;
+    return !square.isIn(this->corner);
+}
+
+bool Square2D::operator>(const Square2D& square) const{
+    Square2D::count++;
+    return square.isIn(this->corner);
 }
 
 bool Square2D::operator()(const Square2D& squareA, const Square2D& squareB) {
+    Square2D::count++;
     return squareA < squareB;
 }
