@@ -67,7 +67,7 @@ bool Square2D::isIn(Vector2D& coord){
 }
 
 bool Square2D::operator<(const Square2D& square) const{
-    return this->corner.getX() < square.corner.getX() && this->corner.getY() < this->corner.getY();
+    return this->corner.getX() < square.corner.getX() && this->corner.getY() < square.corner.getY();
 }
 
 bool Square2D::operator()(const Square2D& squareA, const Square2D& squareB) {
