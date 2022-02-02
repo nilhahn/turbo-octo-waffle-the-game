@@ -12,6 +12,11 @@
 #include "../Window/Camera.h"
 #include "Layer/BackgroundLayer.h"
 
+
+/**
+ * The main game class.
+ */
+
 // TODO: create super class state, in order to manage state changes
 class Game {
 public:
@@ -29,6 +34,7 @@ private:
     bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
     void quit(const char* reason = nullptr);
 
+    // Some prototypes in order to test the creation of new entities in the world
     void initMonster(int monster);
     void initSkeleton();
     void initPlayer();
