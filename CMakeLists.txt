@@ -25,12 +25,14 @@ set(game_source
         src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h
         src/World/Objects/BackgroundObject.cpp src/World/Objects/BackgroundObject.h
         src/Window/Camera.cpp src/Window/Camera.h
+        src/System/Quadtree.h
         src/System/Layer/BackgroundLayer.cpp src/System/Layer/BackgroundLayer.h
         src/System/Layer/Layer.h
         src/World/BuildingBlocks/Chunk.cpp src/World/BuildingBlocks/Chunk.h
         src/System/Square2D.cpp src/System/Square2D.h
         src/World/BuildingBlocks/Tile.cpp src/World/BuildingBlocks/Tile.h
-        src/World/Objects/Marker.cpp src/World/Objects/Marker.h)
+        src/World/Objects/Marker.cpp src/World/Objects/Marker.h
+        )
 
 add_executable(
         turbo-octo-waffle-the-game ${game_source}
