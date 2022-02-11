@@ -7,9 +7,13 @@ class Square2D {
 public:
     explicit Square2D();
     Square2D(Vector2D& corner, float width, float height);
+    Square2D(float x, float y, float w, float h);
 
+    Vector2D& getCornerSquare() const;
     float getCornerX();
     float getCornerY();
+    float getCornerX() const;
+    float getCornerY() const;
 
     void setCorner(Vector2D& corner);
     void setCornerX(float cornerX);
