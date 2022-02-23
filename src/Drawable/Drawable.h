@@ -24,7 +24,7 @@ private:
     unsigned numberOfFrames;
 
     void updateFrameCnt();
-    void prepareDrawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
+    void prepareDrawable(const char* id, const char* fileName, int widthOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
     SDL_Rect prepareFrame(Vector2D* position, unsigned scale);
 
     void renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect* pD, bool flip, double angle = 0.0);

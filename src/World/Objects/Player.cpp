@@ -35,6 +35,7 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
 void Player::draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, long delta) {
     bool nextFrame = false;
 
+    // Todo: better animation at this point
     this->interFrameTime += delta;
     if(this->interFrameTime >= 500) {
         nextFrame = true;

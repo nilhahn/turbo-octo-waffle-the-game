@@ -41,11 +41,11 @@ void Drawable::updateFrameCnt() {
     }
 }
 
-void Drawable::prepareDrawable(const char *id, const char *fileName, int widhtOfFrame, int heightOfFrame,
+void Drawable::prepareDrawable(const char *id, const char *fileName, int widthOfFrame, int heightOfFrame,
                                unsigned int numberOfFrames) {
     this->id = id;
     this->file = fileName;
-    this->encapsulatingRect.w = widhtOfFrame;
+    this->encapsulatingRect.w = widthOfFrame;
     this->encapsulatingRect.h = heightOfFrame;
     this->currentFrame = 0;
     this->numberOfFrames = numberOfFrames;
