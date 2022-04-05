@@ -57,49 +57,63 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
                            const Vector2D *position = nullptr) {
     if (this->chunks != nullptr) {
         Square2D cameraRect = camera.getBoundingRect();
-        Chunk ***leftChunk = this->chunks->find(cameraRect);
+        Chunk ***leftChunk = nullptr;
+        Chunk ***rightChunk = nullptr;
+        Chunk ***leftBottomChunk = nullptr;
+        Chunk ***rightBottomChunk = nullptr;
+        float loopMod = 0;
 
-        if (leftChunk != nullptr) {
+        while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr ||
+               rightBottomChunk == nullptr) {
+
+            leftChunk = this->chunks->find(cameraRect);
+            rightChunk = this->chunks->find(this->getRectWithUpperRightBase(cameraRect));
+            leftBottomChunk = this->chunks->find(this->getRectWithLowerLeftBase(cameraRect));
+            rightBottomChunk = this->chunks->find(this->getRectWithLowerRightBase(cameraRect));
+
+            if (leftChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(cameraRect, -1.f , -1.f + loopMod);
+                std::cout << "upper left was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem, "GRASSLAND_01");
+            }
+
+            if (rightChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithUpperRightBase(cameraRect), 1.f - loopMod, -1.f);
+                std::cout << "upper right was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem, "GRASSLAND_01");
+            }
+
+            if (leftBottomChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithLowerLeftBase(cameraRect), -1.f + loopMod, 1.f);
+                std::cout << "lower left was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem, "GRASSLAND_01");
+            }
+
+            if (rightBottomChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithLowerRightBase(cameraRect), 1.f, 1.f - loopMod);
+                std::cout << "lower right was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem, "GRASSLAND_01");
+            }
+            loopMod = 1.f;
+        }
+
+        if (leftChunk != rightChunk && leftChunk != leftBottomChunk) {
             this->drawChunk(*leftChunk, textureManager, camera, renderer);
-        } else {
-            Vector2D start = this->determineNextChunkStart(cameraRect, -1.f, -1.f);
-            std::cout << "upper left was null; next will be added at x " << start.getX() << " y" << start.getY()
-                      << std::endl;
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
         }
 
-        Chunk ***rightChunk = this->chunks->find(this->getRectWithUpperRightBase(cameraRect));
-
-        if (rightChunk != nullptr && leftChunk != rightChunk) {
+        if (rightChunk != rightBottomChunk) {
             this->drawChunk(*rightChunk, textureManager, camera, renderer);
-        } else if (leftChunk != rightChunk || rightChunk == nullptr) {
-            Vector2D start = this->determineNextChunkStart(this->getRectWithUpperRightBase(cameraRect), 1.f, -1.f);
-            std::cout << "upper right was null; next will be added at x " << start.getX() << " y" << start.getY()
-                      << std::endl;
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
         }
 
-        Chunk ***leftBottomChunk = this->chunks->find(this->getRectWithLowerLeftBase(cameraRect));
-
-        if (leftBottomChunk != nullptr) {
+        if (leftBottomChunk != rightBottomChunk) {
             this->drawChunk(*leftBottomChunk, textureManager, camera, renderer);
-        } else {
-            Vector2D start = this->determineNextChunkStart(this->getRectWithLowerLeftBase(cameraRect), -1.f, 1.f);
-            std::cout << "lower left was null; next will be added at x " << start.getX() << " y" << start.getY()
-                      << std::endl;
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
         }
 
-        Chunk ***rightBottomChunk = this->chunks->find(this->getRectWithLowerRightBase(cameraRect));
-
-        if (rightBottomChunk) {
-            this->drawChunk(*rightBottomChunk, textureManager, camera, renderer);
-        } else {
-            Vector2D start = this->determineNextChunkStart(this->getRectWithLowerRightBase(cameraRect), 1.f, 1.f);
-            std::cout << "lower right was null; next will be added at x " << start.getX() << " y" << start.getY()
-                      << std::endl;
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
-        }
+        this->drawChunk(*rightBottomChunk, textureManager, camera, renderer);
     }
 }
 
