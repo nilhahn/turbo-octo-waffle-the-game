@@ -26,6 +26,7 @@ public:
 
 private:
     static constexpr int chunkElem = 32;
+    float quadrantModUpperRight;
 
     void createNewChunk(Vector2D &start, int elements, std::string identifier);
 
@@ -33,16 +34,30 @@ private:
     //std::map<Square2D, Chunk**> chunks;
     Quadtree<Chunk **> *chunks;
 
-    void
-    drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
+    void drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
 
     // Vector2D &getNextPosition(Square2D &square2D);
     inline Vector2D determineNextChunkStart(Square2D square2D, float quadrantX, float quadrantY) {
         int multipleX = (static_cast<int>(std::abs(square2D.getCornerX())) / 2048);
-        float nextX = static_cast<float>(multipleX + 1) * quadrantX * 2048.f;
-
         int multipleY = (static_cast<int>(std::abs(square2D.getCornerY())) / 2048);
-        float nextY = static_cast<float>(multipleY + 1) * quadrantY * 2048.f;
+        int quadrantModifierX = 0;
+        int quadrantModifierY = 0;
+
+        if(quadrantX == -1 && quadrantY == -1) {
+            quadrantModifierX = 1;
+            quadrantModifierY = 1;
+        } else if(quadrantX == 1 && quadrantY == -1) {
+            quadrantModifierX = 0;
+            quadrantModifierY = 1;
+        } else if(quadrantX == -1 && quadrantY == 1) {
+            quadrantModifierX = 1;
+            quadrantModifierY = 0;
+        } else if(quadrantX == 1 && quadrantY == 1) {
+            // do nothing
+        }
+
+        float nextX = static_cast<float>(multipleX + quadrantModifierX) * quadrantX * 2048.f;
+        float nextY = static_cast<float>(multipleY + quadrantModifierY) * quadrantY * 2048.f;
 
         return {nextX, nextY};
     }
