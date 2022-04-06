@@ -13,6 +13,8 @@
 #include "../../World/InitalizationMapper.h"
 #include "../../World/BuildingBlocks/Chunk.h"
 
+#include <random>
+
 class BackgroundLayer : public Layer {
 public:
     BackgroundLayer();
@@ -26,12 +28,12 @@ public:
 
 private:
     static constexpr int chunkElem = 32;
-    float quadrantModUpperRight;
+    std::uniform_int_distribution<int> dist;
+    std::mt19937 mt;
 
-    void createNewChunk(Vector2D &start, int elements, std::string identifier);
+    void createNewChunk(Vector2D &start, int elements);
 
     std::map<std::string, std::unique_ptr<WorldObject> > background;
-    //std::map<Square2D, Chunk**> chunks;
     Quadtree<Chunk **> *chunks;
 
     void drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
