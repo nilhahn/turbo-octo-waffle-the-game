@@ -18,7 +18,6 @@ TextureManager::TextureManager(const std::string& baseResourcePath) {
     this->resourcePath = baseResourcePath;
 }
 
-
 SDL_Texture *TextureManager::getTexture(const char* id) {
     if(this->textureContainer.find(id) == this->textureContainer.end()) {
         return nullptr;

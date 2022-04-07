@@ -65,7 +65,6 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
         Chunk ***rightBottomChunk = nullptr;
 
         do {
-
             leftChunk = this->chunks->find(cameraRect);
             rightChunk = this->chunks->find(this->getRectWithUpperRightBase(cameraRect));
             leftBottomChunk = this->chunks->find(this->getRectWithLowerLeftBase(cameraRect));
