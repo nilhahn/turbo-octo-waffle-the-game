@@ -19,6 +19,9 @@ public:
     ~Game() = default;
 
     void run();
+
+    void configure(std::string& configFilePath);
+
 private:
     bool init();
     void render(long delta);

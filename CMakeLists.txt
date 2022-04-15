@@ -25,6 +25,7 @@ set(game_source
         src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h
         src/World/Objects/BackgroundObject.cpp src/World/Objects/BackgroundObject.h
         src/Window/Camera.cpp src/Window/Camera.h
+        src/System/Configuration/File/FileReader.cpp src/System/Configuration/File/FileReader.h
         src/System/Quadtree.h
         src/System/Layer/BackgroundLayer.cpp src/System/Layer/BackgroundLayer.h
         src/System/Layer/Layer.h
@@ -32,7 +33,7 @@ set(game_source
         src/System/Square2D.cpp src/System/Square2D.h
         src/World/BuildingBlocks/Tile.cpp src/World/BuildingBlocks/Tile.h
         src/World/Objects/Marker.cpp src/World/Objects/Marker.h
-        )
+        src/System/Configuration/SystemConfiguration.cpp src/System/Configuration/SystemConfiguration.h src/System/Configuration/Configuration.cpp src/System/Configuration/Configuration.h src/System/Configuration/LevelConfiguration.cpp src/System/Configuration/LevelConfiguration.h)
 
 add_executable(
         turbo-octo-waffle-the-game ${game_source}

@@ -200,4 +200,8 @@ void Game::initMarker() {
 
 void Game::update(long delta) {}
 
+void Game::configure(std::string& configFilePath) {
+
+}
+
 
