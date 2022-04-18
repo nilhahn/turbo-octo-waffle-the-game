@@ -3,11 +3,8 @@
 
 #include <iostream>
 
-BackgroundLayer::BackgroundLayer() : dist(1, std::nextafter(0, 3)) {
+BackgroundLayer::BackgroundLayer(): distribution(0, 2) {
     this->chunks = nullptr;
-
-    std::random_device rd;
-    this->mt = std::mt19937(rd());
 }
 
 BackgroundLayer::~BackgroundLayer() {
@@ -132,7 +129,8 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
             SDL_Rect dimension = {.x = x, .y = y, .w = 64, .h = 64};
 
             chunk[idx][j].setDimension(dimension);
-            rand = this->dist(mt) % 3;
+            //rand = 0; //(*this->distribution)(*mt) % 3 // this section doesn't work on linux -> sigsegv;
+            rand = this->distribution(rd);
             if (rand == 0) {
                 grassland = "GRASSLAND_00";
             } else if (rand == 1) {
