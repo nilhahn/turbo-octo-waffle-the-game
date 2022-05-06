@@ -9,11 +9,13 @@
  * Main entry point
  * @return -
  */
-int main()
+int main(int argc, char** argv)
 {
-    std::cout << Resource::getResourcePath() << std::endl;
+    std::string defaultConfigPath = "../cnfg";
+    std::cout << Resource::getResourcePath() << " argc: " <<  argc <<  std::endl;
 
     Game game;
+    game.configure(defaultConfigPath);
     game.run();
 
     return 0;

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-BackgroundLayer::BackgroundLayer() {
+BackgroundLayer::BackgroundLayer(): distribution(0, 2) {
     this->chunks = nullptr;
 }
 
@@ -17,80 +17,111 @@ BackgroundLayer::~BackgroundLayer() {
 }
 
 void BackgroundLayer::init() {
-    std::string defaultTile = "GRASSLAND_00";
     InitalizationMapper initDefault;
+    InitalizationMapper initGrassland01;
+    InitalizationMapper initGrassland02;
 
-    initDefault.setObjectId(defaultTile.data());
+    initDefault.setObjectId("GRASSLAND_00");
+    initGrassland01.setObjectId("GRASSLAND_01");
+    initGrassland02.setObjectId("GRASSLAND_02");
 
-    auto drawable = new Drawable("Grassland", "Grassland.png", 0, 0, 64, 64, 1);
+    auto drawable00 = new Drawable("Grassland", "Grassland.png", 0, 0, 64, 64, 1);
+    auto drawable01 = new Drawable("Grassland_01", "Grassland.png", 64, 64, 64, 64, 1);
+    auto drawable02 = new Drawable("Grassland_01", "Grassland.png", 64, 0, 64, 64, 1);
 
-    initDefault.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable);
+    initDefault.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable00);
     initDefault.setInitalState(WorldObject::ObjectState::IDLE);
 
-    InitalizationMapper init;
+    initGrassland01.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable01);
+    initGrassland01.setInitalState(WorldObject::ObjectState::IDLE);
 
-    init.setObjectId("GRASSLAND_01");
-
-    auto drawable01 = new Drawable("Grassland_01", "Grassland.png", 64, 64, 64, 64, 1);
-
-    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable01);
-    init.setInitalState(WorldObject::ObjectState::IDLE);
+    initGrassland02.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable02);
+    initGrassland02.setInitalState(WorldObject::ObjectState::IDLE);
 
     Vector2D start(0.f, 0.f);
-    this->createNewChunk(start, BackgroundLayer::chunkElem, defaultTile);
-
-    Vector2D second(-2048.f, 0.f);
-    this->createNewChunk(second, BackgroundLayer::chunkElem, defaultTile);
+    this->createNewChunk(start, BackgroundLayer::chunkElem);
 
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_00",
                                                                                   std::make_unique<BackgroundObject>(
                                                                                           &initDefault)));
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_01",
                                                                                   std::make_unique<BackgroundObject>(
-                                                                                          &init)));
+                                                                                          &initGrassland01)));
+    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_02",
+                                                                                  std::make_unique<BackgroundObject>(
+                                                                                          &initGrassland02)));
 }
 
 void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
                            const Vector2D *position = nullptr) {
     if (this->chunks != nullptr) {
         Square2D cameraRect = camera.getBoundingRect();
-        Chunk ***leftChunk = this->chunks->find(cameraRect);
-        Chunk ***rightChunk = this->chunks->find(this->getRectWithUpperRightBase(cameraRect));
-        Chunk ***leftBottomChunk = this->chunks->find(this->getRectWithLowerLeftBase(cameraRect));
-        Chunk ***rightBottomChunk = this->chunks->find(this->getRectWithLowerRightBase(cameraRect));
+        Chunk ***leftChunk = nullptr;
+        Chunk ***rightChunk = nullptr;
+        Chunk ***leftBottomChunk = nullptr;
+        Chunk ***rightBottomChunk = nullptr;
 
-        if (leftChunk != nullptr) {
+        do {
+            leftChunk = this->chunks->find(cameraRect);
+            rightChunk = this->chunks->find(this->getRectWithUpperRightBase(cameraRect));
+            leftBottomChunk = this->chunks->find(this->getRectWithLowerLeftBase(cameraRect));
+            rightBottomChunk = this->chunks->find(this->getRectWithLowerRightBase(cameraRect));
+
+            if (leftChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(cameraRect, -1.f, -1.f);
+                std::cout << "upper left was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem);
+            }
+
+            if (rightChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithUpperRightBase(cameraRect),
+                                                               1.f, -1.f);
+                std::cout << "upper right was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem);
+            }
+
+            if (leftBottomChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithLowerLeftBase(cameraRect),
+                                                               -1.f, 1.f);
+                std::cout << "lower left was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem);
+            }
+
+            if (rightBottomChunk == nullptr) {
+                Vector2D start = this->determineNextChunkStart(this->getRectWithLowerRightBase(cameraRect), 1.f, 1.f);
+                std::cout << "lower right was null; next will be added at x " << start.getX() << " y " << start.getY()
+                          << std::endl;
+                this->createNewChunk(start, chunkElem);
+            }
+        } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr || rightBottomChunk == nullptr);
+
+        if (leftChunk != rightChunk && leftChunk != leftBottomChunk) {
             this->drawChunk(*leftChunk, textureManager, camera, renderer);
-        } else {
-            Vector2D start = this->determineNextChunkStart(cameraRect, -1.f, -1.f);
-            std::cout << "upper left was null; next will be added at x " << start.getX() << " y" << start.getY() << std::endl;
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
         }
 
-        if (rightChunk != nullptr && leftChunk != rightChunk) {
-                this->drawChunk(*rightChunk, textureManager, camera, renderer);
-        } else if (leftChunk != rightChunk) {
-            Vector2D start = this->determineNextChunkStart(cameraRect, 1.f, -1.f);
-            this->createNewChunk(start, chunkElem, "GRASSLAND_01");
+        if (rightChunk != rightBottomChunk) {
+            this->drawChunk(*rightChunk, textureManager, camera, renderer);
         }
 
-        if (leftBottomChunk != nullptr && leftBottomChunk != leftChunk && leftBottomChunk != rightChunk) {
+        if (leftBottomChunk != rightBottomChunk) {
             this->drawChunk(*leftBottomChunk, textureManager, camera, renderer);
         }
 
-        if (rightBottomChunk != nullptr && rightBottomChunk != leftBottomChunk && rightBottomChunk != leftChunk &&
-            rightBottomChunk != rightChunk) {
-            this->drawChunk(*rightBottomChunk, textureManager, camera, renderer);
-        }
+        this->drawChunk(*rightBottomChunk, textureManager, camera, renderer);
     }
 }
 
-void BackgroundLayer::createNewChunk(Vector2D &start, int elements, std::string identifier) {
+void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
     int initalX = static_cast<int>(start.getX());
     int x = initalX;
     int y = static_cast<int>(start.getY());
 
     auto chunk = new Chunk *[elements];
+    int rand = 0;
+    std::string grassland;
 
     for (int idx = 0; idx < elements; idx++) {
         chunk[idx] = new Chunk[elements];
@@ -98,7 +129,18 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements, std::string 
             SDL_Rect dimension = {.x = x, .y = y, .w = 64, .h = 64};
 
             chunk[idx][j].setDimension(dimension);
-            chunk[idx][j].setIdentifier(identifier);
+            //rand = 0; //(*this->distribution)(*mt) % 3 // this section doesn't work on linux -> sigsegv;
+            rand = this->distribution(rd);
+            if (rand == 0) {
+                grassland = "GRASSLAND_00";
+            } else if (rand == 1) {
+                grassland = "GRASSLAND_01";
+            } else {
+                grassland = "GRASSLAND_02";
+            }
+
+            chunk[idx][j].setIdentifier(grassland);
+
             x += 64;
         }
         x = initalX;
@@ -130,7 +172,3 @@ void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager,
         }
     }
 }
-
-/*Vector2D &BackgroundLayer::getNextPosition(Square2D &square2D) {
-    return ;
-}*/

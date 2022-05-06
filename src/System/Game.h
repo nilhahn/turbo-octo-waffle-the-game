@@ -24,6 +24,9 @@ public:
     ~Game() = default;
 
     void run();
+
+    void configure(std::string& configFilePath);
+
 private:
     bool init();
     void render(long delta);
@@ -52,6 +55,8 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
 
     void update(long delta);
+
+    void initMage();
 };
 
 

@@ -7,6 +7,7 @@
 
 #define PLAYER_ID "player"
 #define SKELETON_ID "skeleton"
+#define MAGE_ID "mage"
 #define DEBUG_MARKER_ID "__marker__"
 
 Game::Game():FPS(60) {
@@ -31,6 +32,7 @@ bool Game::init() {
     this->initPlayer();
     this->initMarker();
     this->initMonster(0);
+    this->initMonster(1);
 
     this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
     return this->running;
@@ -158,6 +160,8 @@ void Game::quit(const char* reason) {
 void Game::initMonster(int monster) {
     if(monster == 0) {
         this->initSkeleton();
+    } else if(monster == 1) {
+        this->initMage();
     }
 }
 
@@ -182,6 +186,28 @@ void Game::initSkeleton() {
     this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(), std::make_unique<Skeleton>(&init)));
 }
 
+
+void Game::initMage() {
+    InitalizationMapper init;
+
+    std::string mageId = MAGE_ID;
+
+    init.setObjectId(mageId.data());
+    init.setInitalPosition(Vector2D(64,64));
+
+    // TODO: initialisation should be done via file input
+    auto idleDrawable = new Drawable("Mage_idle","Mage_Base_Idle.png",17,19,1 );
+
+    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
+    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
+    init.setInitalState(WorldObject::ObjectState::IDLE);
+
+    this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(mageId.data(), std::make_unique<Skeleton>(&init)));
+}
+
 void Game::initMarker() {
     InitalizationMapper init;
 
@@ -199,5 +225,9 @@ void Game::initMarker() {
 }
 
 void Game::update(long delta) {}
+
+void Game::configure(std::string& configFilePath) {
+
+}
 
 
