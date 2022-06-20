@@ -5,5 +5,4 @@ class Configuration {
 
 };
 
-
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_CONFIGURATION_H

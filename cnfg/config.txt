@@ -1,8 +1,0 @@
-configs
-    maps
-       level
-        id 0
-        file ./level-0.txt
-       level
-        id 1
-        file ./level-1.txt

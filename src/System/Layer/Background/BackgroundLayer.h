@@ -6,12 +6,12 @@
 #include <memory>
 #include <math.h>
 
-#include "Layer.h"
+#include "../Layer.h"
 
-#include "../Quadtree.h"
-#include "../../World/WorldObject.h"
-#include "../../World/InitalizationMapper.h"
-#include "../../World/BuildingBlocks/Chunk.h"
+#include "../../Quadtree.h"
+#include "../../../World/WorldObject.h"
+#include "../../../World/InitalizationMapper.h"
+#include "../../../World/BuildingBlocks/Chunk.h"
 
 #include <random>
 
@@ -27,7 +27,7 @@ public:
               Vector2D const *position) override;
 
 private:
-    static constexpr int chunkElem = 32;
+    static constexpr int chunkElem = 10;
     std::uniform_int_distribution<int> dist;
     std::mt19937 mt;
 
@@ -36,30 +36,24 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > background;
     Quadtree<Chunk **> *chunks;
 
-    void drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
+    void
+    drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
 
     // Vector2D &getNextPosition(Square2D &square2D);
-    inline Vector2D determineNextChunkStart(Square2D square2D, float quadrantX, float quadrantY) {
-        int multipleX = (static_cast<int>(std::abs(square2D.getCornerX())) / 2048);
-        int multipleY = (static_cast<int>(std::abs(square2D.getCornerY())) / 2048);
-        int quadrantModifierX = 0;
-        int quadrantModifierY = 0;
+    inline Vector2D determineNextChunkStart(Square2D& square2D, float quadrantX, float quadrantY) {
+        int dimension = (BackgroundLayer::chunkElem * 64);
+        int cornerX = static_cast<int>(std::abs(square2D.getCornerX()));
+        int cornerY = static_cast<int>(std::abs(square2D.getCornerY()));
+        int multipleX = cornerX / dimension;
+        int multipleY = cornerY / dimension;
 
-        if(quadrantX == -1 && quadrantY == -1) {
-            quadrantModifierX = 1;
-            quadrantModifierY = 1;
-        } else if(quadrantX == 1 && quadrantY == -1) {
-            quadrantModifierX = 0;
-            quadrantModifierY = 1;
-        } else if(quadrantX == -1 && quadrantY == 1) {
-            quadrantModifierX = 1;
-            quadrantModifierY = 0;
-        } else if(quadrantX == 1 && quadrantY == 1) {
-            // do nothing
-        }
+        float modifierX = quadrantX; //cornerX != 0 ? quadrantX : 0;
+        float modifierY = quadrantY; //cornerY != 0 ? quadrantY : 0;
 
-        float nextX = static_cast<float>(multipleX + quadrantModifierX) * quadrantX * 2048.f;
-        float nextY = static_cast<float>(multipleY + quadrantModifierY) * quadrantY * 2048.f;
+        float dimensionX = static_cast<float>(dimension);
+        float dimensionY = static_cast<float>(dimension);
+        float nextX = (static_cast<float>(multipleX) * dimensionX) + modifierX * dimensionX;
+        float nextY = (static_cast<float>(multipleY) * dimensionY) + modifierY * dimensionY;
 
         return {nextX, nextY};
     }
