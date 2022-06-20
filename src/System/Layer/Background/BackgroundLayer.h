@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <math.h>
+#include <random>
 
 #include "../Layer.h"
 
@@ -12,8 +13,6 @@
 #include "../../../World/WorldObject.h"
 #include "../../../World/InitalizationMapper.h"
 #include "../../../World/BuildingBlocks/Chunk.h"
-
-#include <random>
 
 class BackgroundLayer : public Layer {
 public:
@@ -29,7 +28,7 @@ public:
 private:
     static constexpr int chunkElem = 10;
     std::uniform_int_distribution<int> dist;
-    std::mt19937 mt;
+    std::random_device rd;
 
     void createNewChunk(Vector2D &start, int elements);
 

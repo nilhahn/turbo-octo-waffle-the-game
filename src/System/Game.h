@@ -49,6 +49,8 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
 
     void update(long delta);
+
+    void initMage();
 };
 
 
