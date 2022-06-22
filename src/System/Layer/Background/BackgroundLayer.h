@@ -34,27 +34,15 @@ private:
 
     std::map<std::string, std::unique_ptr<WorldObject> > background;
     Quadtree<Chunk **> *chunks;
+    Quadtree<Square2D> *surroundingChunks;
 
     void
     drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
 
     // Vector2D &getNextPosition(Square2D &square2D);
-    inline Vector2D determineNextChunkStart(Square2D& square2D, float quadrantX, float quadrantY) {
-        int dimension = (BackgroundLayer::chunkElem * 64);
-        int cornerX = static_cast<int>(std::abs(square2D.getCornerX()));
-        int cornerY = static_cast<int>(std::abs(square2D.getCornerY()));
-        int multipleX = cornerX / dimension;
-        int multipleY = cornerY / dimension;
-
-        float modifierX = quadrantX; //cornerX != 0 ? quadrantX : 0;
-        float modifierY = quadrantY; //cornerY != 0 ? quadrantY : 0;
-
-        float dimensionX = static_cast<float>(dimension);
-        float dimensionY = static_cast<float>(dimension);
-        float nextX = (static_cast<float>(multipleX) * dimensionX) + modifierX * dimensionX;
-        float nextY = (static_cast<float>(multipleY) * dimensionY) + modifierY * dimensionY;
-
-        return {nextX, nextY};
+    inline Square2D* determineNextChunkStart(Square2D &square2D, float quadrantX, float quadrantY) {
+        Square2D search = {square2D.getCornerX(), square2D.getCornerY(), 0.f, 0.f};
+        return this->surroundingChunks->find(search);
     }
 
     inline const Square2D getRectWithUpperRightBase(Square2D square2D) {
@@ -71,6 +59,8 @@ private:
         return {square2D.getCornerX() + square2D.getWidth(), square2D.getCornerY() + square2D.getHeight(),
                 square2D.getWidth(), square2D.getHeight()};
     };
+
+    void determineSurroundingChunk(Square2D &square2D, float d);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

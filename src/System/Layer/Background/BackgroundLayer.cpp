@@ -3,17 +3,17 @@
 
 #include <iostream>
 
-BackgroundLayer::BackgroundLayer(): dist(0, 2) {
+BackgroundLayer::BackgroundLayer() : dist(0, 2) {
     this->chunks = nullptr;
+    this->surroundingChunks = nullptr;
 }
 
 BackgroundLayer::~BackgroundLayer() {
-    // Delete allocated chunks
-    //for (auto const &elem: this->chunks) {
-    //    delete[] elem.second;
-    //}
-
-    //this->chunks.clear();
+    if (this->surroundingChunks != nullptr) {
+        delete this->surroundingChunks;
+        this->surroundingChunks = nullptr;
+    }
+    /* TODO: clear chunks */
 }
 
 void BackgroundLayer::init() {
@@ -61,53 +61,64 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
         Chunk ***leftBottomChunk = nullptr;
         Chunk ***rightBottomChunk = nullptr;
         Square2D nextChunkBase;
-        float cnt = 0;
 
         do {
             leftChunk = this->chunks->find(cameraRect);
 
             if (leftChunk == nullptr) {
-                Vector2D start = this->determineNextChunkStart(cameraRect, -1.f, -1.f);
-                std::cout << "upper left was null; next will be added at x " << start.getX() << " y " << start.getY()
-                          << std::endl;
-                this->createNewChunk(start, chunkElem);
+                Square2D *start = this->determineNextChunkStart(cameraRect, -1.f, -1.f);
+                if (start != nullptr) {
+                    Vector2D startVect = {start->getCornerX(), start->getCornerY()};
+                    std::cout << "upper left was null; next will be added at x " << startVect.getX() << " y "
+                              << startVect.getY()
+                              << std::endl;
+                    this->createNewChunk(startVect, chunkElem);
+                }
             }
 
             nextChunkBase = this->getRectWithUpperRightBase(cameraRect);
             rightChunk = this->chunks->find(nextChunkBase);
 
             if (rightChunk == nullptr) {
-                Vector2D start = this->determineNextChunkStart(nextChunkBase,1.f, -1.f);
-                start.setX(start.getX() - 640);
-                std::cout << "upper right was null; next will be added at x " << start.getX() << " y " << start.getY()
-                          << std::endl;
-                this->createNewChunk(start, chunkElem);
+                Square2D *start = this->determineNextChunkStart(nextChunkBase, 1.f, -1.f);
+                if (start != nullptr) {
+                    Vector2D startVect = {start->getCornerX(), start->getCornerY()};
+                    std::cout << "upper right was null; next will be added at x " << startVect.getX() << " y "
+                              << startVect.getY()
+                              << std::endl;
+                    this->createNewChunk(startVect, chunkElem);
+                }
             }
 
             nextChunkBase = this->getRectWithLowerLeftBase(cameraRect);
             leftBottomChunk = this->chunks->find(nextChunkBase);
 
             if (leftBottomChunk == nullptr) {
-                Vector2D start = this->determineNextChunkStart(nextChunkBase,-1.f, 1.f);
-                start.setY(start.getY() - 640);
-                std::cout << "lower left was null; next will be added at x " << start.getX() << " y " << start.getY()
-                          << std::endl;
-                this->createNewChunk(start, chunkElem);
+                Square2D *start = this->determineNextChunkStart(nextChunkBase, -1.f, 1.f);
+                if (start != nullptr) {
+                    Vector2D startVect = {start->getCornerX(), start->getCornerY()};
+                    std::cout << "lower left was null; next will be added at x " << startVect.getX() << " y "
+                              << startVect.getY()
+                              << std::endl;
+                    this->createNewChunk(startVect, chunkElem);
+                }
             }
 
             nextChunkBase = this->getRectWithLowerRightBase(cameraRect);
             rightBottomChunk = this->chunks->find(nextChunkBase);
 
             if (rightBottomChunk == nullptr) {
-                Vector2D start = this->determineNextChunkStart(nextChunkBase, 1.f, 1.f);
-                start.setX(start.getX() - 640);
-                start.setY(start.getY() - 640);
-                std::cout << "lower right was null; next will be added at x " << start.getX() << " y " << start.getY()
-                          << std::endl;
-                this->createNewChunk(start, chunkElem);
+                Square2D *start = this->determineNextChunkStart(nextChunkBase, 1.f, 1.f);
+                if (start != nullptr) {
+                    Vector2D startVect = {start->getCornerX(), start->getCornerY()};
+                    std::cout << "lower right was null; next will be added at x " << startVect.getX() << " y "
+                              << startVect.getY()
+                              << std::endl;
+                    this->createNewChunk(startVect, chunkElem);
+                }
             }
-            cnt++;
-        } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr || rightBottomChunk == nullptr);
+        } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr ||
+                 rightBottomChunk == nullptr);
 
         if (leftChunk != rightChunk && leftChunk != leftBottomChunk) {
             this->drawChunk(*leftChunk, textureManager, camera, renderer);
@@ -166,6 +177,8 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
     } else {
         this->chunks->insert(square2D, chunk);
     }
+
+    this->determineSurroundingChunk(square2D, dimension);
 }
 
 void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera,
@@ -181,5 +194,32 @@ void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager,
                 backgroundSprite->draw(pManager, camera, pRenderer, 0);
             }
         }
+    }
+}
+
+void BackgroundLayer::determineSurroundingChunk(Square2D &square2D, float d) {
+    Square2D left = {square2D.getCornerX() - d, square2D.getCornerY(), d, d};
+    Square2D upper = {square2D.getCornerX(), square2D.getCornerY() - d, d, d};
+    Square2D right = {square2D.getCornerX() + d, square2D.getCornerY(), d, d};
+    Square2D lower = {square2D.getCornerX(), square2D.getCornerY() + d, d, d};
+
+    if (this->surroundingChunks == nullptr) {
+        this->surroundingChunks = new Quadtree<Square2D>(left, left);
+    } else {
+        if (!this->surroundingChunks->contains(left)) {
+            this->surroundingChunks->insert(left, left);
+        }
+    }
+
+    if (!this->surroundingChunks->contains(upper)) {
+        this->surroundingChunks->insert(upper, upper);
+    }
+
+    if (!this->surroundingChunks->contains(right)) {
+        this->surroundingChunks->insert(right, right);
+    }
+
+    if (!this->surroundingChunks->contains(lower)) {
+        this->surroundingChunks->insert(lower, lower);
     }
 }

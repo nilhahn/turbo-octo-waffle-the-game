@@ -100,3 +100,7 @@ Vector2D &Square2D::getCornerSquare() const {
     return const_cast<Vector2D &>(this->corner);
 }
 
+Vector2D Square2D::getCenter() {
+    return {(this->getCornerX() + this->width) / 2.f , (this->getCornerY() + this->height) / 2.f };;
+}
+

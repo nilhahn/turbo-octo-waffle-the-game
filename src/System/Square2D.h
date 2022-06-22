@@ -10,6 +10,7 @@ public:
     Square2D(float x, float y, float w, float h);
 
     Vector2D& getCornerSquare() const;
+    Vector2D getCenter();
     float getCornerX();
     float getCornerY();
     float getCornerX() const;
