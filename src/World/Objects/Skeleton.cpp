@@ -9,6 +9,7 @@ Skeleton::Skeleton(InitalizationMapper *init) {
     WorldObject::setState(init->getInitalState());
 
     auto tex = init->getTextures();
+    this->interFrameTime = 0;
 
     for (auto &iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
@@ -56,4 +57,12 @@ Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_R
 
 Drawable *Skeleton::getDrawable() {
     return this->textures.at(this->getState()).get();
+}
+
+void Skeleton::update(long delta) {
+    this->interFrameTime += delta;
+    if (this->interFrameTime >= 500) {
+        this->getDrawable()->nextFrame();
+        this->interFrameTime = 0;
+    }
 }

@@ -8,10 +8,10 @@ Player::Player(InitalizationMapper *init) {
 
     this->health = 100;
 
-    std::map<WorldObject::ObjectState, Drawable* >* tex = init->getTextures();
+    std::map<WorldObject::ObjectState, Drawable *> *tex = init->getTextures();
     this->interFrameTime = 0;
 
-    for(auto & iter: *tex) {
+    for (auto &iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
     }
 }
@@ -32,15 +32,9 @@ WorldObject::ObjectState Player::hit(WorldObject *object) {
     return IDLE;
 }
 
-void Player::draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, long delta) {
+void
+Player::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
     bool nextFrame = false;
-
-    // Todo: better animation at this point
-    this->interFrameTime += delta;
-    if(this->interFrameTime >= 500) {
-        nextFrame = true;
-        this->interFrameTime = 0;
-    }
 
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
@@ -50,13 +44,20 @@ void Player::draw(TextureManager const* textureManager, const Camera& camera, SD
                                              nextFrame);
 }
 
-Drawable* Player::getDrawable() {
+Drawable *Player::getDrawable() {
     return this->textures.at(this->getState()).get();
 }
 
-
 void Player::setState(WorldObject::ObjectState state) {
-    if(state != this->oldState) {
+    if (state != this->oldState) {
         WorldObject::setState(state);
+    }
+}
+
+void Player::update(long delta) {
+    this->interFrameTime += delta;
+    if (this->interFrameTime >= 500) {
+        this->getDrawable()->nextFrame();
+        this->interFrameTime = 0;
     }
 }

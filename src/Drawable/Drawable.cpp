@@ -35,6 +35,10 @@ void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer 
     }
 }
 
+void Drawable::nextFrame() {
+    this->updateFrameCnt();
+}
+
 void Drawable::updateFrameCnt() {
     if(this->numberOfFrames > 1) {
         this->currentFrame = (this->currentFrame + 1) % this->numberOfFrames;
