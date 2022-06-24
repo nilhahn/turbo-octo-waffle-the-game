@@ -1,7 +1,7 @@
 #include "WorldObject.h"
 
 void WorldObject::setState(WorldObject::ObjectState state_) {
-    if(state_ != this->state) {
+    if (state_ != this->state) {
         this->state = state_;
     }
 }
@@ -47,3 +47,5 @@ void WorldObject::setId(const char *id) {
 bool WorldObject::isInStateLeftOrDown() {
     return this->state == LEFT || this->state == DOWN;
 }
+
+void WorldObject::update(long delta) {}

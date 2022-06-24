@@ -42,6 +42,8 @@ public:
 
     virtual Drawable *getDrawable() = 0;
 
+    virtual void update(long update);
+
 protected:
     bool isInStateLeftOrDown();
 

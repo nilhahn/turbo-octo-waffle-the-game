@@ -27,5 +27,4 @@ private:
     std::unique_ptr<Drawable> texture;
 };
 
-
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDOBJECT_H

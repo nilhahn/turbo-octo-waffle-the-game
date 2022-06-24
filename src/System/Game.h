@@ -10,7 +10,7 @@
 #include "../Resource/TextureManager.h"
 #include "../World/WorldObject.h"
 #include "../Window/Camera.h"
-#include "Layer/BackgroundLayer.h"
+#include "Layer/Background/BackgroundLayer.h"
 
 
 /**
