@@ -23,12 +23,12 @@ void WorldObject::setPosition(float x, float y) {
     this->position.setY(y);
 }
 
-Vector2D &WorldObject::getPositon() {
+Vector2D &WorldObject::getPosition() {
     return this->position;
 }
 
 float WorldObject::distance(WorldObject *object) {
-    return (this->getPositon() - object->getPositon()).length();
+    return (this->getPosition() - object->getPosition()).length();
 }
 
 WorldObject::WorldObject() {

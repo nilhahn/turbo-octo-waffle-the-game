@@ -21,10 +21,10 @@ void Skeleton::setState(WorldObject::ObjectState state) {
 }
 
 Vector2D Skeleton::move(Vector2D vector) {
-    return this->getPositon() += vector;
+    return this->getPosition() += vector;
 }
 
-WorldObject::ObjectState Skeleton::hit(WorldObject *object) {
+WorldObject::ObjectState Skeleton::hit(WorldObject& object) {
     return IDLE;
 }
 
@@ -47,8 +47,8 @@ Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_R
         this->updateCnt = 0;
     }
 
-    if (camera.isObjectVisible(this->getPositon(), 64., 64.)) {
-        Vector2D relPosition = this->getPositon().operator-(*camera.getCoord());
+    if (camera.isObjectVisible(this->getPosition(), 64., 64.)) {
+        Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
         this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                                  const_cast<SDL_Renderer *>(renderer), &relPosition,
                                                  this->isInStateLeftOrDown(), 2, nextFrame);

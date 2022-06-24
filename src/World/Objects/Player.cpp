@@ -17,7 +17,7 @@ Player::Player(InitalizationMapper *init) {
 }
 
 Vector2D Player::move(Vector2D vector) {
-    return this->getPositon() += vector;
+    return this->getPosition() += vector;
 }
 
 void Player::setHealth(int health_) {
@@ -28,7 +28,7 @@ int Player::getHealth() {
     return this->health;
 }
 
-WorldObject::ObjectState Player::hit(WorldObject *object) {
+WorldObject::ObjectState Player::hit(WorldObject& object) {
     return IDLE;
 }
 
@@ -38,7 +38,7 @@ Player::draw(TextureManager const *textureManager, const Camera &camera, SDL_Ren
 
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
-                                             &this->getPositon(),
+                                             &this->getPosition(),
                                              this->isInStateLeftOrDown(),
                                              2,
                                              nextFrame);

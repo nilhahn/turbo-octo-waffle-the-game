@@ -14,7 +14,7 @@ public:
 
     Vector2D move(Vector2D vector) override;
 
-    ObjectState hit(WorldObject* object) override;
+    ObjectState hit(WorldObject& object) override;
 
     void setHealth(int health_) override;
     int getHealth() override;

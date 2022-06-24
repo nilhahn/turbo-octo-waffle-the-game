@@ -9,7 +9,7 @@ FileReader::FileReader(const char *file) {
 }
 
 FileReader::~FileReader() {
-    if (this->file.is_open()) {
+    if (this->isOpen()) {
         this->file.close();
     }
 }

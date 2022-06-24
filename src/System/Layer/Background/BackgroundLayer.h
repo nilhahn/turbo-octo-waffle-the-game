@@ -39,8 +39,7 @@ private:
     void
     drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera, const SDL_Renderer *pRenderer);
 
-    // Vector2D &getNextPosition(Square2D &square2D);
-    inline Square2D* determineNextChunkStart(Square2D &square2D, float quadrantX, float quadrantY) {
+    inline Square2D* determineNextChunkStart(Square2D &square2D) {
         Square2D search = {square2D.getCornerX(), square2D.getCornerY(), 0.f, 0.f};
         return this->surroundingChunks->find(search);
     }
@@ -61,6 +60,8 @@ private:
     };
 
     void determineSurroundingChunk(Square2D &square2D, float d);
+
+    Vector2D createNewChunkAndRemoveReference(Square2D& square2D);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

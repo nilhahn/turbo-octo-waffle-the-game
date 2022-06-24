@@ -2,6 +2,7 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_VECTOR2D_H
 
 #include <cmath>
+#include <string>
 
 class Vector2D {
 public:
@@ -25,6 +26,8 @@ public:
 
     float absDistance(Vector2D& vector2D);
     void norm();
+
+    std::string toString();
 private:
     float x;
     float y;

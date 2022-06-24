@@ -8,10 +8,10 @@ BackgroundObject::BackgroundObject(InitalizationMapper *init) {
 void BackgroundObject::setState(ObjectState state) {}
 
 Vector2D BackgroundObject::move(Vector2D vector) {
-    return this->getPositon() += vector;
+    return this->getPosition() += vector;
 }
 
-WorldObject::ObjectState BackgroundObject::hit(WorldObject *object) {
+WorldObject::ObjectState BackgroundObject::hit(WorldObject &object) {
     return IDLE;
 }
 
@@ -23,7 +23,7 @@ int BackgroundObject::getHealth() {
 
 void BackgroundObject::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
                             long delta) {
-    Vector2D relPosition = this->getPositon().operator-(*camera.getCoord());
+    Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
                                              &relPosition, false, 1);

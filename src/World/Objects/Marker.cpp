@@ -12,7 +12,6 @@ Marker::Marker(InitalizationMapper *init) {
     for(auto& iter: *tex){
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
     }
-
 }
 
 void Marker::setState(WorldObject::ObjectState state) {
@@ -20,10 +19,10 @@ void Marker::setState(WorldObject::ObjectState state) {
 }
 
 Vector2D Marker::move(Vector2D vector) {
-    return this->getPositon() += vector;
+    return this->getPosition() += vector;
 }
 
-WorldObject::ObjectState Marker::hit(WorldObject *object) {
+WorldObject::ObjectState Marker::hit(WorldObject& object) {
     return WorldObject::IDLE;
 }
 
@@ -39,7 +38,7 @@ void Marker::draw(const TextureManager *textureManager, const Camera& camera, co
     this->getDrawable()->drawFrameToRenderer(
             const_cast<TextureManager*>(textureManager),
             const_cast<SDL_Renderer *>(renderer),
-            &this->getPositon(),
+            &this->getPosition(),
             this->isInStateLeftOrDown(),
             2,
             false,

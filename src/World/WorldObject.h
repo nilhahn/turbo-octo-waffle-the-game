@@ -28,11 +28,11 @@ public:
 
     virtual Vector2D move(Vector2D vector) = 0;
 
-    Vector2D &getPositon();
+    Vector2D &getPosition();
 
     float distance(WorldObject *object);
 
-    virtual ObjectState hit(WorldObject *object) = 0;
+    virtual ObjectState hit(WorldObject &object) = 0;
 
     virtual void setHealth(int health) = 0;
 
