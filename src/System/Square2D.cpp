@@ -91,6 +91,11 @@ bool Square2D::operator>(const Square2D &square) const {
     return square.isIn(this->corner);
 }
 
+bool Square2D::operator==(const Square2D &square) const {
+    return this->getCornerX() == square.getCornerX() && this->getCornerY() == square.getCornerY() &&
+           this->getLowerCornerX() == square.getLowerCornerX() && this->getLowerCornerY() == square.getLowerCornerY();
+}
+
 bool Square2D::operator()(const Square2D &squareA, const Square2D &squareB) {
     Square2D::count++;
     return squareA < squareB;
@@ -101,6 +106,6 @@ Vector2D &Square2D::getCornerSquare() const {
 }
 
 Vector2D Square2D::getCenter() {
-    return {(this->getCornerX() + this->width) / 2.f , (this->getCornerY() + this->height) / 2.f };;
+    return {(this->getCornerX() + this->width) / 2.f, (this->getCornerY() + this->height) / 2.f};
 }
 

@@ -61,7 +61,7 @@ private:
 
     void determineSurroundingChunk(Square2D &square2D, float d);
 
-    Vector2D createNewChunkAndRemoveReference(Square2D& square2D);
+    Vector2D createNewChunkStartingAt(Square2D& square2D);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

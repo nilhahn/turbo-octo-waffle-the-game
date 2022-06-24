@@ -66,10 +66,11 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
             leftChunk = this->chunks->find(cameraRect);
 
             if (leftChunk == nullptr) {
+                std::cout << "upper left was null;";
                 Square2D *start = this->determineNextChunkStart(cameraRect);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkAndRemoveReference(*start);
-                    std::cout << "upper left was null; next will be added at x " << nextChunk.toString() << std::endl;
+                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
 
@@ -77,10 +78,11 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
             rightChunk = this->chunks->find(nextChunkBase);
 
             if (rightChunk == nullptr) {
+                std::cout << "upper right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkAndRemoveReference(*start);
-                    std::cout << "upper right was null; next will be added at x " << nextChunk.toString() << std::endl;
+                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
 
@@ -88,10 +90,11 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
             leftBottomChunk = this->chunks->find(nextChunkBase);
 
             if (leftBottomChunk == nullptr) {
+                std::cout << "lower left was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkAndRemoveReference(*start);
-                    std::cout << "lower left was null; next will be added at x " << nextChunk.toString() << std::endl;
+                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
 
@@ -99,10 +102,11 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
             rightBottomChunk = this->chunks->find(nextChunkBase);
 
             if (rightBottomChunk == nullptr) {
+                std::cout << "lower right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D startVect = this->createNewChunkAndRemoveReference(*start);
-                    std::cout << "lower right was null; next will be added at x " << startVect.toString() << std::endl;
+                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
         } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr ||
@@ -212,9 +216,8 @@ void BackgroundLayer::determineSurroundingChunk(Square2D &square2D, float d) {
     }
 }
 
-Vector2D BackgroundLayer::createNewChunkAndRemoveReference(Square2D &square2D) {
+Vector2D BackgroundLayer::createNewChunkStartingAt(Square2D &square2D) {
     Vector2D chunk = {square2D.getCornerX(), square2D.getCornerY()};
     this->createNewChunk(chunk, chunkElem);
-    this->surroundingChunks->remove(square2D);
     return chunk;
 }

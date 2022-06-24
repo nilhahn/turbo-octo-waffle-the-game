@@ -38,6 +38,7 @@ public:
 
     bool operator<(const Square2D& square) const;
     bool operator>(const Square2D& square) const;
+    bool operator==(const Square2D& square) const;
     bool operator()(const Square2D& squareA, const Square2D& squareB);
     static int count;
 

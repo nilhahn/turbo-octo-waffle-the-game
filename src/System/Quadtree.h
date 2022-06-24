@@ -8,32 +8,42 @@
 template<typename V>
 class Quadtree {
 public:
-    typedef enum {NW = 0, NE, SE, SW} Quadrant;
+    typedef enum {
+        NW = 0, NE, SE, SW
+    } Quadrant;
 
-    Quadtree(Square2D& coord, V& v, Quadtree* root);
-    Quadtree(Square2D& coord, V& v);
+    Quadtree(Square2D &coord, V &v, Quadtree *root);
+
+    Quadtree(Square2D &coord, V &v);
+
     ~Quadtree();
 
-    void insert(Square2D& coord, V& v);
-    void remove(Square2D& coord);
-    bool contains(Square2D& coord);
-    V* find(Square2D const& coord);
+    void insert(Square2D &coord, V &v);
+
+    void remove(Square2D &coord);
+
+    bool contains(Square2D &coord);
+
+    V *find(Square2D const &coord);
 
     bool isRoot();
+
     bool hasChildren();
+
     int size();
+
 protected:
     static constexpr int NODES = 4;
 
     Square2D own;
 
-    Quadtree* root;
-    Quadtree* children[NODES];
+    Quadtree *root;
+    Quadtree *children[NODES];
 
     int fill{};
     V value;
 
-    Quadrant getQuadrant(Vector2D& key);
+    Quadrant getQuadrant(Vector2D &key);
 
     void initChildren();
 };
@@ -49,7 +59,7 @@ Quadtree<V>::Quadtree(Square2D &coord, V &value, Quadtree *root) {
 }
 
 template<typename V>
-Quadtree<V>::Quadtree(Square2D &coord, V& value) {
+Quadtree<V>::Quadtree(Square2D &coord, V &value) {
     this->root = nullptr;
 
     this->own = coord;
@@ -90,7 +100,7 @@ bool Quadtree<V>::contains(Square2D &coord) {
         return true;
     }
 
-    for (auto &child : this->children) {
+    for (auto &child: this->children) {
         if (child != nullptr && child->contains(coord)) {
             return true;
         }
@@ -100,15 +110,15 @@ bool Quadtree<V>::contains(Square2D &coord) {
 }
 
 template<typename V>
-V* Quadtree<V>::find(Square2D const& coord) {
+V *Quadtree<V>::find(Square2D const &coord) {
     if (this->own.isIn(coord.getCornerSquare())) {
         return &this->value;
     }
 
-    for (auto &child : this->children) {
+    for (auto &child: this->children) {
         if (child != nullptr) {
             auto element = child->find(coord);
-            if(element != nullptr) {
+            if (element != nullptr) {
                 return element;
             }
         }
@@ -177,7 +187,7 @@ int Quadtree<V>::size() {
 template<typename V>
 void Quadtree<V>::initChildren() {
     this->fill = 0;
-    for (auto &child : children) {
+    for (auto &child: children) {
         child = nullptr;
     }
 }

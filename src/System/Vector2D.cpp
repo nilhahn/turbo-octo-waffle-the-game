@@ -70,10 +70,6 @@ void Vector2D::norm() {
 }
 
 std::string Vector2D::toString() {
-    std::string str = "(x:";
-    str += this->getX();
-    str += ";y:";
-    str += this->getY();
-    str += ")";
+    std::string str = "(x:" + std::to_string(this->getX()) + ";y:" + std::to_string(this->getY()) + ")";
     return str;
 }
