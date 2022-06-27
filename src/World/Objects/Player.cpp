@@ -32,15 +32,14 @@ WorldObject::ObjectState Player::hit(WorldObject& object) {
     return IDLE;
 }
 
-void
-Player::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
+void Player::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
     bool nextFrame = false;
 
     this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                              const_cast<SDL_Renderer *>(renderer),
                                              &this->getPosition(),
                                              this->isInStateLeftOrDown(),
-                                             2,
+                                             1,
                                              nextFrame);
 }
 

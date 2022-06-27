@@ -51,7 +51,7 @@ Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_R
         Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
         this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
                                                  const_cast<SDL_Renderer *>(renderer), &relPosition,
-                                                 this->isInStateLeftOrDown(), 2, nextFrame);
+                                                 this->isInStateLeftOrDown(), 1, nextFrame);
     }
 }
 
