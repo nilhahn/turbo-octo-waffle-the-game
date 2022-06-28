@@ -8,17 +8,13 @@ class Property : public BaseProperty {
 protected:
     T value;
 public:
-    typedef enum Property_ID {
-        UNSPECIFIED = 0
-    } ID;
-
-    explicit Property(int propertyId = ID::UNSPECIFIED);
+    explicit Property(BaseProperty::ID propertyId = ID::UNSPECIFIED);
 
     T &getValue() const;
 };
 
 template<class T>
-Property<T>::Property(int propertyId): BaseProperty(propertyId) {
+Property<T>::Property(BaseProperty::ID propertyId): BaseProperty(propertyId) {
 }
 
 template<class T>

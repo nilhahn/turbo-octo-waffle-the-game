@@ -3,26 +3,28 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 #include "Property.h"
 
 class Entity {
 private:
-    std::map<int,std::unique_ptr<Property<T>> > properties;
+    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > properties;
 
 public:
     Entity();
-    Entity(const Entity& entity);
 
-    Entity(int length, BaseProperty* properties);
+    Entity(const Entity &entity);
 
-    ~Entity();
+    Entity(std::vector<BaseProperty> &properties);
 
-    void addProperty(BaseProperty* property);
+    ~Entity() = default;
 
-    bool getAllProperties(std::vector<BaseProperty>& property);
+    void addProperty(BaseProperty *property);
 
-    BaseProperty& getProperty(int id);
+    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > getAllProperties() const;
+
+    BaseProperty *getProperty(BaseProperty::ID id) const;
 
     bool isEmpty();
 };

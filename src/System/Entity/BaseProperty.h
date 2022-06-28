@@ -2,18 +2,22 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_BASEPROPERTY_H
 
 class BaseProperty {
-private:
-    unsigned id;
 public:
-    explicit BaseProperty(unsigned id = 0) : id(id) {};
+    typedef enum Property_ID {
+        UNSPECIFIED = 0
+    } ID;
+private:
+    BaseProperty::ID id;
+public:
+    explicit BaseProperty(BaseProperty::ID id = UNSPECIFIED) : id(id) {};
 
     BaseProperty(const BaseProperty &prop) {
         this->id = prop.id;
     }
 
-    virtual ~BaseProperty() {};
+    virtual ~BaseProperty() = default;
 
-    unsigned getId() const {
+    BaseProperty::ID getId() const {
         return this->id;
     }
 };
