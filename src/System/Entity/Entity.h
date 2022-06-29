@@ -14,15 +14,15 @@ private:
 public:
     Entity();
 
-    Entity(const Entity &entity);
+    Entity(const Entity &entity) = delete;
 
-    Entity(std::vector<BaseProperty> &properties);
+    Entity(std::vector<BaseProperty *> &properties);
 
     ~Entity() = default;
 
     void addProperty(BaseProperty *property);
 
-    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > getAllProperties() const;
+    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > &getAllProperties() const;
 
     BaseProperty *getProperty(BaseProperty::ID id) const;
 

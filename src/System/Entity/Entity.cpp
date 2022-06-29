@@ -8,6 +8,12 @@ Entity::Entity() {
 
 }
 
+Entity::Entity(std::vector<BaseProperty *> &properties) {
+    for (auto property: properties) {
+        this->addProperty(property);
+    }
+}
+
 void Entity::addProperty(BaseProperty *property) {
     if (property != nullptr) {
         std::unique_ptr<BaseProperty> prop(property);
@@ -15,8 +21,8 @@ void Entity::addProperty(BaseProperty *property) {
     }
 }
 
-std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > Entity::getAllProperties() const {
-    return this->properties;
+std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > &Entity::getAllProperties() const {
+    return const_cast<std::map<BaseProperty::ID, std::unique_ptr<BaseProperty>> &>(this->properties);
 }
 
 BaseProperty *Entity::getProperty(BaseProperty::ID id) const {
