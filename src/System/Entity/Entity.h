@@ -29,5 +29,4 @@ public:
     bool isEmpty();
 };
 
-
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_ENTITY_H
