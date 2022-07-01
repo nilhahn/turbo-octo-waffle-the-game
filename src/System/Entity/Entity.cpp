@@ -10,7 +10,7 @@ Entity::Entity() {
 
 void Entity::addProperty(BaseProperty *property) {
     if (property != nullptr) {
-        std::unique_ptr<BaseProperty> prop(property);
+        std::unique_ptr<BaseProperty> prop{property}; // braced initialization
         this->properties.insert(std::make_pair(property->getId(), std::move(prop)));
     }
 }
