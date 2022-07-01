@@ -4,7 +4,7 @@
 class BaseProperty {
 public:
     typedef enum Property_ID {
-        UNSPECIFIED = 0
+        UNSPECIFIED = 0, DRAWABLE=1, STATE=2, MOVEMENT=3
     } ID;
 private:
     BaseProperty::ID id;

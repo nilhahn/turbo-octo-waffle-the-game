@@ -7,8 +7,8 @@
 
 class Drawable {
 public:
-    Drawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
-    Drawable(const char* id, const char* fileName, int frameOffsetX, int frameOffsetY, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
+    Drawable(const char* id, const char* fileName, int widthOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
+    Drawable(const char* id, const char* fileName, int frameOffsetX, int frameOffsetY, int widthOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
 
     explicit Drawable(Drawable *drawable);
 
