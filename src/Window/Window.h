@@ -2,14 +2,18 @@
 #define _WINDOW_H_
 
 #include "SDL.h"
+#include "../System/Vector2D.h"
+#include "../Resource/TextureManager.h"
 #include <string>
 
 class Window {
 public:
     ~Window();
 
-    static Window* create(std::string& title, int width, int height);
+    static Window* create(std::string& title, int width, int height, std::string& texturePath);
     SDL_Renderer* getRenderer();
+    SDL_Window* getSDLWindow();
+    TextureManager* getTextureManager();
 
 private:
     Window();
@@ -17,8 +21,9 @@ private:
     static Window* window;
     SDL_Window* sdlWindow;
     SDL_Renderer* renderer;
+    TextureManager* manager;
 
-    bool init(std::string &basicString, int i, int i1);
+    bool init(std::string &title, int width, int height, std::string& texturePath);
 };
 
 

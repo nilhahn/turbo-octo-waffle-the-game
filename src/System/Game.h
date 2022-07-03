@@ -49,7 +49,6 @@ private:
 
     Window* window;
     Camera camera;
-    TextureManager* textureManager;
     BackgroundLayer background;
 
     std::map<std::string, std::unique_ptr<WorldObject> > objects;

@@ -14,7 +14,6 @@
 Game::Game() : FPS(60) {
     this->running = false;
     this->window = nullptr;
-    this->textureManager = nullptr;
 }
 
 bool Game::init() {
@@ -24,9 +23,9 @@ bool Game::init() {
     int windowHeight = 512;
     Vector2D initalCameraPos(0, 0);
 
-    this->window = Window::create(title, windowWidth, windowHeight);
+    std::string resourcePath = Resource::getResourcePath();
+    this->window = Window::create(title, windowWidth, windowHeight, resourcePath);
     this->camera.init(windowWidth, windowHeight, initalCameraPos);
-    this->textureManager = TextureManager::instance(Resource::getResourcePath());
 
     this->background.init();
 
@@ -48,11 +47,11 @@ void Game::render(long delta) {
     SDL_Renderer *renderer = this->window->getRenderer();
     SDL_RenderClear(renderer);;
 
-    this->background.draw(textureManager, this->camera, renderer, camera.getCoord());
+    this->background.draw(this->window->getTextureManager(), this->camera, renderer, camera.getCoord());
 
     for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();
-        elem->draw(this->textureManager, this->camera, this->window->getRenderer(), delta);
+        elem->draw(this->window->getTextureManager(), this->camera, this->window->getRenderer(), delta);
     }
 
     SDL_RenderPresent(renderer);
