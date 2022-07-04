@@ -13,7 +13,7 @@
 
 Game::Game() : FPS(60) {
     this->running = false;
-    this->window = nullptr;
+    this->context = nullptr;
 }
 
 bool Game::init() {
@@ -24,7 +24,9 @@ bool Game::init() {
     Vector2D initalCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
-    this->window = Window::create(title, windowWidth, windowHeight, resourcePath);
+    Window* window = Window::create(title, windowWidth, windowHeight, resourcePath);
+    this->context = new Context(window);
+
     this->camera.init(windowWidth, windowHeight, initalCameraPos);
 
     this->background.init();
@@ -36,7 +38,7 @@ bool Game::init() {
     this->initMonster(0);
     this->initMonster(1);
 
-    this->running = this->window != nullptr && this->window->getRenderer() != nullptr;
+    this->running = this->context->getWindow() != nullptr && this->context->getWindow()->getRenderer() != nullptr;
     return this->running;
 }
 
@@ -44,14 +46,15 @@ bool Game::init() {
  * draw stuff to the Window
  */
 void Game::render(long delta) {
-    SDL_Renderer *renderer = this->window->getRenderer();
+    SDL_Renderer *renderer = this->context->getWindow()->getRenderer();
+    TextureManager* textureManager = this->context->getTextureManager();
     SDL_RenderClear(renderer);;
 
-    this->background.draw(this->window->getTextureManager(), this->camera, renderer, camera.getCoord());
+    this->background.draw(textureManager, this->camera, renderer, camera.getCoord());
 
     for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();
-        elem->draw(this->window->getTextureManager(), this->camera, this->window->getRenderer(), delta);
+        elem->draw(textureManager, this->camera, renderer, delta);
     }
 
     SDL_RenderPresent(renderer);

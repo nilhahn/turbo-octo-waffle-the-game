@@ -5,8 +5,8 @@
 #include <memory>
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Context.h"
 #include "../Resource/Resource.h"
-#include "../Window/Window.h"
 #include "../Resource/TextureManager.h"
 #include "../World/WorldObject.h"
 #include "../Window/Camera.h"
@@ -47,7 +47,7 @@ private:
 
     const int FPS;
 
-    Window* window;
+    Context* context;
     Camera camera;
     BackgroundLayer background;
 

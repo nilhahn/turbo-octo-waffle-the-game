@@ -1,6 +1,8 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_BASEPROPERTY_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_BASEPROPERTY_H
 
+#include "../Context.h"
+
 class BaseProperty {
 public:
     typedef enum Property_ID {
@@ -16,6 +18,8 @@ public:
     }
 
     virtual ~BaseProperty() = default;
+
+    virtual bool update(long delta, const Context* context) = 0;
 
     BaseProperty::ID getId() const {
         return this->id;
