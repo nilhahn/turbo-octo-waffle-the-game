@@ -1,32 +1,22 @@
-//
-// Created by MHeis on 27.06.2022.
-//
-
 #include "Entity.h"
 
-Entity::Entity() {
+Entity::Entity() {}
 
+std::map<std::string, std::unique_ptr<BaseProperty> > &Entity::getAllProperties() const {
+    return const_cast<std::map<std::string, std::unique_ptr<BaseProperty> > & > (this->properties);
 }
 
-Entity::Entity(std::vector<BaseProperty *> &properties) {
-    for (auto property: properties) {
-        this->addProperty(property);
-    }
-}
-
-void Entity::addProperty(BaseProperty *property) {
+template <class T>
+void Entity::addProperty(Property<T> *property) {
     if (property != nullptr) {
         std::unique_ptr<BaseProperty> prop{property}; // braced initialization
-        this->properties.insert(std::make_pair(property->getId(), std::move(prop)));
+        this->properties.insert(std::make_pair(property->getKey(), std::move(prop)));
     }
 }
 
-std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > &Entity::getAllProperties() const {
-    return const_cast<std::map<BaseProperty::ID, std::unique_ptr<BaseProperty>> &>(this->properties);
-}
-
-BaseProperty *Entity::getProperty(BaseProperty::ID id) const {
-    auto property = properties.find(id);
+template<class T>
+const BaseProperty *Entity::getProperty() {
+    auto property = properties.find(typeid(T).name());
     if (property == properties.end()) {
         return nullptr;
     }

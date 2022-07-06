@@ -9,22 +9,22 @@
 
 class Entity {
 private:
-    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > properties;
+    std::map<std::string, std::unique_ptr<BaseProperty> > properties;
 
 public:
     Entity();
 
     Entity(const Entity &entity) = delete;
 
-    Entity(std::vector<BaseProperty *> &properties);
-
     ~Entity() = default;
 
-    void addProperty(BaseProperty *property);
+    std::map<std::string, std::unique_ptr<BaseProperty> > &getAllProperties() const;
 
-    std::map<BaseProperty::ID, std::unique_ptr<BaseProperty> > &getAllProperties() const;
+    template <class T>
+    void addProperty(Property<T> *property);
 
-    BaseProperty *getProperty(BaseProperty::ID id) const;
+    template <class T>
+    const BaseProperty *getProperty();
 
     bool isEmpty();
 };

@@ -8,18 +8,20 @@ class Property : public BaseProperty {
 protected:
     T value;
 public:
-    explicit Property(BaseProperty::ID propertyId = ID::UNSPECIFIED);
 
     T &getValue() const;
-};
 
-template<class T>
-Property<T>::Property(BaseProperty::ID propertyId): BaseProperty(propertyId) {
-}
+    const char *getKey() override;
+};
 
 template<class T>
 T &Property<T>::getValue() const {
     return this->value;
+}
+
+template<class T>
+const char *Property<T>::getKey() {
+    return typeid(T).name();
 }
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_PROPERTY_H
