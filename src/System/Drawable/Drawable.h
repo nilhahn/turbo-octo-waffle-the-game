@@ -1,5 +1,5 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_ANIMATION_H
-#define TURBO_OCTO_WAFFLE_THE_GAME_DRAWABLE_H
+#define TURBO_OCTO_WAFFLE_THE_GAME_ANIMATION_H
 
 #include <string>
 #include "../../Resource/TextureManager.h"
@@ -51,6 +51,5 @@ private:
 
     unsigned int getNumberOfFrames();
 };
-
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_ANIMATION_H
