@@ -8,7 +8,7 @@
 
 class TextureManager {
 public:
-    bool load(const char* fileName, const char* id, SDL_Renderer* renderer);
+    bool load(const char* fileName, const char* id, SDL_Renderer& renderer);
     SDL_Texture* getTexture(const char*  id);
 
     static TextureManager* instance(const std::string& baseResourcePath = "");

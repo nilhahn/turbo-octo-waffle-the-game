@@ -34,7 +34,7 @@ set(game_source
         src/World/Objects/Marker.cpp src/World/Objects/Marker.h
         src/System/Configuration/SystemConfiguration.cpp
         src/System/Configuration/SystemConfiguration.h
-        src/System/Configuration/Configuration.cpp src/System/Configuration/Configuration.h src/System/Configuration/LevelConfiguration.cpp src/System/Configuration/LevelConfiguration.h src/System/Layer/Userinterface/UserInformationLayer.cpp src/System/Layer/Userinterface/UserInformationLayer.h src/System/Entity/Entity.cpp src/System/Entity/Entity.h src/System/Entity/Property.h src/System/Entity/BaseProperty.h src/System/Controller/Controller.h src/System/Controller/PlayerController.cpp src/System/Controller/PlayerController.h src/System/Controller/Controller.cpp src/System/Context.h src/System/Context.cpp)
+        src/System/Configuration/Configuration.cpp src/System/Configuration/Configuration.h src/System/Configuration/LevelConfiguration.cpp src/System/Configuration/LevelConfiguration.h src/System/Layer/Userinterface/UserInformationLayer.cpp src/System/Layer/Userinterface/UserInformationLayer.h src/System/Entity/Entity.cpp src/System/Entity/Entity.h src/System/Entity/Property.h src/System/Entity/BaseProperty.h src/System/Controller/Controller.h src/System/Controller/PlayerController.cpp src/System/Controller/PlayerController.h src/System/Controller/Controller.cpp src/System/Context.h src/System/Context.cpp src/System/Drawable/Canvas.cpp src/System/Drawable/Canvas.h)
 
 add_executable(
         turbo-octo-waffle-the-game ${game_source}

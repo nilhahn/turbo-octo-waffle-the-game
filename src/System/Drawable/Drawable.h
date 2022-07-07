@@ -20,7 +20,9 @@ public:
 
     void nextFrame();
 
-    std::string getId();
+    std::string getId() const;
+
+    std::string getFile() const;
 
 private:
     std::string id;

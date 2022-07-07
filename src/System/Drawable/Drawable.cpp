@@ -23,7 +23,7 @@ Drawable::Drawable(Drawable *drawable) {
 
 void Drawable::drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *windowPosition, bool flip, unsigned scale, bool increment, double angle) {
     SDL_Texture* texture = textureManager->getTexture(this->id.data());
-    if(texture == nullptr && textureManager->load(this->file.data(), this->id.data(), renderer)) {
+    if(texture == nullptr && textureManager->load(this->file.data(), this->id.data(), *renderer)) {
         // Something bad happened
         // TODO: Decide what should happen here
         return;
@@ -86,7 +86,7 @@ void Drawable::scaleFrame(SDL_Rect *pRect, unsigned scale) {
     pRect->h = height;
 }
 
-std::string Drawable::getId() {
+std::string Drawable::getId() const{
     return this->id;
 }
 
@@ -108,4 +108,8 @@ unsigned int Drawable::getCurrentFrame() {
 
 unsigned int Drawable::getNumberOfFrames() {
     return this->numberOfFrames;
+}
+
+std::string Drawable::getFile() const {
+    return this->file;
 }
