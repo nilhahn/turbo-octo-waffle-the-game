@@ -9,8 +9,8 @@
 
 class Entity {
 private:
+    unsigned long entityId;
     std::map<std::string, std::unique_ptr<BaseProperty> > properties;
-
 public:
     Entity();
 
@@ -24,7 +24,9 @@ public:
     void addProperty(Property<T> *property);
 
     template <class T>
-    const BaseProperty *getProperty();
+    const T *getProperty();
+
+    unsigned long getEntityId() const;
 
     bool isEmpty();
 };

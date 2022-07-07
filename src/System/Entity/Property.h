@@ -19,6 +19,7 @@ T &Property<T>::getValue() const {
     return this->value;
 }
 
+
 template<class T>
 const char *Property<T>::getKey() {
     return typeid(T).name();

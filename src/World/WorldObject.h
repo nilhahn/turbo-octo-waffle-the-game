@@ -5,7 +5,7 @@
 #include <SDL.h>
 
 #include "../System/Vector2D.h"
-#include "../Drawable/Drawable.h"
+#include "../System/Drawable/Drawable.h"
 #include "../Window/Camera.h"
 
 class WorldObject {

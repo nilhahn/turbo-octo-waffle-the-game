@@ -6,7 +6,7 @@ std::map<std::string, std::unique_ptr<BaseProperty> > &Entity::getAllProperties(
     return const_cast<std::map<std::string, std::unique_ptr<BaseProperty> > & > (this->properties);
 }
 
-template <class T>
+template<class T>
 void Entity::addProperty(Property<T> *property) {
     if (property != nullptr) {
         std::unique_ptr<BaseProperty> prop{property}; // braced initialization
@@ -15,14 +15,18 @@ void Entity::addProperty(Property<T> *property) {
 }
 
 template<class T>
-const BaseProperty *Entity::getProperty() {
+const T *Entity::getProperty() {
     auto property = properties.find(typeid(T).name());
     if (property == properties.end()) {
         return nullptr;
     }
-    return property->second.get();
+    return ((Property<T> *) property->second.get())->getValue();
 }
 
 bool Entity::isEmpty() {
     return this->properties.empty();
+}
+
+unsigned long Entity::getEntityId() const {
+    return this->entityId;
 }
