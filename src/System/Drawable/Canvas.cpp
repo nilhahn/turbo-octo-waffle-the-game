@@ -6,17 +6,17 @@ void Canvas::draw(Context &context, const Vector2D &windowPosition,
     SDL_Renderer *renderer = context.getWindow()->getRenderer();
     SDL_Texture *texture = manager->getTexture(drawable.getId().data());
 
-    if (nullptr == texture && manager->load(drawable.getFile().data(), drawable.getId().data(), *renderer)) {
+    if (nullptr == texture && !manager->load(drawable.getFile().data(), drawable.getId().data(), *renderer)) {
         // Something bad happened
         return;
     }
-    SDL_Rect destination = this->prepareFrame(windowPosition);
-    // TODO: finish
-    this->render(texture, renderer, drawable.getFrame(delta), destination, flip, angle);
+    SDL_Rect frame = drawable.getFrame(delta);
+    SDL_Rect destination = this->prepareFrame(windowPosition, frame);
+    this->render(texture, renderer, frame, destination, flip, angle);
 }
 
-SDL_Rect Canvas::prepareFrame(const Vector2D &position) {
-    return {static_cast<int>(position.getX()), static_cast<int>(position.getY())};
+SDL_Rect Canvas::prepareFrame(const Vector2D &position, const SDL_Rect &frame) {
+    return {static_cast<int>(position.getX()), static_cast<int>(position.getY()), frame.w, frame.h};
 }
 
 void

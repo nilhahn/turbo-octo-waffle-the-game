@@ -16,7 +16,7 @@ public:
               double angle = 0.0);
 
 private:
-    inline SDL_Rect prepareFrame(const Vector2D &position);
+    inline SDL_Rect prepareFrame(const Vector2D &position, const SDL_Rect& frame);
 
     inline void render(SDL_Texture *textureManager,
                        SDL_Renderer *renderer,

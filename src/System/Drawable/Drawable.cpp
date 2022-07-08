@@ -24,12 +24,15 @@ Drawable::Drawable(Drawable *drawable) {
     this->numberOfFrames = drawable->getNumberOfFrames();
     this->delta = drawable->delta;
     this->deltaToNextFrame = drawable->deltaToNextFrame;
+    this->frameOffset = drawable->frameOffset;
 }
 
 void Drawable::prepareDrawable(const char *id, const char *fileName, int widthOfFrame, int heightOfFrame,
                                unsigned int numberOfFrames) {
     this->id = id;
     this->file = fileName;
+    this->encapsulatingRect.x = 0;
+    this->encapsulatingRect.y = 0;
     this->encapsulatingRect.w = widthOfFrame;
     this->encapsulatingRect.h = heightOfFrame;
     this->currentFrame = 0;
@@ -71,5 +74,6 @@ void Drawable::updateFrameCnt(long deltaMs) {
     this->delta += deltaMs;
     if((this->numberOfFrames > 1) && (this->delta >= this->deltaToNextFrame)) {
         this->currentFrame = (this->currentFrame + 1) % this->numberOfFrames;
+        this->delta = 0;
     }
 }
