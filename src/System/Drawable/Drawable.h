@@ -3,7 +3,6 @@
 
 #include <string>
 #include "../../Resource/TextureManager.h"
-#include "../Vector2D.h"
 
 class Drawable {
 public:
@@ -14,15 +13,11 @@ public:
 
     explicit Drawable(Drawable *drawable);
 
-    void
-    drawFrameToRenderer(TextureManager *textureManager, SDL_Renderer *renderer, Vector2D *windowPosition, bool flip,
-                        unsigned scale, bool increment = true, double angle = 0.0);
-
-    void nextFrame();
-
     std::string getId() const;
 
     std::string getFile() const;
+
+    const SDL_Rect& getFrame(long delta);
 
 private:
     std::string id;
@@ -31,23 +26,17 @@ private:
     SDL_Rect encapsulatingRect;
     int currentFrame;
     unsigned numberOfFrames;
+    long delta;
+    long deltaToNextFrame;
 
-    void updateFrameCnt();
+    void updateFrameCnt(long deltaMs);
 
     void prepareDrawable(const char *id, const char *fileName, int widthOfFrame, int heightOfFrame,
                          unsigned numberOfFrames = 1);
 
-    SDL_Rect prepareFrame(Vector2D *position, unsigned scale);
-
-    void renderFrame(SDL_Texture *pTexture, SDL_Renderer *pRenderer, SDL_Rect *pD, bool flip, double angle = 0.0);
-
-    void scaleFrame(SDL_Rect *pRect, unsigned scale);
-
     std::string getFileName();
 
     SDL_Rect getEncapsulatingRect();
-
-    SDL_Rect getFrameOffset();
 
     unsigned int getCurrentFrame();
 

@@ -1,7 +1,7 @@
 #include "Canvas.h"
 
 void Canvas::draw(Context &context, const Vector2D &windowPosition,
-                  const Drawable &drawable, bool flip, double angle) {
+                  Drawable &drawable, long delta, bool flip, double angle) {
     TextureManager *manager = context.getTextureManager();
     SDL_Renderer *renderer = context.getWindow()->getRenderer();
     SDL_Texture *texture = manager->getTexture(drawable.getId().data());
@@ -12,7 +12,7 @@ void Canvas::draw(Context &context, const Vector2D &windowPosition,
     }
     SDL_Rect destination = this->prepareFrame(windowPosition);
     // TODO: finish
-    // this->render(texture, renderer, );
+    this->render(texture, renderer, drawable.getFrame(delta), destination, flip, angle);
 }
 
 SDL_Rect Canvas::prepareFrame(const Vector2D &position) {
@@ -20,13 +20,13 @@ SDL_Rect Canvas::prepareFrame(const Vector2D &position) {
 }
 
 void
-Canvas::render(SDL_Texture &textureManager,
-               SDL_Renderer &renderer,
+Canvas::render(SDL_Texture *texture,
+               SDL_Renderer *renderer,
                const SDL_Rect &frame,
                const SDL_Rect &position,
                bool flip,
                double angle) {
-    SDL_RenderCopyEx(&renderer, &textureManager, &frame, &position, angle, nullptr,
+    SDL_RenderCopyEx(renderer, texture, &frame, &position, angle, nullptr,
                      flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 

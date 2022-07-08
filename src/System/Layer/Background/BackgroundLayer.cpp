@@ -52,8 +52,7 @@ void BackgroundLayer::init() {
                                                                                           &initGrassland02)));
 }
 
-void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer,
-                           const Vector2D *position = nullptr) {
+void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
     if (this->chunks != nullptr) {
         Square2D cameraRect = camera.getBoundingRect();
         Chunk ***leftChunk = nullptr;
@@ -74,7 +73,7 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
                 }
             }
 
-            nextChunkBase = this->getRectWithUpperRightBase(cameraRect);
+            nextChunkBase = BackgroundLayer::getRectWithUpperRightBase(cameraRect);
             rightChunk = this->chunks->find(nextChunkBase);
 
             if (rightChunk == nullptr) {
@@ -86,7 +85,7 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
                 }
             }
 
-            nextChunkBase = this->getRectWithLowerLeftBase(cameraRect);
+            nextChunkBase = BackgroundLayer::getRectWithLowerLeftBase(cameraRect);
             leftBottomChunk = this->chunks->find(nextChunkBase);
 
             if (leftBottomChunk == nullptr) {
@@ -98,7 +97,7 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
                 }
             }
 
-            nextChunkBase = this->getRectWithLowerRightBase(cameraRect);
+            nextChunkBase = BackgroundLayer::getRectWithLowerRightBase(cameraRect);
             rightBottomChunk = this->chunks->find(nextChunkBase);
 
             if (rightBottomChunk == nullptr) {
@@ -113,18 +112,18 @@ void BackgroundLayer::draw(TextureManager const *textureManager, const Camera &c
                  rightBottomChunk == nullptr);
 
         if (leftChunk != rightChunk && leftChunk != leftBottomChunk) {
-            this->drawChunk(*leftChunk, textureManager, camera, renderer);
+            this->drawChunk(*leftChunk, context, camera, canvas);
         }
 
         if (rightChunk != rightBottomChunk) {
-            this->drawChunk(*rightChunk, textureManager, camera, renderer);
+            this->drawChunk(*rightChunk, context, camera, canvas);
         }
 
         if (leftBottomChunk != rightBottomChunk) {
-            this->drawChunk(*leftBottomChunk, textureManager, camera, renderer);
+            this->drawChunk(*leftBottomChunk, context, camera, canvas);
         }
 
-        this->drawChunk(*rightBottomChunk, textureManager, camera, renderer);
+        this->drawChunk(*rightBottomChunk, context, camera, canvas);
     }
 }
 
@@ -173,8 +172,7 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
     this->determineSurroundingChunk(square2D, dimension);
 }
 
-void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager, const Camera &camera,
-                                const SDL_Renderer *pRenderer) {
+void BackgroundLayer::drawChunk(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas) {
     for (int i = 0; i < chunkElem; i++) {
         for (int j = 0; j < chunkElem; j++) {
             Vector2D chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
@@ -183,7 +181,7 @@ void BackgroundLayer::drawChunk(Chunk **&pChunk, const TextureManager *pManager,
                                        pChunk[i][j].getDimension().getHeight())) {
                 auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
                 backgroundSprite->setPosition(chunkPosition);
-                backgroundSprite->draw(pManager, camera, pRenderer, 0);
+                backgroundSprite->draw(context, camera, canvas, 0);
             }
         }
     }

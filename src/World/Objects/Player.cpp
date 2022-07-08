@@ -32,15 +32,8 @@ WorldObject::ObjectState Player::hit(WorldObject& object) {
     return IDLE;
 }
 
-void Player::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
-    bool nextFrame = false;
-
-    this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
-                                             const_cast<SDL_Renderer *>(renderer),
-                                             &this->getPosition(),
-                                             this->isInStateLeftOrDown(),
-                                             1,
-                                             nextFrame);
+void Player::draw(Context& context, const Camera& camera, Canvas& canvas, long delta) {
+    canvas.draw(context, this->getPosition(), *this->getDrawable(), delta, this->isInStateLeftOrDown());
 }
 
 Drawable *Player::getDrawable() {
@@ -55,8 +48,4 @@ void Player::setState(WorldObject::ObjectState state) {
 
 void Player::update(long delta) {
     this->interFrameTime += delta;
-    if (this->interFrameTime >= 500) {
-        this->getDrawable()->nextFrame();
-        this->interFrameTime = 0;
-    }
 }

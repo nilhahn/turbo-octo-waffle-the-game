@@ -48,6 +48,7 @@ private:
     const int FPS;
 
     Context* context;
+    Canvas canvas;
     Camera camera;
     BackgroundLayer background;
 

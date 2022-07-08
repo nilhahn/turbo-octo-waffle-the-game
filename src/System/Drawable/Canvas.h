@@ -10,15 +10,16 @@ class Canvas {
 public:
     void draw(Context &context,
               const Vector2D &windowPosition,
-              const Drawable &drawable,
-              bool flip,
+              Drawable &drawable,
+              long delta,
+              bool flip = false,
               double angle = 0.0);
 
 private:
     inline SDL_Rect prepareFrame(const Vector2D &position);
 
-    inline void render(SDL_Texture &textureManager,
-                       SDL_Renderer &renderer,
+    inline void render(SDL_Texture *textureManager,
+                       SDL_Renderer *renderer,
                        const SDL_Rect &frame,
                        const SDL_Rect &position,
                        bool flip,

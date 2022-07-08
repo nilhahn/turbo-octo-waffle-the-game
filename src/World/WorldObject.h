@@ -7,6 +7,8 @@
 #include "../System/Vector2D.h"
 #include "../System/Drawable/Drawable.h"
 #include "../Window/Camera.h"
+#include "../System/Context.h"
+#include "../System/Drawable/Canvas.h"
 
 class WorldObject {
 public:
@@ -38,7 +40,7 @@ public:
 
     virtual int getHealth() = 0;
 
-    virtual void draw(TextureManager const *textureManager, const Camera& camera,  SDL_Renderer const *renderer, long delta) = 0;
+    virtual void draw(Context& context, const Camera& camera, Canvas& canvas, long delta) = 0;
 
     virtual Drawable *getDrawable() = 0;
 

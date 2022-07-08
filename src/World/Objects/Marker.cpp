@@ -9,7 +9,7 @@ Marker::Marker(InitalizationMapper *init) {
 
     auto tex = init->getTextures();
 
-    for(auto& iter: *tex){
+    for (auto &iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
     }
 }
@@ -22,7 +22,7 @@ Vector2D Marker::move(Vector2D vector) {
     return this->getPosition() += vector;
 }
 
-WorldObject::ObjectState Marker::hit(WorldObject& object) {
+WorldObject::ObjectState Marker::hit(WorldObject &object) {
     return WorldObject::IDLE;
 }
 
@@ -34,15 +34,9 @@ int Marker::getHealth() {
     return 0;
 }
 
-void Marker::draw(const TextureManager *textureManager, const Camera& camera, const SDL_Renderer *renderer, long delta) {
-    this->getDrawable()->drawFrameToRenderer(
-            const_cast<TextureManager*>(textureManager),
-            const_cast<SDL_Renderer *>(renderer),
-            &this->getPosition(),
-            this->isInStateLeftOrDown(),
-            2,
-            false,
-            this->getRotation());
+void Marker::draw(Context &context, const Camera &camera, Canvas &canvas, long delta) {
+    canvas.draw(context, this->getPosition(), *this->getDrawable(), delta, this->isInStateLeftOrDown(),
+                this->getRotation());
 }
 
 Drawable *Marker::getDrawable() {
@@ -50,7 +44,7 @@ Drawable *Marker::getDrawable() {
 }
 
 double Marker::getRotation() {
-    switch(this->followState) {
+    switch (this->followState) {
         case WorldObject::RIGHT:
             return 0.0;
         case WorldObject::UP:

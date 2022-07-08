@@ -24,7 +24,7 @@ bool Game::init() {
     Vector2D initalCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
-    Window* window = Window::create(title, windowWidth, windowHeight, resourcePath);
+    Window *window = Window::create(title, windowWidth, windowHeight, resourcePath);
     this->context = new Context(window);
 
     this->camera.init(windowWidth, windowHeight, initalCameraPos);
@@ -47,14 +47,13 @@ bool Game::init() {
  */
 void Game::render(long delta) {
     SDL_Renderer *renderer = this->context->getWindow()->getRenderer();
-    TextureManager* textureManager = this->context->getTextureManager();
     SDL_RenderClear(renderer);;
 
-    this->background.draw(textureManager, this->camera, renderer, camera.getCoord());
+    this->background.draw(*context, camera, canvas);
 
     for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();
-        elem->draw(textureManager, this->camera, renderer, delta);
+        elem->draw(*context, this->camera, this->canvas, delta);
     }
 
     SDL_RenderPresent(renderer);

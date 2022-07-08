@@ -21,12 +21,12 @@ public:
     void setHealth(int health_) override;
     int getHealth() override;
 
-    void draw(TextureManager const* textureManager, const Camera& camera, SDL_Renderer const* renderer, long delta) override;
+    void draw(Context &context, const Camera &camera, Canvas &canvas, long delta) override;
     void update(long delta) override;
 
     Drawable* getDrawable() override;
 private:
-
+    double rotation;
     int health;
     int updateCnt;
     long interFrameTime;

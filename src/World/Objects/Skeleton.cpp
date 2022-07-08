@@ -1,7 +1,4 @@
 #include "Skeleton.h"
-#include <iostream>
-
-#include <iostream>
 
 Skeleton::Skeleton(InitalizationMapper *init) {
     this->setPosition(init->getPosition());
@@ -14,6 +11,7 @@ Skeleton::Skeleton(InitalizationMapper *init) {
     for (auto &iter: *tex) {
         this->textures.insert({iter.first, std::make_unique<Drawable>(iter.second)});
     }
+    rotation = 0.0;
 }
 
 void Skeleton::setState(WorldObject::ObjectState state) {
@@ -37,21 +35,10 @@ int Skeleton::getHealth() {
 }
 
 void
-Skeleton::draw(TextureManager const *textureManager, const Camera &camera, SDL_Renderer const *renderer, long delta) {
-    bool nextFrame = false;
-
-    this->updateCnt++;
-
-    if (this->updateCnt >= 1000) {
-        nextFrame = true;
-        this->updateCnt = 0;
-    }
-
+Skeleton::draw(Context &context, const Camera &camera, Canvas &canvas, long delta) {
     if (camera.isObjectVisible(this->getPosition(), 64., 64.)) {
         Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
-        this->getDrawable()->drawFrameToRenderer(const_cast<TextureManager *>(textureManager),
-                                                 const_cast<SDL_Renderer *>(renderer), &relPosition,
-                                                 this->isInStateLeftOrDown(), 1, nextFrame);
+        canvas.draw(context, relPosition, *this->getDrawable(), delta, this->isInStateLeftOrDown(), rotation);
     }
 }
 
@@ -62,7 +49,6 @@ Drawable *Skeleton::getDrawable() {
 void Skeleton::update(long delta) {
     this->interFrameTime += delta;
     if (this->interFrameTime >= 500) {
-        this->getDrawable()->nextFrame();
-        this->interFrameTime = 0;
+        rotation += 0.1;
     }
 }
