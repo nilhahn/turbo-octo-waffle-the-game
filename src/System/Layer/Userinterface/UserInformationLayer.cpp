@@ -5,7 +5,6 @@ void UserInformationLayer::init() {
 }
 
 void
-UserInformationLayer::draw(const TextureManager *textureManager, const Camera &camera, const SDL_Renderer *renderer,
-                           const Vector2D *position) {
+UserInformationLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
 
 }
