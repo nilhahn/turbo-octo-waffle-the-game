@@ -16,7 +16,7 @@ BackgroundLayer::~BackgroundLayer() {
     /* TODO: clear chunks */
 }
 
-void BackgroundLayer::init() {
+void BackgroundLayer::init(const Context &context) {
     InitalizationMapper initDefault;
     InitalizationMapper initGrassland01;
     InitalizationMapper initGrassland02;
@@ -25,9 +25,11 @@ void BackgroundLayer::init() {
     initGrassland01.setObjectId("GRASSLAND_01");
     initGrassland02.setObjectId("GRASSLAND_02");
 
-    auto drawable00 = new Drawable("Grassland", "Grassland.png", 0, 0, 64, 64, 1);
-    auto drawable01 = new Drawable("Grassland_01", "Grassland.png", 64, 64, 64, 64, 1);
-    auto drawable02 = new Drawable("Grassland_01", "Grassland.png", 64, 0, 64, 64, 1);
+    auto drawable00 = new Drawable("Grassland", 0, 0, 64, 64, 1);
+    auto drawable01 = new Drawable("Grassland", 64, 64, 64, 64, 1);
+    auto drawable02 = new Drawable("Grassland", 64, 0, 64, 64, 1);
+
+    context.getTextureManager()->addTextureAndId("Grassland", "Grassland.png");
 
     initDefault.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable00);
     initDefault.setInitalState(WorldObject::ObjectState::IDLE);

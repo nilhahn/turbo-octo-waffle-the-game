@@ -29,7 +29,7 @@ bool Game::init() {
 
     this->camera.init(windowWidth, windowHeight, initalCameraPos);
 
-    this->background.init();
+    this->background.init(*this->context);
 
     this->initPlayer();
 #ifdef DEBUG_MARKER_ID
@@ -107,7 +107,9 @@ void Game::initPlayer() {
     init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5, camera.getCenter()->getY() - 9.5));
 
     // TODO: initialisation should be done via file input
-    auto idleDrawable = new Drawable("Player_Idle", "Knight_Base_idle.png", 17, 19, 4);
+    auto idleDrawable = new Drawable("Player_Idle",  17, 19, 4);
+
+    this->context->getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
     init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
@@ -179,7 +181,9 @@ void Game::initSkeleton() {
     init.setInitalPosition(Vector2D(2, 2));
 
     // TODO: initialisation should be done via file input
-    auto idleDrawable = new Drawable("Skeleton_Idle", "Skeleton_Base.png", 17, 19, 1);
+    auto idleDrawable = new Drawable("Skeleton_Idle", 17, 19, 1);
+
+    this->context->getTextureManager()->addTextureAndId("Skeleton_Idle", "Skeleton_Base.png");
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
     init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
@@ -202,7 +206,9 @@ void Game::initMage() {
     init.setInitalPosition(Vector2D(64, 64));
 
     // TODO: initialisation should be done via file input
-    auto idleDrawable = new Drawable("Mage_idle", "Mage_Base_Idle.png", 17, 19, 4);
+    auto idleDrawable = new Drawable("Mage_idle", 17, 19, 4);
+
+    this->context->getTextureManager()->addTextureAndId("Mage_idle", "Mage_Base_Idle.png");
 
     init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
     init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);

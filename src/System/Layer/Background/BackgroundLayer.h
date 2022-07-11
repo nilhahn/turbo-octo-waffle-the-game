@@ -20,7 +20,7 @@ public:
 
     ~BackgroundLayer() override;
 
-    void init() override;
+    void init(const Context &context) override;
 
     void draw(Context &context, const Camera &camera, Canvas &canvas) override;
 

@@ -5,7 +5,7 @@
 
 class UserInformationLayer : public Layer {
 public:
-    void init() override;
+    void init(const Context& context) override;
 
     void draw(Context &context, const Camera &camera, Canvas &canvas) override;
 };

@@ -1,15 +1,16 @@
 #include "Drawable.h"
 
-Drawable::Drawable(const char* id, const char* fileName, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames) {
-    this->prepareDrawable(id, fileName, widhtOfFrame, heightOfFrame, numberOfFrames);
+Drawable::Drawable(const char *id, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames) {
+    this->prepareDrawable(id, widhtOfFrame, heightOfFrame, numberOfFrames);
     this->frameOffset.x = 0;
     this->frameOffset.y = 0;
     this->delta = 0;
     this->deltaToNextFrame = 500;
 }
 
-Drawable::Drawable(const char* id, const char* fileName, int frameOffsetX, int frameOffsetY, int widhtOfFrame, int heightOfFrame, unsigned numberOfFrames) {
-    this->prepareDrawable(id, fileName, widhtOfFrame, heightOfFrame, numberOfFrames);
+Drawable::Drawable(const char *id, int frameOffsetX, int frameOffsetY, int widhtOfFrame, int heightOfFrame,
+                   unsigned numberOfFrames) {
+    this->prepareDrawable(id, widhtOfFrame, heightOfFrame, numberOfFrames);
     this->frameOffset.x = frameOffsetX;
     this->frameOffset.y = frameOffsetY;
     this->delta = 0;
@@ -18,7 +19,6 @@ Drawable::Drawable(const char* id, const char* fileName, int frameOffsetX, int f
 
 Drawable::Drawable(Drawable *drawable) {
     this->id = drawable->getId();
-    this->file = drawable->getFileName();
     this->encapsulatingRect = drawable->getEncapsulatingRect();
     this->currentFrame = drawable->getCurrentFrame();
     this->numberOfFrames = drawable->getNumberOfFrames();
@@ -27,10 +27,9 @@ Drawable::Drawable(Drawable *drawable) {
     this->frameOffset = drawable->frameOffset;
 }
 
-void Drawable::prepareDrawable(const char *id, const char *fileName, int widthOfFrame, int heightOfFrame,
+void Drawable::prepareDrawable(const char *id, int widthOfFrame, int heightOfFrame,
                                unsigned int numberOfFrames) {
     this->id = id;
-    this->file = fileName;
     this->encapsulatingRect.x = 0;
     this->encapsulatingRect.y = 0;
     this->encapsulatingRect.w = widthOfFrame;
@@ -39,12 +38,8 @@ void Drawable::prepareDrawable(const char *id, const char *fileName, int widthOf
     this->numberOfFrames = numberOfFrames;
 }
 
-std::string Drawable::getId() const{
+std::string Drawable::getId() const {
     return this->id;
-}
-
-std::string Drawable::getFileName() {
-    return this->file;
 }
 
 SDL_Rect Drawable::getEncapsulatingRect() {
@@ -59,11 +54,7 @@ unsigned int Drawable::getNumberOfFrames() {
     return this->numberOfFrames;
 }
 
-std::string Drawable::getFile() const {
-    return this->file;
-}
-
-const SDL_Rect& Drawable::getFrame(long deltaMs) {
+const SDL_Rect &Drawable::getFrame(long deltaMs) {
     this->updateFrameCnt(deltaMs);
     this->encapsulatingRect.x = this->frameOffset.x + this->encapsulatingRect.w * this->currentFrame;
     this->encapsulatingRect.y = this->frameOffset.y;
@@ -72,7 +63,7 @@ const SDL_Rect& Drawable::getFrame(long deltaMs) {
 
 void Drawable::updateFrameCnt(long deltaMs) {
     this->delta += deltaMs;
-    if((this->numberOfFrames > 1) && (this->delta >= this->deltaToNextFrame)) {
+    if ((this->numberOfFrames > 1) && (this->delta >= this->deltaToNextFrame)) {
         this->currentFrame = (this->currentFrame + 1) % this->numberOfFrames;
         this->delta = 0;
     }

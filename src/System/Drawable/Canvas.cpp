@@ -4,9 +4,9 @@ void Canvas::draw(Context &context, const Vector2D &windowPosition,
                   Drawable &drawable, long delta, bool flip, double angle) {
     TextureManager *manager = context.getTextureManager();
     SDL_Renderer *renderer = context.getWindow()->getRenderer();
-    SDL_Texture *texture = manager->getTexture(drawable.getId().data());
+    SDL_Texture *texture = manager->loadTexture(drawable.getId().data(), *renderer);
 
-    if (nullptr == texture && !manager->load(drawable.getFile().data(), drawable.getId().data(), *renderer)) {
+    if (nullptr == texture) {
         // Something bad happened
         return;
     }
