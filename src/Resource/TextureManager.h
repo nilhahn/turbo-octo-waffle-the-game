@@ -18,6 +18,7 @@ public:
 
     static TextureManager *instance(const std::string &baseResourcePath = "");
 
+    void clear();
 private:
     explicit TextureManager(const std::string &baseResourcePath);
 

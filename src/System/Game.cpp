@@ -97,6 +97,7 @@ void Game::run() {
                 SDL_Delay(frameTime - frameTime);
             }
         }
+        this->context->getTextureManager()->clear();
     }
 }
 

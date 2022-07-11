@@ -50,3 +50,10 @@ void TextureManager::removeTexture(const std::string &id) {
     }
 }
 
+void TextureManager::clear() {
+    for (const auto &item : this->texturePath) {
+        this->removeTexture(item.first);
+    }
+    this->texturePath;
+}
+
