@@ -105,9 +105,8 @@ void Game::initPlayer() {
     InitalizationMapper init;
 
     init.setObjectId(PLAYER_ID);
-    init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5, camera.getCenter()->getY() - 9.5));
-
-    // TODO: initialisation should be done via file input
+    init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f));
+    
     auto idleDrawable = new Drawable("Player_Idle",  17, 19, 4);
 
     this->context->getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
