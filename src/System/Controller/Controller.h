@@ -12,7 +12,7 @@ public:
 
     virtual ~Controller() = default;
 
-    virtual void create(Entity &entity, unsigned objectId) = 0;
+    //virtual void create(Entity &entity, unsigned objectId) = 0;
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_CONTROLLER_H
