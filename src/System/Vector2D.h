@@ -1,36 +1,46 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_VECTOR2D_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_VECTOR2D_H
 
-#include <cmath>
-#include <string>
-
+template<typename T>
 class Vector2D {
 public:
-    Vector2D();
-    Vector2D(float x, float y);
+    Vector2D() {};
 
-    float length();
+    Vector2D(T x, T y) : x(x), y(y) {};
 
-    float getY() const;
-    float getX() const;
+    virtual T length() = 0;
 
-    void setY(float y);
-    void setX(float x);
+    T getY() const {
+        return y;
+    }
 
-    Vector2D operator* (float scalar);
-    Vector2D operator+ (const Vector2D& vector) const;
-    Vector2D operator- (const Vector2D& vector) const;
-    Vector2D& operator= (Vector2D& vector);
-    Vector2D& operator+= (Vector2D& vector);
-    Vector2D& operator-= (Vector2D& vector);
+    T getX() const {
+        return x;
+    }
 
-    float absDistance(Vector2D& vector2D);
-    void norm();
+    void setY(T& coordY) {
+        this->y = coordY;
+    }
 
-    std::string toString();
-private:
-    float x;
-    float y;
+    void setX(T& coordX) {
+        this->x = coordX;
+    }
+
+    virtual Vector2D<T> operator*(T scalar) = 0;
+    virtual Vector2D<T> operator+(const Vector2D<T> &vector) const = 0;
+    virtual Vector2D<T> operator-(const Vector2D<T> &vector) const = 0;
+    virtual Vector2D<T> &operator=(Vector2D<T> &vector) = 0;
+    virtual Vector2D<T> &operator+=(Vector2D<T> &vector) = 0;
+    virtual Vector2D<T> &operator-=(Vector2D<T> &vector) = 0;
+
+    virtual T absDistance(Vector2D<T> &vector2D) = 0;
+
+    virtual void norm() = 0;
+    virtual std::string toString() = 0;
+
+protected:
+    T x;
+    T y;
 };
 
 
