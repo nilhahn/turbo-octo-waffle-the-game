@@ -2,7 +2,7 @@
 #define _WINDOW_H_
 
 #include "SDL.h"
-#include "../System/Vector2D.h"
+#include "../System/Vector2Df.h"
 #include "../Resource/TextureManager.h"
 #include <string>
 

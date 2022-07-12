@@ -13,7 +13,7 @@ public:
 
     void setState(ObjectState state) override;
 
-    Vector2D move(Vector2D vector) override;
+    Vector2Df move(Vector2Df vector) override;
 
     ObjectState hit(WorldObject& object) override;
 

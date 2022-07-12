@@ -7,7 +7,7 @@
 
 class PlayerController : public Controller {
 public:
-    Entity* createPlayer(Context& context, Camera& camera);
+    void createEntity(Entity& entity, const Context& context, Camera& camera) override;
 };
 
 

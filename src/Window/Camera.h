@@ -2,32 +2,32 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_CAMERA_H
 
 
-#include "../System/Vector2D.h"
+#include "../System/Vector2Df.h"
 #include "../System/Square2D.h"
 
 class Camera {
 public:
     Camera();
 
-    void init(int width, int height, Vector2D &initalPosition);
+    void init(int width, int height, Vector2Df &initalPosition);
 
-    void move(Vector2D &delta);
+    void move(Vector2Df &delta);
 
     int getWidth() const;
 
     int getHeight() const;
 
-    Vector2D const *getCenter();
+    Vector2Df const *getCenter();
 
-    const Vector2D *getCoord() const;
+    const Vector2Df *getCoord() const;
 
-    bool isObjectVisible(Vector2D &vector2D, float width, float height) const;
+    bool isObjectVisible(Vector2Df &vector2D, float width, float height) const;
 
     Square2D getBoundingRect() const;
 
 private:
-    Vector2D coord;
-    Vector2D center;
+    Vector2Df coord;
+    Vector2Df center;
 
     int width;
     int height;

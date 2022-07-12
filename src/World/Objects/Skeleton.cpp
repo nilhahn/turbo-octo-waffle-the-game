@@ -18,7 +18,7 @@ void Skeleton::setState(WorldObject::ObjectState state) {
     WorldObject::setState(state);
 }
 
-Vector2D Skeleton::move(Vector2D vector) {
+Vector2Df Skeleton::move(Vector2Df vector) {
     return this->getPosition() += vector;
 }
 
@@ -37,7 +37,7 @@ int Skeleton::getHealth() {
 void
 Skeleton::draw(Context &context, const Camera &camera, Canvas &canvas, long delta) {
     if (camera.isObjectVisible(this->getPosition(), 64., 64.)) {
-        Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
+        Vector2Df relPosition = this->getPosition().operator-(*camera.getCoord());
         canvas.draw(context, relPosition, *this->getDrawable(), delta, this->isInStateLeftOrDown(), rotation);
     }
 }

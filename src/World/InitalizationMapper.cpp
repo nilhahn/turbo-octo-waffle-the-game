@@ -1,10 +1,10 @@
 #include "InitalizationMapper.h"
 
-void InitalizationMapper::setInitalPosition(Vector2D vector) {
+void InitalizationMapper::setInitalPosition(Vector2Df vector) {
     this->initalPosition = vector;
 }
 
-Vector2D &InitalizationMapper::getPosition() {
+Vector2Df &InitalizationMapper::getPosition() {
     return this->initalPosition;
 }
 

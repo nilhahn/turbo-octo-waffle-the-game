@@ -29,7 +29,7 @@ private:
     std::uniform_int_distribution<int> dist;
     std::random_device rd;
 
-    void createNewChunk(Vector2D &start, int elements);
+    void createNewChunk(Vector2Df &start, int elements);
 
     std::map<std::string, std::unique_ptr<WorldObject> > background;
     Quadtree<Chunk **> *chunks;
@@ -59,7 +59,7 @@ private:
 
     void determineSurroundingChunk(Square2D &square2D, float d);
 
-    Vector2D createNewChunkStartingAt(Square2D &square2D);
+    Vector2Df createNewChunkStartingAt(Square2D &square2D);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_BACKGROUNDLAYER_H

@@ -16,7 +16,7 @@ Player::Player(InitalizationMapper *init) {
     }
 }
 
-Vector2D Player::move(Vector2D vector) {
+Vector2Df Player::move(Vector2Df vector) {
     return this->getPosition() += vector;
 }
 

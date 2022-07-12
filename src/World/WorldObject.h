@@ -4,7 +4,7 @@
 #include <string>
 #include <SDL.h>
 
-#include "../System/Vector2D.h"
+#include "../System/Vector2Df.h"
 #include "../System/Drawable/Drawable.h"
 #include "../Window/Camera.h"
 #include "../System/Context.h"
@@ -24,13 +24,13 @@ public:
 
     ObjectState getState();
 
-    void setPosition(Vector2D &position_);
+    void setPosition(Vector2Df &position_);
 
     void setPosition(float x, float y);
 
-    virtual Vector2D move(Vector2D vector) = 0;
+    virtual Vector2Df move(Vector2Df vector) = 0;
 
-    Vector2D &getPosition();
+    Vector2Df &getPosition();
 
     float distance(WorldObject *object);
 
@@ -53,7 +53,7 @@ protected:
 
     std::string objectId;
     ObjectState state;
-    Vector2D position;
+    Vector2Df position;
     SDL_Rect hitbox;
 };
 

@@ -21,7 +21,7 @@ bool Game::init() {
 
     int windowWidth = 512;
     int windowHeight = 512;
-    Vector2D initalCameraPos(0, 0);
+    Vector2Df initalCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
     Window *window = Window::create(title, windowWidth, windowHeight, resourcePath);
@@ -105,7 +105,7 @@ void Game::initPlayer() {
     InitalizationMapper init;
 
     init.setObjectId(PLAYER_ID);
-    init.setInitalPosition(Vector2D(camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f));
+    init.setInitalPosition(Vector2Df(camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f));
     
     auto idleDrawable = new Drawable("Player_Idle",  17, 19, 4);
 
@@ -126,7 +126,7 @@ void Game::inputEvent(WorldObject *object, long deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
-    Vector2D vector;
+    Vector2Df vector;
 
     if (object->getState() != WorldObject::DEAD) {
 
@@ -178,7 +178,7 @@ void Game::initSkeleton() {
     std::string skeletonId = SKELETON_ID;
 
     init.setObjectId(skeletonId.data());
-    init.setInitalPosition(Vector2D(2, 2));
+    init.setInitalPosition(Vector2Df(2, 2));
 
     // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Skeleton_Idle", 17, 19, 1);
@@ -203,7 +203,7 @@ void Game::initMage() {
     std::string mageId = MAGE_ID;
 
     init.setObjectId(mageId.data());
-    init.setInitalPosition(Vector2D(64, 64));
+    init.setInitalPosition(Vector2Df(64, 64));
 
     // TODO: initialisation should be done via file input
     auto idleDrawable = new Drawable("Mage_idle", 17, 19, 4);

@@ -18,7 +18,7 @@ void Marker::setState(WorldObject::ObjectState state) {
     this->followState = state;
 }
 
-Vector2D Marker::move(Vector2D vector) {
+Vector2Df Marker::move(Vector2Df vector) {
     return this->getPosition() += vector;
 }
 

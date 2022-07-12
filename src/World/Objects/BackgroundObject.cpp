@@ -7,7 +7,7 @@ BackgroundObject::BackgroundObject(InitalizationMapper *init) {
 
 void BackgroundObject::setState(ObjectState state) {}
 
-Vector2D BackgroundObject::move(Vector2D vector) {
+Vector2Df BackgroundObject::move(Vector2Df vector) {
     return this->getPosition() += vector;
 }
 
@@ -22,7 +22,7 @@ int BackgroundObject::getHealth() {
 };
 
 void BackgroundObject::draw(Context& context, const Camera& camera, Canvas& canvas, long delta) {
-    Vector2D relPosition = this->getPosition().operator-(*camera.getCoord());
+    Vector2Df relPosition = this->getPosition().operator-(*camera.getCoord());
     canvas.draw(context, relPosition, *this->getDrawable(), delta);
 }
 

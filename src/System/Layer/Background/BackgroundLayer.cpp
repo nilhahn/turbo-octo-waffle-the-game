@@ -40,7 +40,7 @@ void BackgroundLayer::init(const Context &context) {
     initGrassland02.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable02);
     initGrassland02.setInitalState(WorldObject::ObjectState::IDLE);
 
-    Vector2D start(0.f, 0.f);
+    Vector2Df start(0.f, 0.f);
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
     this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_00",
@@ -70,7 +70,7 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
                 std::cout << "upper left was null;";
                 Square2D *start = this->determineNextChunkStart(cameraRect);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
                     std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
@@ -82,7 +82,7 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
                 std::cout << "upper right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
                     std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
@@ -94,7 +94,7 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
                 std::cout << "lower left was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
                     std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
@@ -106,7 +106,7 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
                 std::cout << "lower right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2D nextChunk = this->createNewChunkStartingAt(*start);
+                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
                     std::cout << "next will be added at " << nextChunk.toString() << std::endl;
                 }
             }
@@ -129,7 +129,7 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
     }
 }
 
-void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
+void BackgroundLayer::createNewChunk(Vector2Df &start, int elements) {
     int initalX = static_cast<int>(start.getX());
     int x = initalX;
     int y = static_cast<int>(start.getY());
@@ -177,8 +177,8 @@ void BackgroundLayer::createNewChunk(Vector2D &start, int elements) {
 void BackgroundLayer::drawChunk(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas) {
     for (int i = 0; i < chunkElem; i++) {
         for (int j = 0; j < chunkElem; j++) {
-            Vector2D chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
-                                      pChunk[i][j].getDimension().getCornerY()};
+            Vector2Df chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
+                                       pChunk[i][j].getDimension().getCornerY()};
             if (camera.isObjectVisible(chunkPosition, pChunk[i][j].getDimension().getWidth(),
                                        pChunk[i][j].getDimension().getHeight())) {
                 auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
@@ -216,8 +216,8 @@ void BackgroundLayer::determineSurroundingChunk(Square2D &square2D, float d) {
     }
 }
 
-Vector2D BackgroundLayer::createNewChunkStartingAt(Square2D &square2D) {
-    Vector2D chunk = {square2D.getCornerX(), square2D.getCornerY()};
+Vector2Df BackgroundLayer::createNewChunkStartingAt(Square2D &square2D) {
+    Vector2Df chunk = {square2D.getCornerX(), square2D.getCornerY()};
     this->createNewChunk(chunk, chunkElem);
     return chunk;
 }

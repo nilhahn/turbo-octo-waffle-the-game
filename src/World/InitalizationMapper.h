@@ -2,15 +2,15 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_INITALIZATIONMAPPER_H
 
 #include <map>
-#include "../System/Vector2D.h"
+#include "../System/Vector2Df.h"
 #include "WorldObject.h"
 
 class InitalizationMapper {
 public:
     InitalizationMapper();
 
-    void setInitalPosition(Vector2D vector);
-    Vector2D& getPosition();
+    void setInitalPosition(Vector2Df vector);
+    Vector2Df& getPosition();
 
     void setObjectId(const char* id);
     const char* getId(int* size = nullptr);
@@ -23,7 +23,7 @@ public:
 private:
     std::string objectId;
     WorldObject::ObjectState initalState;
-    Vector2D initalPosition;
+    Vector2Df initalPosition;
     std::map<WorldObject::ObjectState, Drawable* > stateTextures;
 };
 

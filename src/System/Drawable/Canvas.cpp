@@ -1,6 +1,6 @@
 #include "Canvas.h"
 
-void Canvas::draw(Context &context, const Vector2D &windowPosition,
+void Canvas::draw(Context &context, const Vector2Df &windowPosition,
                   Drawable &drawable, long delta, bool flip, double angle) {
     TextureManager *manager = context.getTextureManager();
     SDL_Renderer *renderer = context.getWindow()->getRenderer();
@@ -15,7 +15,7 @@ void Canvas::draw(Context &context, const Vector2D &windowPosition,
     this->render(texture, renderer, frame, destination, flip, angle);
 }
 
-SDL_Rect Canvas::prepareFrame(const Vector2D &position, const SDL_Rect &frame) {
+SDL_Rect Canvas::prepareFrame(const Vector2Df &position, const SDL_Rect &frame) {
     return {static_cast<int>(position.getX()), static_cast<int>(position.getY()), frame.w, frame.h};
 }
 

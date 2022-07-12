@@ -1,10 +1,7 @@
 #include "PlayerController.h"
 
-Entity *PlayerController::createPlayer(Context &context, Camera &camera) {
-    auto entity = new Entity();
+void PlayerController::createEntity(Entity &entity, const Context &context, Camera &camera) {
     Position initalPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f};
 
-    entity->addProperty<Position>(new Property<Position>(initalPos));
-
-    return entity;
+    entity.addProperty<Position>(new Property<Position>(initalPos));
 }

@@ -43,7 +43,7 @@ protected:
     int fill{};
     V value;
 
-    Quadrant getQuadrant(Vector2D &key);
+    Quadrant getQuadrant(Vector2Df &key);
 
     void initChildren();
 };
@@ -193,7 +193,7 @@ void Quadtree<V>::initChildren() {
 }
 
 template<typename V>
-typename Quadtree<V>::Quadrant Quadtree<V>::getQuadrant(Vector2D &key) {
+typename Quadtree<V>::Quadrant Quadtree<V>::getQuadrant(Vector2Df &key) {
     Quadrant quadrant;
 
     if (key.getY() >= this->own.getCornerY()) {

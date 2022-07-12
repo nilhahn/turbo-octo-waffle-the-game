@@ -5,7 +5,7 @@
 Camera::Camera() {
 }
 
-void Camera::init(int width, int height, Vector2D& initalPosition) {
+void Camera::init(int width, int height, Vector2Df& initalPosition) {
     this->width = width;
     this->height = height;
     this->coord = initalPosition;
@@ -14,7 +14,7 @@ void Camera::init(int width, int height, Vector2D& initalPosition) {
     this->center.setY(this->coord.getY() + (this->height/2.));
 }
 
-void Camera::move(Vector2D& delta) {
+void Camera::move(Vector2Df& delta) {
     this->coord += delta;
 }
 
@@ -26,11 +26,11 @@ int Camera::getHeight() const {
     return this->height;
 }
 
-Vector2D const* Camera::getCenter() {
+Vector2Df const* Camera::getCenter() {
     return &this->center;
 }
 
-const Vector2D* Camera::getCoord() const {
+const Vector2Df* Camera::getCoord() const {
     return &this->coord;
 }
 
@@ -40,7 +40,7 @@ const Vector2D* Camera::getCoord() const {
  * param: objWidth - the width if the object
  * param: objHeight - the height of the object
  */
-bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight) const{
+bool Camera::isObjectVisible(Vector2Df &position, float objWidth, float objHeight) const{
     float lowerRightCameraCornerX = (this->coord.getX() + static_cast<float>(this->width));
     float lowerRightCameraCornerY = (this->coord.getY() + static_cast<float>(this->height));
     float lowerRightObjectCornerX = (position.getX() + objWidth);
@@ -57,5 +57,5 @@ bool Camera::isObjectVisible(Vector2D &position, float objWidth, float objHeight
 }
 
 Square2D Camera::getBoundingRect() const {
-    return {const_cast<Vector2D&>(this->coord), static_cast<float>(width), static_cast<float>(height)};
+    return {const_cast<Vector2Df&>(this->coord), static_cast<float>(width), static_cast<float>(height)};
 }
