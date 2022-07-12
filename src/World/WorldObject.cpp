@@ -28,7 +28,8 @@ Vector2Df &WorldObject::getPosition() {
 }
 
 float WorldObject::distance(WorldObject *object) {
-    return (this->getPosition() - object->getPosition()).length();
+    Vector2Df vector = this->getPosition() - object->getPosition();
+    return Vector::length(vector);
 }
 
 WorldObject::WorldObject() {

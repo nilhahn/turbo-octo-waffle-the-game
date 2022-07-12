@@ -22,7 +22,7 @@ int BackgroundObject::getHealth() {
 };
 
 void BackgroundObject::draw(Context& context, const Camera& camera, Canvas& canvas, long delta) {
-    Vector2Df relPosition = this->getPosition().operator-(*camera.getCoord());
+    Vector2Df relPosition = this->getPosition() - *camera.getCoord();
     canvas.draw(context, relPosition, *this->getDrawable(), delta);
 }
 

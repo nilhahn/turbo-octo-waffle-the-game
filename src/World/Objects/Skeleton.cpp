@@ -37,7 +37,7 @@ int Skeleton::getHealth() {
 void
 Skeleton::draw(Context &context, const Camera &camera, Canvas &canvas, long delta) {
     if (camera.isObjectVisible(this->getPosition(), 64., 64.)) {
-        Vector2Df relPosition = this->getPosition().operator-(*camera.getCoord());
+        Vector2Df relPosition = this->getPosition() - *camera.getCoord();
         canvas.draw(context, relPosition, *this->getDrawable(), delta, this->isInStateLeftOrDown(), rotation);
     }
 }
