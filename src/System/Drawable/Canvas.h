@@ -2,7 +2,7 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_CANVAS_H
 
 #include "../../Resource/TextureManager.h"
-#include "../Vector2Df.h"
+#include "../Vector2D.h"
 #include "Drawable.h"
 #include "../Context.h"
 

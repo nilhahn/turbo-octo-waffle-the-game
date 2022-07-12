@@ -17,7 +17,6 @@ set(game_source
         src/System/Game.cpp src/System/Game.h
         src/Window/Window.cpp src/Window/Window.h
         src/Resource/TextureManager.cpp src/Resource/TextureManager.h
-        src/System/Vector2Df.cpp src/System/Vector2Df.h
         src/System/Drawable/Drawable.cpp src/System/Drawable/Drawable.h
         src/World/WorldObject.cpp src/World/WorldObject.h
         src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h

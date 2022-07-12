@@ -1,22 +1,25 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_SQUARE2D_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_SQUARE2D_H
 
-#include "Vector2Df.h"
+#include "Vector2D.h"
 
 class Square2D {
 public:
     explicit Square2D();
-    Square2D(Vector2Df& corner, float width, float height);
+    Square2D(Vector2Df &corner, float width, float height);
     Square2D(float x, float y, float w, float h);
 
-    Vector2Df& getCornerSquare() const;
+    Vector2Df &getCornerSquare() const;
     Vector2Df getCenter();
+
     float getCornerX();
     float getCornerY();
+
     float getCornerX() const;
     float getCornerY() const;
 
-    void setCorner(Vector2Df& corner);
+    void setCorner(Vector2Df &corner);
+
     void setCornerX(float cornerX);
     void setCornerY(float cornerY);
 
@@ -32,14 +35,15 @@ public:
     void setHeight(float height);
 
     // checks if a given coordinate is in this square
-    bool isIn(const Vector2Df& coord) const;
+    bool isIn(const Vector2Df &coord) const;
 
-    Square2D& operator=(Square2D const&);
+    Square2D &operator=(Square2D const &);
 
-    bool operator<(const Square2D& square) const;
-    bool operator>(const Square2D& square) const;
-    bool operator==(const Square2D& square) const;
-    bool operator()(const Square2D& squareA, const Square2D& squareB);
+    bool operator<(const Square2D &square) const;
+    bool operator>(const Square2D &square) const;
+    bool operator==(const Square2D &square) const;
+    bool operator()(const Square2D &squareA, const Square2D &squareB);
+
     static int count;
 
 private:

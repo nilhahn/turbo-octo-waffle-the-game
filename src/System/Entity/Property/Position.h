@@ -1,7 +1,7 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_POSITION_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_POSITION_H
 
-#include "../../Vector2Df.h"
+#include "../../Vector2D.h"
 
 class Position: public Vector2Df {
 public:
