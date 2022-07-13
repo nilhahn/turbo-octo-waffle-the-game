@@ -6,6 +6,7 @@
 #include "../Entity/BaseProperty.h"
 #include "../Entity/Entity.h"
 #include "../../Window/Camera.h"
+#include "../Entity/Property/Properties.h"
 
 class Controller {
 public:
