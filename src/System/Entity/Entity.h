@@ -6,15 +6,18 @@
 #include <vector>
 
 #include "Property.h"
+#include "../Exception.h"
 
 class Entity {
 private:
-    unsigned long entityId;
+    std::string entityId{};
     std::map<std::string, std::unique_ptr<BaseProperty> > properties;
 public:
-    Entity();
+    Entity() = default;
 
-    Entity(const Entity &entity) = delete;
+    Entity(std::string entityId) : entityId(entityId) {}
+
+    Entity(const Entity *entity) = delete;
 
     ~Entity() = default;
 
@@ -24,9 +27,9 @@ public:
     void addProperty(Property<T> *property);
 
     template<typename T>
-    const T *getProperty();
+    T *getProperty() const;
 
-    unsigned long getEntityId() const;
+    std::string getEntityId() const;
 
     bool isEmpty();
 };
@@ -40,10 +43,10 @@ void Entity::addProperty(Property<T> *property) {
 }
 
 template<typename T>
-const T *Entity::getProperty() {
+T *Entity::getProperty() const{
     auto property = properties.find(typeid(T).name());
     if (property == properties.end()) {
-        return nullptr;
+        throw Exception("No such property is present in this entity");
     }
     return ((Property<T> *) property->second.get())->getValue();
 }

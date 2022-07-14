@@ -11,7 +11,8 @@
 #include "../World/WorldObject.h"
 #include "../Window/Camera.h"
 #include "Layer/Background/BackgroundLayer.h"
-
+#include "Entity/Entity.h"
+#include "Controller/Controllers.h"
 
 /**
  * The main game class.
@@ -53,6 +54,7 @@ private:
     BackgroundLayer background;
 
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
+    std::map<std::string, std::unique_ptr<Entity> > entities;
 
     void update(long delta);
 

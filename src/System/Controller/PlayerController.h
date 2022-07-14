@@ -7,7 +7,11 @@
 
 class PlayerController : public Controller {
 public:
-    void createEntity(Entity& entity, const Context& context, Camera& camera) override;
+    static const std::string entityId;
+
+    void createEntity(Entity &entity, const Context &context, Camera &camera) override;
+
+    std::string createId() override;
 };
 
 

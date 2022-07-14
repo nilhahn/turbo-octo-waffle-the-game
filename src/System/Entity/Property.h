@@ -11,14 +11,14 @@ public:
     Property() = default;
     explicit Property(T& value);
 
-    T &getValue() const;
+    T *getValue();
 
     const char *getKey() override;
 };
 
 template<class T>
-T &Property<T>::getValue() const {
-    return this->value;
+T *Property<T>::getValue() {
+    return &this->value;
 }
 
 

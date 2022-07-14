@@ -102,11 +102,18 @@ void Game::run() {
 }
 
 void Game::initPlayer() {
+    PlayerController controller;
+
+    this->entities.insert(
+            std::pair<std::string, std::unique_ptr<Entity> >(PlayerController::entityId,
+                                                             std::make_unique<Entity>(controller.createId()))
+            );
+
     InitalizationMapper init;
 
     init.setObjectId(PLAYER_ID);
     init.setInitalPosition(Vector2Df(camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f));
-    
+
     auto idleDrawable = new Drawable("Player_Idle",  17, 19, 4);
 
     this->context->getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
@@ -196,7 +203,6 @@ void Game::initSkeleton() {
                                                                                std::make_unique<Skeleton>(&init)));
 }
 
-
 void Game::initMage() {
     InitalizationMapper init;
 
@@ -250,5 +256,3 @@ void Game::update(long delta) {
 void Game::configure(std::string &configFilePath) {
 
 }
-
-

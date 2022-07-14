@@ -11,7 +11,7 @@ public:
     Drawable(const char *id, int frameOffsetX, int frameOffsetY, int widthOfFrame,
              int heightOfFrame, unsigned numberOfFrames = 1);
 
-    explicit Drawable(Drawable *drawable);
+    explicit Drawable(const Drawable *drawable);
 
     std::string getId() const;
 

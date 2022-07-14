@@ -17,11 +17,11 @@ Drawable::Drawable(const char *id, int frameOffsetX, int frameOffsetY, int widht
     this->deltaToNextFrame = 500;
 }
 
-Drawable::Drawable(Drawable *drawable) {
+Drawable::Drawable(const Drawable *drawable) {
     this->id = drawable->getId();
-    this->encapsulatingRect = drawable->getEncapsulatingRect();
-    this->currentFrame = drawable->getCurrentFrame();
-    this->numberOfFrames = drawable->getNumberOfFrames();
+    this->encapsulatingRect = drawable->encapsulatingRect;
+    this->currentFrame = drawable->currentFrame;
+    this->numberOfFrames = drawable->numberOfFrames;
     this->delta = drawable->delta;
     this->deltaToNextFrame = drawable->deltaToNextFrame;
     this->frameOffset = drawable->frameOffset;
