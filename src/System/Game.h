@@ -59,6 +59,8 @@ private:
     void update(long delta);
 
     void initMage();
+
+    bool isInStateLeftOrDown(EntityState::ObjectState param);
 };
 
 

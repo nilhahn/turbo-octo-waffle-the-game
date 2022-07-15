@@ -56,6 +56,13 @@ void Game::render(long delta) {
         elem->draw(*context, this->camera, this->canvas, delta);
     }
 
+    for(auto iter = this->entities.begin(); iter != entities.end(); iter++) {
+        auto state = iter->second.get()->getProperty<EntityState>()->getState();
+        auto drawable = iter->second.get()->getProperty<StatefulDrawable>()->getDrawable(state);
+        auto position = iter->second.get()->getProperty<Position>();
+        canvas.draw(*context, *position, const_cast<Drawable &>(*drawable), delta, this->isInStateLeftOrDown(state));
+    }
+
     SDL_RenderPresent(renderer);
 }
 
@@ -65,9 +72,8 @@ void Game::handleEvents(long delta) {
     if (event.type == SDL_QUIT) {
         this->quit();
     } else {
-        auto playerObj = &this->objects.at(PLAYER_ID);
-        WorldObject::ObjectState playerState = playerObj->get()->getState();
-        this->inputEvent(playerObj->get(), delta);
+        // TODO remove usage of nullptr
+        this->inputEvent(nullptr, delta);
 
 #ifdef DEBUG_MARKER_ID
         if (playerState != playerObj->get()->getState()) {
@@ -108,50 +114,34 @@ void Game::initPlayer() {
             std::pair<std::string, std::unique_ptr<Entity> >(PlayerController::entityId,
                                                              std::make_unique<Entity>(controller.createId()))
             );
-
-    InitalizationMapper init;
-
-    init.setObjectId(PLAYER_ID);
-    init.setInitalPosition(Vector2Df(camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f));
-
-    auto idleDrawable = new Drawable("Player_Idle",  17, 19, 4);
-
-    this->context->getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
-
-    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
-    init.setInitalState(WorldObject::ObjectState::IDLE);
-
-    this->objects.insert(
-            std::pair<std::string, std::unique_ptr<WorldObject> >(PLAYER_ID, std::make_unique<Player>(&init)));
+    controller.createEntity(*this->entities.at(PlayerController::entityId).get(),*context, camera);
 }
 
 void Game::inputEvent(WorldObject *object, long deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
+    EntityState::ObjectState state{EntityState::IDLE};
     Vector2Df vector;
 
-    if (object->getState() != WorldObject::DEAD) {
+    if (entities.at(PlayerController::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
-            object->setState(WorldObject::UP);
+            state = EntityState::UP;
             vector.setY(-0.1f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_S)) {
-            object->setState(WorldObject::DOWN);
+            state = EntityState::DOWN;
             vector.setY(+0.1f * static_cast<float>(deltaMs));
         }
 
         if (isKeyDown(keystates, SDL_SCANCODE_A)) {
-            object->setState(WorldObject::LEFT);
+            state = EntityState::DOWN;
             vector.setX(-0.1f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_D)) {
-            object->setState(WorldObject::RIGHT);
+            state = EntityState::RIGHT;
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
+        entities.at(PlayerController::entityId)->getProperty<EntityState>()->setState(state);
     }
 
     camera.move(vector);
@@ -255,4 +245,8 @@ void Game::update(long delta) {
 
 void Game::configure(std::string &configFilePath) {
 
+}
+
+bool Game::isInStateLeftOrDown(EntityState::ObjectState param) {
+    return param == EntityState::LEFT || param == EntityState::DOWN;
 }

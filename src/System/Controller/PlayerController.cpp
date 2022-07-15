@@ -13,11 +13,11 @@ void PlayerController::createEntity(Entity &entity, const Context &context, Came
     Vector2Di frame{17, 19};
     context.getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
 
-    drawable->add(EntityState::IDLE, "Player_idle", frame, 4);
-    drawable->add(EntityState::LEFT, "Player_idle", frame, 4);
-    drawable->add(EntityState::RIGHT, "Player_idle", frame, 4);
-    drawable->add(EntityState::UP, "Player_idle", frame, 4);
-    drawable->add(EntityState::DOWN, "Player_idle", frame, 4);
+    drawable->add(EntityState::IDLE, "Player_Idle", frame, 4);
+    drawable->add(EntityState::LEFT, "Player_Idle", frame, 4);
+    drawable->add(EntityState::RIGHT, "Player_Idle", frame, 4);
+    drawable->add(EntityState::UP, "Player_Idle", frame, 4);
+    drawable->add(EntityState::DOWN, "Player_Idle", frame, 4);
 
     EntityState initalState{EntityState::IDLE};
     entity.addProperty<EntityState>(new Property<EntityState>(initalState));
