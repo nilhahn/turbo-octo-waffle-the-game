@@ -56,11 +56,12 @@ void Game::render(long delta) {
         elem->draw(*context, this->camera, this->canvas, delta);
     }
 
-    for(auto iter = this->entities.begin(); iter != entities.end(); iter++) {
-        auto state = iter->second.get()->getProperty<EntityState>()->getState();
-        auto drawable = iter->second.get()->getProperty<StatefulDrawable>()->getDrawable(state);
-        auto position = iter->second.get()->getProperty<Position>();
-        canvas.draw(*context, *position, const_cast<Drawable &>(*drawable), delta, this->isInStateLeftOrDown(state));
+    for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
+        auto state = iter->second->getProperty<EntityState>()->getState();
+        auto drawable = iter->second->getProperty<StatefulDrawable>()->getDrawable(state);
+        auto position = iter->second->getProperty<Hitbox>();
+        canvas.draw(*context, position->getCornerSquare(), const_cast<Drawable &>(*drawable), delta,
+                    this->isInStateLeftOrDown(state));
     }
 
     SDL_RenderPresent(renderer);
@@ -113,8 +114,8 @@ void Game::initPlayer() {
     this->entities.insert(
             std::pair<std::string, std::unique_ptr<Entity> >(PlayerController::entityId,
                                                              std::make_unique<Entity>(controller.createId()))
-            );
-    controller.createEntity(*this->entities.at(PlayerController::entityId).get(),*context, camera);
+    );
+    controller.createEntity(*this->entities.at(PlayerController::entityId).get(), *context, camera);
 }
 
 void Game::inputEvent(WorldObject *object, long deltaMs) {

@@ -3,9 +3,9 @@
 const std::string PlayerController::entityId{"game_object_player"};
 
 void PlayerController::createEntity(Entity &entity, const Context &context, Camera &camera) {
-    Position initalPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f};
+    Hitbox initialPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f};
 
-    entity.addProperty<Position>(new Property<Position>(initalPos));
+    entity.addProperty<Hitbox>(new Property<Hitbox>(initialPos));
 
     entity.addProperty<StatefulDrawable>(new Property<StatefulDrawable>());
     auto drawable = entity.getProperty<StatefulDrawable>();
@@ -19,8 +19,8 @@ void PlayerController::createEntity(Entity &entity, const Context &context, Came
     drawable->add(EntityState::UP, "Player_Idle", frame, 4);
     drawable->add(EntityState::DOWN, "Player_Idle", frame, 4);
 
-    EntityState initalState{EntityState::IDLE};
-    entity.addProperty<EntityState>(new Property<EntityState>(initalState));
+    EntityState initialState{EntityState::IDLE};
+    entity.addProperty<EntityState>(new Property<EntityState>(initialState));
 }
 
 std::string PlayerController::createId() {
