@@ -7,10 +7,10 @@ public:
         INIT = -1, IDLE, UP, DOWN, LEFT, RIGHT, DEAD
     } ObjectState;
 
-    explicit EntityState(EntityState::ObjectState state = INIT): state(state){};
+    explicit EntityState(ObjectState state = INIT) : state(state) {};
 
-    void setState(EntityState::ObjectState state) {
-        this->state = state;
+    void setState(EntityState::ObjectState state_) {
+        this->state = state_;
     }
 
     EntityState::ObjectState getState() {

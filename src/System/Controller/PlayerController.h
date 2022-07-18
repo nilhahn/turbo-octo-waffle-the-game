@@ -12,6 +12,8 @@ public:
     void createEntity(Entity &entity, const Context &context, Camera &camera) override;
 
     std::string createId() override;
+
+    void initDrawable(StatefulDrawable *pDrawable, const Context &context);
 };
 
 

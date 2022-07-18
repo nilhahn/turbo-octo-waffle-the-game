@@ -9,15 +9,7 @@ void PlayerController::createEntity(Entity &entity, const Context &context, Came
 
     entity.addProperty<StatefulDrawable>(new Property<StatefulDrawable>());
     auto drawable = entity.getProperty<StatefulDrawable>();
-
-    Vector2Di frame{17, 19};
-    context.getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
-
-    drawable->add(EntityState::IDLE, "Player_Idle", frame, 4);
-    drawable->add(EntityState::LEFT, "Player_Idle", frame, 4);
-    drawable->add(EntityState::RIGHT, "Player_Idle", frame, 4);
-    drawable->add(EntityState::UP, "Player_Idle", frame, 4);
-    drawable->add(EntityState::DOWN, "Player_Idle", frame, 4);
+    initDrawable(drawable, context);
 
     EntityState initialState{EntityState::IDLE};
     entity.addProperty<EntityState>(new Property<EntityState>(initialState));
@@ -25,4 +17,15 @@ void PlayerController::createEntity(Entity &entity, const Context &context, Came
 
 std::string PlayerController::createId() {
     return PlayerController::entityId;
+}
+
+void PlayerController::initDrawable(StatefulDrawable *pDrawable, const Context& context) {
+    Vector2Di frame{17, 19};
+    context.getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
+
+    pDrawable->add(EntityState::IDLE, "Player_Idle", frame, 4);
+    pDrawable->add(EntityState::LEFT, "Player_Idle", frame, 4);
+    pDrawable->add(EntityState::RIGHT, "Player_Idle", frame, 4);
+    pDrawable->add(EntityState::UP, "Player_Idle", frame, 4);
+    pDrawable->add(EntityState::DOWN, "Player_Idle", frame, 4);
 }
