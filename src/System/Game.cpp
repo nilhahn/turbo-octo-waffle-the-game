@@ -171,27 +171,15 @@ void Game::initMonster(int monster) {
 }
 
 void Game::initSkeleton() {
-    InitalizationMapper init;
 
-    std::string skeletonId = SKELETON_ID;
+    SkeletonController controller;
 
-    init.setObjectId(skeletonId.data());
-    init.setInitalPosition(Vector2Df(2, 2));
+    std::string entityId{controller.createId()};
 
-    // TODO: initialisation should be done via file input
-    auto idleDrawable = new Drawable("Skeleton_Idle", 17, 19, 1);
-
-    this->context->getTextureManager()->addTextureAndId("Skeleton_Idle", "Skeleton_Base.png");
-
-    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
-    init.setInitalState(WorldObject::ObjectState::IDLE);
-
-    this->objects.insert(std::pair<std::string, std::unique_ptr<WorldObject> >(skeletonId.data(),
-                                                                               std::make_unique<Skeleton>(&init)));
+    this->entities.insert(
+            std::pair<std::string, std::unique_ptr<Entity> >(entityId, std::make_unique<Entity>(entityId))
+    );
+    controller.createEntity(*this->entities.at(entityId).get(), *context, camera);
 }
 
 void Game::initMage() {
