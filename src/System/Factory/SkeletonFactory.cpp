@@ -1,6 +1,6 @@
-#include "SkeletonController.h"
+#include "SkeletonFactory.h"
 
-void SkeletonController::createEntity(Entity &entity, const Context &context, Camera &camera) {
+void SkeletonFactory::createEntity(Entity &entity, const Context &context, Camera &camera) {
     Hitbox initialPos{2, 2};
 
     entity.addProperty<Hitbox>(new Property<Hitbox>(initialPos));
@@ -22,6 +22,6 @@ void SkeletonController::createEntity(Entity &entity, const Context &context, Ca
     entity.addProperty<EntityState>(new Property<EntityState>(initialState));
 }
 
-std::string SkeletonController::createId() {
+std::string SkeletonFactory::createId() {
     return "Skeleton_ID";
 }

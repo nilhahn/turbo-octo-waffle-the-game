@@ -1,11 +1,11 @@
-#ifndef TURBO_OCTO_WAFFLE_THE_GAME_PLAYERCONTROLLER_H
-#define TURBO_OCTO_WAFFLE_THE_GAME_PLAYERCONTROLLER_H
+#ifndef TURBO_OCTO_WAFFLE_THE_GAME_PLAYERFACTORY_H
+#define TURBO_OCTO_WAFFLE_THE_GAME_PLAYERFACTORY_H
 
-#include "Controller.h"
+#include "ObjectFactory.h"
 #include "../Entity/Property/Hitbox.h"
 #include "../../Window/Camera.h"
 
-class PlayerController : public Controller {
+class PlayerFactory : public ObjectFactory {
 public:
     static const std::string entityId;
 
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif //TURBO_OCTO_WAFFLE_THE_GAME_PLAYERCONTROLLER_H
+#endif //TURBO_OCTO_WAFFLE_THE_GAME_PLAYERFACTORY_H

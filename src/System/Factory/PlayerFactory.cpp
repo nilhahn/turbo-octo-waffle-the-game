@@ -1,8 +1,8 @@
-#include "PlayerController.h"
+#include "PlayerFactory.h"
 
-const std::string PlayerController::entityId{"game_object_player"};
+const std::string PlayerFactory::entityId{"game_object_player"};
 
-void PlayerController::createEntity(Entity &entity, const Context &context, Camera &camera) {
+void PlayerFactory::createEntity(Entity &entity, const Context &context, Camera &camera) {
     Hitbox initialPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f};
 
     entity.addProperty<Hitbox>(new Property<Hitbox>(initialPos));
@@ -15,11 +15,11 @@ void PlayerController::createEntity(Entity &entity, const Context &context, Came
     entity.addProperty<EntityState>(new Property<EntityState>(initialState));
 }
 
-std::string PlayerController::createId() {
-    return PlayerController::entityId;
+std::string PlayerFactory::createId() {
+    return PlayerFactory::entityId;
 }
 
-void PlayerController::initDrawable(StatefulDrawable *pDrawable, const Context& context) {
+void PlayerFactory::initDrawable(StatefulDrawable *pDrawable, const Context& context) {
     Vector2Di frame{17, 19};
     context.getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
 
