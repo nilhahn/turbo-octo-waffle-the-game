@@ -23,5 +23,10 @@ void SkeletonFactory::createEntity(Entity &entity, const Context &context, Camer
 }
 
 std::string SkeletonFactory::createId() {
+    throw Exception("SkeletonFactor::createID is not implemented");
+    return "";
+}
+
+std::string SkeletonFactory::createId(const Context &context) {
     return "Skeleton_ID";
 }

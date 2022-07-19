@@ -1,12 +1,8 @@
 #include "Game.h"
-#include "../World/Objects/Player.h"
-#include "../World/Objects/Skeleton.h"
 #include "../World/Objects/Marker.h"
 
 #include <iostream>
 
-#define PLAYER_ID "player"
-#define SKELETON_ID "skeleton"
 #define MAGE_ID "mage"
 #define DEBUG_MARKER_ID "__marker__"
 #undef DEBUG_MARKER_ID
@@ -51,11 +47,6 @@ void Game::render(long delta) {
 
     this->background.draw(*context, camera, canvas);
 
-    for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
-        auto elem = iter->second.get();
-        elem->draw(*context, this->camera, this->canvas, delta);
-    }
-
     for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
         auto state = iter->second->getProperty<EntityState>()->getState();
         auto drawable = iter->second->getProperty<StatefulDrawable>()->getDrawable(state);
@@ -73,8 +64,7 @@ void Game::handleEvents(long delta) {
     if (event.type == SDL_QUIT) {
         this->quit();
     } else {
-        // TODO remove usage of nullptr
-        this->inputEvent(nullptr, delta);
+        this->inputEvent(delta);
 
 #ifdef DEBUG_MARKER_ID
         if (playerState != playerObj->get()->getState()) {
@@ -89,8 +79,8 @@ bool Game::isRunning() {
 }
 
 void Game::run() {
-    long frameStart = 0;
-    long frameTime = 0;
+    Uint32 frameStart{0};
+    Uint32 frameTime{0};
     long delayTime = static_cast<long>(1000.00f / static_cast<float>(FPS));
 
     if (this->init()) {
@@ -109,23 +99,23 @@ void Game::run() {
 }
 
 void Game::initPlayer() {
-    PlayerController controller;
+    PlayerFactory factory;
 
     this->entities.insert(
-            std::pair<std::string, std::unique_ptr<Entity> >(PlayerController::entityId,
-                                                             std::make_unique<Entity>(controller.createId()))
+            std::pair<std::string, std::unique_ptr<Entity> >(PlayerFactory::entityId,
+                                                             std::make_unique<Entity>(factory.createId()))
     );
-    controller.createEntity(*this->entities.at(PlayerController::entityId).get(), *context, camera);
+    factory.createEntity(*this->entities.at(PlayerFactory::entityId).get(), *context, camera);
 }
 
-void Game::inputEvent(WorldObject *object, long deltaMs) {
+void Game::inputEvent(long deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
     EntityState::ObjectState state{EntityState::IDLE};
     Vector2Df vector;
 
-    if (entities.at(PlayerController::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
+    if (entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
@@ -142,7 +132,7 @@ void Game::inputEvent(WorldObject *object, long deltaMs) {
             state = EntityState::RIGHT;
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
-        entities.at(PlayerController::entityId)->getProperty<EntityState>()->setState(state);
+        entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
     }
 
     camera.move(vector);
@@ -171,19 +161,18 @@ void Game::initMonster(int monster) {
 }
 
 void Game::initSkeleton() {
+    SkeletonFactory factory;
 
-    SkeletonController controller;
-
-    std::string entityId{controller.createId()};
+    std::string entityId{factory.createId()};
 
     this->entities.insert(
             std::pair<std::string, std::unique_ptr<Entity> >(entityId, std::make_unique<Entity>(entityId))
     );
-    controller.createEntity(*this->entities.at(entityId).get(), *context, camera);
+    factory.createEntity(*this->entities.at(entityId).get(), *context, camera);
 }
 
 void Game::initMage() {
-    InitalizationMapper init;
+/*    InitalizationMapper init;
 
     std::string mageId = MAGE_ID;
 
@@ -203,7 +192,7 @@ void Game::initMage() {
     init.setInitalState(WorldObject::ObjectState::IDLE);
 
     this->objects.insert(
-            std::pair<std::string, std::unique_ptr<WorldObject> >(mageId.data(), std::make_unique<Skeleton>(&init)));
+            std::pair<std::string, std::unique_ptr<WorldObject> >(mageId.data(), std::make_unique<Skeleton>(&init)));*/
 }
 
 void Game::initMarker() {

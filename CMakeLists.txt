@@ -20,8 +20,6 @@ set(game_source
         src/System/Drawable/Drawable.cpp src/System/Drawable/Drawable.h
         src/World/WorldObject.cpp src/World/WorldObject.h
         src/World/InitalizationMapper.cpp src/World/InitalizationMapper.h
-        src/World/Objects/Player.cpp src/World/Objects/Player.h
-        src/World/Objects/Skeleton.cpp src/World/Objects/Skeleton.h
         src/World/Objects/BackgroundObject.cpp src/World/Objects/BackgroundObject.h
         src/Window/Camera.cpp src/Window/Camera.h
         src/System/Configuration/File/FileReader.cpp src/System/Configuration/File/FileReader.h

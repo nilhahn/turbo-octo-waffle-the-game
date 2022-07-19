@@ -7,6 +7,7 @@ class SkeletonFactory : public ObjectFactory{
 public:
     void createEntity(Entity& entity, const Context &context, Camera &camera) override;
     std::string createId() override;
+    std::string createId(const Context &context);
 };
 
 

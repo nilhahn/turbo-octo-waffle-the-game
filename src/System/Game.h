@@ -12,7 +12,7 @@
 #include "../Window/Camera.h"
 #include "Layer/Background/BackgroundLayer.h"
 #include "Entity/Entity.h"
-#include "Controller/Controllers.h"
+#include "Factory/Factories.h"
 
 /**
  * The main game class.
@@ -34,7 +34,7 @@ private:
     void handleEvents(long delta);
     bool isRunning();
 
-    void inputEvent(WorldObject* object, long deltaMs);
+    void inputEvent(long deltaMs);
     bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
     void quit(const char* reason = nullptr);
 
