@@ -19,6 +19,7 @@ public:
     float getCornerY() const;
 
     void setCorner(Vector2Df &corner);
+    void move(Vector2Df& delta);
 
     void setCornerX(float cornerX);
     void setCornerY(float cornerY);

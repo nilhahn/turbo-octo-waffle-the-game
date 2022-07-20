@@ -17,18 +17,6 @@ BackgroundLayer::~BackgroundLayer() {
 }
 
 void BackgroundLayer::init(const Context &context) {
-    InitalizationMapper initDefault;
-    InitalizationMapper initGrassland01;
-    InitalizationMapper initGrassland02;
-
-    initDefault.setObjectId("GRASSLAND_00");
-    initGrassland01.setObjectId("GRASSLAND_01");
-    initGrassland02.setObjectId("GRASSLAND_02");
-
-    auto drawable00 = new Drawable("Grassland", 0, 0, 64, 64, 1);
-    auto drawable01 = new Drawable("Grassland", 64, 64, 64, 64, 1);
-    auto drawable02 = new Drawable("Grassland", 64, 0, 64, 64, 1);
-
     context.getTextureManager()->addTextureAndId("Grassland", "Grassland.png");
 
     Vector2Df start(0.f, 0.f);
@@ -36,13 +24,15 @@ void BackgroundLayer::init(const Context &context) {
 
     this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_00",
                                                                                std::make_unique<Drawable>(
-                                                                                       drawable00)));
+                                                                                       "Grassland", 0, 0, 64, 64, 1)));
     this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_01",
-                                                                               std::make_unique<Drawable>(
-                                                                                       drawable01)));
+                                                                               std::make_unique<Drawable>("Grassland",
+                                                                                                          64, 64, 64,
+                                                                                                          64, 1)));
     this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_02",
-                                                                               std::make_unique<Drawable>(
-                                                                                       drawable02)));
+                                                                               std::make_unique<Drawable>("Grassland",
+                                                                                                          64, 0, 64, 64,
+                                                                                                          1)));
 }
 
 void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
@@ -172,10 +162,8 @@ void BackgroundLayer::drawChunk(Chunk **&pChunk, Context &context, const Camera 
                                        pChunk[i][j].getDimension().getCornerY()};
             if (camera.isObjectVisible(chunkPosition, pChunk[i][j].getDimension().getWidth(),
                                        pChunk[i][j].getDimension().getHeight())) {
-                canvas.draw(context,
-                            chunkPosition,
-                            *this->background.find(pChunk[i][j].getIdentifier())->second,
-                            0);
+                auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
+                canvas.draw(context, chunkPosition - *camera.getCoord(), *backgroundSprite, 0);
             }
         }
     }

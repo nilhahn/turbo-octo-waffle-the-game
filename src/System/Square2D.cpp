@@ -109,3 +109,7 @@ Vector2Df Square2D::getCenter() {
     return {(this->getCornerX() + this->width) / 2.f, (this->getCornerY() + this->height) / 2.f};
 }
 
+void Square2D::move(Vector2Df& delta) {
+    this->corner += delta;
+}
+

@@ -51,7 +51,8 @@ void Game::render(long delta) {
         auto state = iter->second->getProperty<EntityState>()->getState();
         auto drawable = iter->second->getProperty<StatefulDrawable>()->getDrawable(state);
         auto position = iter->second->getProperty<Hitbox>();
-        canvas.draw(*context, position->getCornerSquare(), const_cast<Drawable &>(*drawable), delta,
+        canvas.draw(*context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
+                    delta,
                     this->isInStateLeftOrDown(state));
     }
 
@@ -133,6 +134,7 @@ void Game::inputEvent(long deltaMs) {
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
         entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
+        entities.at(PlayerFactory::entityId)->getProperty<Hitbox>()->move(vector);
     }
 
     camera.move(vector);
@@ -163,7 +165,7 @@ void Game::initMonster(int monster) {
 void Game::initSkeleton() {
     SkeletonFactory factory;
 
-    std::string entityId{factory.createId()};
+    std::string entityId{factory.createId(*context)};
 
     this->entities.insert(
             std::pair<std::string, std::unique_ptr<Entity> >(entityId, std::make_unique<Entity>(entityId))
