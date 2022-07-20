@@ -31,7 +31,7 @@ private:
 
     void createNewChunk(Vector2Df &start, int elements);
 
-    std::map<std::string, std::unique_ptr<WorldObject> > background;
+    std::map<std::string, std::unique_ptr<Drawable> > background;
     Quadtree<Chunk **> *chunks;
     Quadtree<Square2D> *surroundingChunks;
 

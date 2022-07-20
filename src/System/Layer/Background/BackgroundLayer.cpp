@@ -31,27 +31,18 @@ void BackgroundLayer::init(const Context &context) {
 
     context.getTextureManager()->addTextureAndId("Grassland", "Grassland.png");
 
-    initDefault.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable00);
-    initDefault.setInitalState(WorldObject::ObjectState::IDLE);
-
-    initGrassland01.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable01);
-    initGrassland01.setInitalState(WorldObject::ObjectState::IDLE);
-
-    initGrassland02.addNewDrawableForState(WorldObject::ObjectState::IDLE, drawable02);
-    initGrassland02.setInitalState(WorldObject::ObjectState::IDLE);
-
     Vector2Df start(0.f, 0.f);
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
-    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_00",
-                                                                                  std::make_unique<BackgroundObject>(
-                                                                                          &initDefault)));
-    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_01",
-                                                                                  std::make_unique<BackgroundObject>(
-                                                                                          &initGrassland01)));
-    this->background.insert(std::pair<std::string, std::unique_ptr<WorldObject> >("GRASSLAND_02",
-                                                                                  std::make_unique<BackgroundObject>(
-                                                                                          &initGrassland02)));
+    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_00",
+                                                                               std::make_unique<Drawable>(
+                                                                                       drawable00)));
+    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_01",
+                                                                               std::make_unique<Drawable>(
+                                                                                       drawable01)));
+    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_02",
+                                                                               std::make_unique<Drawable>(
+                                                                                       drawable02)));
 }
 
 void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
@@ -181,9 +172,10 @@ void BackgroundLayer::drawChunk(Chunk **&pChunk, Context &context, const Camera 
                                        pChunk[i][j].getDimension().getCornerY()};
             if (camera.isObjectVisible(chunkPosition, pChunk[i][j].getDimension().getWidth(),
                                        pChunk[i][j].getDimension().getHeight())) {
-                auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
-                backgroundSprite->setPosition(chunkPosition);
-                backgroundSprite->draw(context, camera, canvas, 0);
+                canvas.draw(context,
+                            chunkPosition,
+                            *this->background.find(pChunk[i][j].getIdentifier())->second,
+                            0);
             }
         }
     }
