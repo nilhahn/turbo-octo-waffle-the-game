@@ -18,3 +18,7 @@ Window *Context::getWindow() const {
 TextureManager *Context::getTextureManager() const {
     return this->window->getTextureManager();
 }
+
+int Context::getRand() {
+    return this->dist(rd);
+}

@@ -48,11 +48,9 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
             leftChunk = this->chunks->find(cameraRect);
 
             if (leftChunk == nullptr) {
-                std::cout << "upper left was null;";
                 Square2D *start = this->determineNextChunkStart(cameraRect);
                 if (start != nullptr) {
-                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
-                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
+                    this->createNewChunkStartingAt(*start);
                 }
             }
 
@@ -60,11 +58,9 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
             rightChunk = this->chunks->find(nextChunkBase);
 
             if (rightChunk == nullptr) {
-                std::cout << "upper right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
-                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
+                    this->createNewChunkStartingAt(*start);
                 }
             }
 
@@ -72,11 +68,9 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
             leftBottomChunk = this->chunks->find(nextChunkBase);
 
             if (leftBottomChunk == nullptr) {
-                std::cout << "lower left was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
-                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
+                    this->createNewChunkStartingAt(*start);
                 }
             }
 
@@ -84,11 +78,9 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
             rightBottomChunk = this->chunks->find(nextChunkBase);
 
             if (rightBottomChunk == nullptr) {
-                std::cout << "lower right was null;";
                 Square2D *start = this->determineNextChunkStart(nextChunkBase);
                 if (start != nullptr) {
-                    Vector2Df nextChunk = this->createNewChunkStartingAt(*start);
-                    std::cout << "next will be added at " << nextChunk.toString() << std::endl;
+                    this->createNewChunkStartingAt(*start);
                 }
             }
         } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr ||

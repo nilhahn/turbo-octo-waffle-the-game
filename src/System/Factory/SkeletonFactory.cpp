@@ -27,6 +27,9 @@ std::string SkeletonFactory::createId() {
     return "";
 }
 
-std::string SkeletonFactory::createId(const Context &context) {
-    return "Skeleton_ID";
+std::string SkeletonFactory::createId(Context &context) {
+    return "skeleton_"
+           + std::to_string(ObjectFactory::createRandom(context))
+           + "#"
+           + std::to_string(ObjectFactory::createRandom(context));
 }

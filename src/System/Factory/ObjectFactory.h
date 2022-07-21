@@ -15,7 +15,16 @@ public:
     virtual ~ObjectFactory() = default;
 
     virtual void createEntity(Entity &entity, const Context &context, Camera &camera) = 0;
+
     virtual std::string createId() = 0;
+
+    static inline int createRandom(Context &context) {
+        int rand = context.getRand();
+        if (rand < 0) {
+            rand *= -1;
+        }
+        return rand;
+    }
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_OBJECTFACTORY_H
