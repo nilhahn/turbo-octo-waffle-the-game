@@ -1,9 +1,9 @@
 #include "SkeletonFactory.h"
 
 void SkeletonFactory::createEntity(Entity &entity, const Context &context, Camera &camera) {
-    Hitbox initialPos{2, 2};
+    HitBox initialPos{2, 2};
 
-    entity.addProperty<Hitbox>(new Property<Hitbox>(initialPos));
+    entity.addProperty<HitBox>(new Property<HitBox>(initialPos));
     entity.addProperty<StatefulDrawable>(new Property<StatefulDrawable>());
     auto drawable = entity.getProperty<StatefulDrawable>();
 

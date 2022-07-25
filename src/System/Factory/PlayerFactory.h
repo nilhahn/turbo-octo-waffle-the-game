@@ -2,7 +2,7 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_PLAYERFACTORY_H
 
 #include "ObjectFactory.h"
-#include "../Entity/Property/Hitbox.h"
+#include "../Entity/Property/HitBox.h"
 #include "../../Window/Camera.h"
 
 class PlayerFactory : public ObjectFactory {

@@ -61,6 +61,8 @@ private:
     void initMage();
 
     bool isInStateLeftOrDown(EntityState::ObjectState param);
+
+    bool collide(HitBox& hitBox);
 };
 
 

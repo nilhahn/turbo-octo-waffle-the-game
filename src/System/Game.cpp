@@ -50,7 +50,7 @@ void Game::render(long delta) {
     for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
         auto state = iter->second->getProperty<EntityState>()->getState();
         auto drawable = iter->second->getProperty<StatefulDrawable>()->getDrawable(state);
-        auto position = iter->second->getProperty<Hitbox>();
+        auto position = iter->second->getProperty<HitBox>();
         canvas.draw(*context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
                     delta,
                     this->isInStateLeftOrDown(state));
@@ -133,11 +133,15 @@ void Game::inputEvent(long deltaMs) {
             state = EntityState::RIGHT;
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
-        entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
-        entities.at(PlayerFactory::entityId)->getProperty<Hitbox>()->move(vector);
+        auto nextPos = entities.at(PlayerFactory::entityId)->getProperty<HitBox>();
+        nextPos->move(vector);
+        if (!collide(*nextPos)) {
+            entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
+            entities.at(PlayerFactory::entityId)->getProperty<HitBox>()->cornerX(nextPos->getCornerX()).cornerY(nextPos->getCornerY());
+            camera.move(vector);
+        }
     }
 
-    camera.move(vector);
 }
 
 bool Game::isKeyDown(const Uint8 *keyStates, SDL_Scancode key) {
@@ -229,4 +233,15 @@ void Game::configure(std::string &configFilePath) {
 
 bool Game::isInStateLeftOrDown(EntityState::ObjectState param) {
     return param == EntityState::LEFT || param == EntityState::DOWN;
+}
+
+bool Game::collide(HitBox& hitBox) {
+    for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
+        if(iter->second->getEntityId() != PlayerFactory::entityId) {
+            if(iter->second->getProperty<HitBox>()->isIn(hitBox.getCornerSquare())) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
