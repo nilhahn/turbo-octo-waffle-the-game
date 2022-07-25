@@ -30,8 +30,8 @@ private:
 
     void updateFrameCnt(long deltaMs);
 
-    void prepareDrawable(const char *id, int widthOfFrame, int heightOfFrame,
-                         unsigned numberOfFrames = 1);
+    void prepareDrawable(const char *drawableId, int widthOfFrame, int heightOfFrame,
+                         unsigned frameCount = 1);
 
     SDL_Rect getEncapsulatingRect();
 

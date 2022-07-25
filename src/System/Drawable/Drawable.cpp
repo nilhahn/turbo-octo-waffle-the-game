@@ -27,15 +27,15 @@ Drawable::Drawable(const Drawable *drawable) {
     this->frameOffset = drawable->frameOffset;
 }
 
-void Drawable::prepareDrawable(const char *id, int widthOfFrame, int heightOfFrame,
-                               unsigned int numberOfFrames) {
-    this->id = id;
+void Drawable::prepareDrawable(const char *drawableId, int widthOfFrame, int heightOfFrame,
+                               unsigned int frameCount) {
+    this->id = drawableId;
     this->encapsulatingRect.x = 0;
     this->encapsulatingRect.y = 0;
     this->encapsulatingRect.w = widthOfFrame;
     this->encapsulatingRect.h = heightOfFrame;
     this->currentFrame = 0;
-    this->numberOfFrames = numberOfFrames;
+    this->numberOfFrames = frameCount;
 }
 
 std::string Drawable::getId() const {
