@@ -30,11 +30,11 @@ public:
 
 private:
     bool init();
-    void render(long delta);
-    void handleEvents(long delta);
+    void render(unsigned int delta);
+    void handleEvents(unsigned int delta);
     bool isRunning();
 
-    void inputEvent(long deltaMs);
+    void inputEvent(unsigned int deltaMs);
     bool isKeyDown(const Uint8* keyStates, SDL_Scancode key);
     void quit(const char* reason = nullptr);
 
@@ -56,7 +56,7 @@ private:
     std::map<std::string, std::unique_ptr<WorldObject> > objects;
     std::map<std::string, std::unique_ptr<Entity> > entities;
 
-    void update(long delta);
+    void update(unsigned int delta);
 
     void initMage();
 

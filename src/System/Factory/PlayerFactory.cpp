@@ -3,7 +3,7 @@
 const std::string PlayerFactory::entityId{"game_object_player"};
 
 void PlayerFactory::createEntity(Entity &entity, const Context &context, Camera &camera) {
-    HitBox initialPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f};
+    HitBox initialPos{camera.getCenter()->getX() - 8.5f, camera.getCenter()->getY() - 9.5f, 17, 19};
 
     entity.addProperty<HitBox>(new Property<HitBox>(initialPos));
 
@@ -19,7 +19,7 @@ std::string PlayerFactory::createId() {
     return PlayerFactory::entityId;
 }
 
-void PlayerFactory::initDrawable(StatefulDrawable *pDrawable, const Context& context) {
+void PlayerFactory::initDrawable(StatefulDrawable *pDrawable, const Context &context) {
     Vector2Di frame{17, 19};
     context.getTextureManager()->addTextureAndId("Player_Idle", "Knight_Base_idle.png");
 

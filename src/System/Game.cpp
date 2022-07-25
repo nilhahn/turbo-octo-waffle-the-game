@@ -41,7 +41,7 @@ bool Game::init() {
 /**
  * draw stuff to the Window
  */
-void Game::render(long delta) {
+void Game::render(unsigned int delta) {
     SDL_Renderer *renderer = this->context->getWindow()->getRenderer();
     SDL_RenderClear(renderer);;
 
@@ -59,7 +59,7 @@ void Game::render(long delta) {
     SDL_RenderPresent(renderer);
 }
 
-void Game::handleEvents(long delta) {
+void Game::handleEvents(unsigned int delta) {
     SDL_Event event;
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT) {
@@ -85,15 +85,16 @@ void Game::run() {
     long delayTime = static_cast<long>(1000.00f / static_cast<float>(FPS));
 
     if (this->init()) {
+        frameStart = SDL_GetTicks();
         while (this->isRunning()) {
-            frameStart = SDL_GetTicks();
             this->render(frameTime);
             this->handleEvents(frameTime);
             this->update(frameTime);
             frameTime = SDL_GetTicks() - frameStart;
             if (frameTime < delayTime) {
-                SDL_Delay(frameTime - frameTime);
+                SDL_Delay(delayTime - frameTime);
             }
+            frameStart = SDL_GetTicks();
         }
         this->context->getTextureManager()->clear();
     }
@@ -109,7 +110,7 @@ void Game::initPlayer() {
     factory.createEntity(*this->entities.at(PlayerFactory::entityId).get(), *context, camera);
 }
 
-void Game::inputEvent(long deltaMs) {
+void Game::inputEvent(unsigned int deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
@@ -120,24 +121,26 @@ void Game::inputEvent(long deltaMs) {
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
-            vector.setY(-0.1f * static_cast<float>(deltaMs));
+            vector.setY(-2.f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_S)) {
             state = EntityState::DOWN;
-            vector.setY(+0.1f * static_cast<float>(deltaMs));
+            vector.setY(+2.f * static_cast<float>(deltaMs));
         }
 
         if (isKeyDown(keystates, SDL_SCANCODE_A)) {
             state = EntityState::DOWN;
-            vector.setX(-0.1f * static_cast<float>(deltaMs));
+            vector.setX(-2.f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_D)) {
             state = EntityState::RIGHT;
-            vector.setX(+0.1f * static_cast<float>(deltaMs));
+            vector.setX(+2.f * static_cast<float>(deltaMs));
         }
-        auto nextPos = entities.at(PlayerFactory::entityId)->getProperty<HitBox>();
-        nextPos->move(vector);
-        if (!collide(*nextPos)) {
+
+        auto currentPos = entities.at(PlayerFactory::entityId)->getProperty<HitBox>();
+        HitBox nextPos{currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()};
+        nextPos.move(vector);
+        if (!collide(nextPos)) {
             entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
-            entities.at(PlayerFactory::entityId)->getProperty<HitBox>()->cornerX(nextPos->getCornerX()).cornerY(nextPos->getCornerY());
+            entities.at(PlayerFactory::entityId)->getProperty<HitBox>()->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
             camera.move(vector);
         }
     }
@@ -220,7 +223,7 @@ void Game::initMarker() {
 #endif
 }
 
-void Game::update(long delta) {
+void Game::update(unsigned int delta) {
     for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
         auto elem = iter->second.get();
         elem->update(delta);
@@ -238,7 +241,7 @@ bool Game::isInStateLeftOrDown(EntityState::ObjectState param) {
 bool Game::collide(HitBox& hitBox) {
     for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
         if(iter->second->getEntityId() != PlayerFactory::entityId) {
-            if(iter->second->getProperty<HitBox>()->isIn(hitBox.getCornerSquare())) {
+            if(iter->second->getProperty<HitBox>()->collision(hitBox)) {
                 return true;
             }
         }

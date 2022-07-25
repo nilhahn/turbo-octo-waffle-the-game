@@ -1,7 +1,7 @@
 #include "SkeletonFactory.h"
 
 void SkeletonFactory::createEntity(Entity &entity, const Context &context, Camera &camera) {
-    HitBox initialPos{2, 2};
+    HitBox initialPos{2, 2, 17, 19};
 
     entity.addProperty<HitBox>(new Property<HitBox>(initialPos));
     entity.addProperty<StatefulDrawable>(new Property<StatefulDrawable>());
