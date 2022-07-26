@@ -22,14 +22,9 @@ public:
 
     bool collision(HitBox &box) {
     // todo: this code doesn't do what it should
-        if (this->getCornerX() < box.getCornerX() + box.getWidth() &&
-            this->getCornerX() + this->getWidth() > box.getWidth() &&
-            this->getCornerY() < box.getCornerY() + box.getHeight() &&
-            this->getCornerY() + this->getCornerY() > box.getCornerY()) {
-            std::cout << "collision!" << std::endl;
-            return true;
-        }
-        return false;
+        SDL_Rect A{static_cast<int>(this->getCornerX()), static_cast<int>(this->getCornerY()), static_cast<int>(this->getWidth()), static_cast<int>(this->getHeight())};
+        SDL_Rect B{static_cast<int>(box.getCornerX()), static_cast<int>(box.getCornerY()), static_cast<int>(box.getWidth()), static_cast<int>(box.getHeight())};
+    return SDL_HasIntersection(&A, &B);
     }
 };
 

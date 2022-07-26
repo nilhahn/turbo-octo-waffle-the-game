@@ -15,15 +15,15 @@ Game::Game() : FPS(60) {
 bool Game::init() {
     std::string title = "turbo-octo-waffel";
 
-    int windowWidth = 512;
-    int windowHeight = 512;
-    Vector2Df initalCameraPos(0, 0);
+    int windowWidth{512};
+    int windowHeight{512};
+    Vector2Df initialCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
     Window *window = Window::create(title, windowWidth, windowHeight, resourcePath);
     this->context = new Context(window);
 
-    this->camera.init(windowWidth, windowHeight, initalCameraPos);
+    this->camera.init(windowWidth, windowHeight, initialCameraPos);
 
     this->background.init(*this->context);
 
@@ -80,21 +80,21 @@ bool Game::isRunning() {
 }
 
 void Game::run() {
-    Uint32 frameStart{0};
-    Uint32 frameTime{0};
-    long delayTime = static_cast<long>(1000.00f / static_cast<float>(FPS));
+    Uint32 now{0};
+    Uint32 nextTime{0};
+    long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
 
     if (this->init()) {
-        frameStart = SDL_GetTicks();
+        nextTime += SDL_GetTicks();
         while (this->isRunning()) {
-            this->render(frameTime);
-            this->handleEvents(frameTime);
-            this->update(frameTime);
-            frameTime = SDL_GetTicks() - frameStart;
-            if (frameTime < delayTime) {
-                SDL_Delay(delayTime - frameTime);
+            nextTime += tick;
+            this->render(nextTime - now);
+            this->handleEvents(nextTime - now);
+            this->update(nextTime - now);
+            now = SDL_GetTicks();
+            if (nextTime >= now) {
+                SDL_Delay(nextTime - now);
             }
-            frameStart = SDL_GetTicks();
         }
         this->context->getTextureManager()->clear();
     }
@@ -114,32 +114,34 @@ void Game::inputEvent(unsigned int deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
-    EntityState::ObjectState state{EntityState::IDLE};
+    EntityState::ObjectState state{entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState()};
     Vector2Df vector;
 
     if (entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
-            vector.setY(-2.f * static_cast<float>(deltaMs));
+            vector.setY(-0.1f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_S)) {
             state = EntityState::DOWN;
-            vector.setY(+2.f * static_cast<float>(deltaMs));
+            vector.setY(+0.1f * static_cast<float>(deltaMs));
         }
 
         if (isKeyDown(keystates, SDL_SCANCODE_A)) {
             state = EntityState::DOWN;
-            vector.setX(-2.f * static_cast<float>(deltaMs));
+            vector.setX(-0.1f * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_D)) {
             state = EntityState::RIGHT;
-            vector.setX(+2.f * static_cast<float>(deltaMs));
+            vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
 
         auto currentPos = entities.at(PlayerFactory::entityId)->getProperty<HitBox>();
+
         HitBox nextPos{currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()};
         nextPos.move(vector);
+        entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
+
         if (!collide(nextPos)) {
-            entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
             entities.at(PlayerFactory::entityId)->getProperty<HitBox>()->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
             camera.move(vector);
         }
