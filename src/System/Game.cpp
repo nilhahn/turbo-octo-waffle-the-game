@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#define MAGE_ID "mage"
 #define DEBUG_MARKER_ID "__marker__"
 #undef DEBUG_MARKER_ID
 

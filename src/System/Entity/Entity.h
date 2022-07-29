@@ -46,7 +46,7 @@ template<typename T>
 T *Entity::getProperty() const{
     auto property = properties.find(typeid(T).name());
     if (property == properties.end()) {
-        throw Exception("No such property is present in this entity");
+        return nullptr;
     }
     return ((Property<T> *) property->second.get())->getValue();
 }
