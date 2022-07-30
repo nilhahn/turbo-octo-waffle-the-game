@@ -246,9 +246,9 @@ bool Game::isInStateLeftOrDown(EntityState::ObjectState param) {
 }
 
 bool Game::collide(HitBox& hitBox) {
-    for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
-        if(iter->second->getEntityId() != PlayerFactory::entityId) {
-            if(iter->second->getProperty<HitBox>()->collision(hitBox)) {
+    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+        if(iter->get()->getEntityId() != PlayerFactory::entityId) {
+            if(iter->get()->getProperty<HitBox>()->collision(hitBox)) {
                 return true;
             }
         }
