@@ -22,6 +22,7 @@ public:
     const Vector2Df *getCoord() const;
 
     bool isObjectVisible(Vector2Df &vector2D, float width, float height) const;
+    bool isObjectVisible(Square2D *pBox) const;
 
     Square2D getBoundingRect() const;
 

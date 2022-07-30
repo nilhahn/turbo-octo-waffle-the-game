@@ -53,8 +53,8 @@ private:
     Camera camera;
     BackgroundLayer background;
 
-    std::map<std::string, std::unique_ptr<WorldObject> > objects;
-    std::map<std::string, std::unique_ptr<Entity> > entities;
+    std::map<std::string, std::shared_ptr<Entity> > entities;
+    std::vector<std::shared_ptr<Entity> > scene;
 
     void update(unsigned int delta);
 

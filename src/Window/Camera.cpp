@@ -59,3 +59,7 @@ bool Camera::isObjectVisible(Vector2Df &position, float objWidth, float objHeigh
 Square2D Camera::getBoundingRect() const {
     return {const_cast<Vector2Df&>(this->coord), static_cast<float>(width), static_cast<float>(height)};
 }
+
+bool Camera::isObjectVisible(Square2D *square) const{
+    return this->isObjectVisible(square->getCornerSquare(), square->getWidth(), square->getHeight());
+}

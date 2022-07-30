@@ -6,6 +6,8 @@
 #define DEBUG_MARKER_ID "__marker__"
 #undef DEBUG_MARKER_ID
 
+#define DEBUG_OUT
+
 Game::Game() : FPS(60) {
     this->running = false;
     this->context = nullptr;
@@ -46,10 +48,10 @@ void Game::render(unsigned int delta) {
 
     this->background.draw(*context, camera, canvas);
 
-    for (auto iter = this->entities.begin(); iter != entities.end(); iter++) {
-        auto state = iter->second->getProperty<EntityState>()->getState();
-        auto drawable = iter->second->getProperty<StatefulDrawable>()->getDrawable(state);
-        auto position = iter->second->getProperty<HitBox>();
+    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+        auto state = iter->get()->getProperty<EntityState>()->getState();
+        auto drawable = iter->get()->getProperty<StatefulDrawable>()->getDrawable(state);
+        auto position = iter->get()->getProperty<HitBox>();
         canvas.draw(*context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
                     delta,
                     this->isInStateLeftOrDown(state));
@@ -225,9 +227,13 @@ void Game::initMarker() {
 }
 
 void Game::update(unsigned int delta) {
-    for (auto iter = this->objects.begin(); iter != this->objects.end(); iter++) {
+    this->scene.clear();
+    for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
         auto elem = iter->second.get();
-        elem->update(delta);
+        HitBox* hitBox = elem->getProperty<HitBox>();
+        if(hitBox!= nullptr && this->camera.isObjectVisible(hitBox)) {
+            this->scene.push_back(iter->second);
+        }
     }
 }
 
@@ -249,3 +255,4 @@ bool Game::collide(HitBox& hitBox) {
     }
     return false;
 }
+
