@@ -22,7 +22,7 @@ public:
 
     void init(const Context &context) override;
 
-    void draw(Context &context, const Camera &camera, Canvas &canvas) override;
+    void update(Context &context, const Camera &camera, Canvas &canvas) override;
 
 private:
     static constexpr int chunkElem = 10;
@@ -32,10 +32,12 @@ private:
     void createNewChunk(Vector2Df &start, int elements);
 
     std::map<std::string, std::shared_ptr<Drawable> > background;
+    std::vector<std::shared_ptr<Entity> > entityPool;
+
     Quadtree<Chunk **> *chunks;
     Quadtree<Square2D> *surroundingChunks;
 
-    void drawChunk(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas);
+    void addChunkToScene(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas, int& entityIdx);
 
     inline Square2D *determineNextChunkStart(Square2D &square2D) {
         Square2D search = {square2D.getCornerX(), square2D.getCornerY(), 0.f, 0.f};

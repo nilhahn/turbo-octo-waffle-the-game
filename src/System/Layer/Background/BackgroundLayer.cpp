@@ -35,7 +35,7 @@ void BackgroundLayer::init(const Context &context) {
                                                                                                           1)));
 }
 
-void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
+void BackgroundLayer::update(Context &context, const Camera &camera, Canvas &canvas) {
     if (this->chunks != nullptr) {
         Square2D cameraRect = camera.getBoundingRect();
         Chunk ***leftChunk = nullptr;
@@ -86,19 +86,21 @@ void BackgroundLayer::draw(Context &context, const Camera &camera, Canvas &canva
         } while (leftChunk == nullptr || rightChunk == nullptr || leftBottomChunk == nullptr ||
                  rightBottomChunk == nullptr);
 
+        int entityIdx = 0;
+
         if (leftChunk != rightChunk && leftChunk != leftBottomChunk) {
-            this->drawChunk(*leftChunk, context, camera, canvas);
+            this->addChunkToScene(*leftChunk, context, camera, canvas, entityIdx);
         }
 
         if (rightChunk != rightBottomChunk) {
-            this->drawChunk(*rightChunk, context, camera, canvas);
+            this->addChunkToScene(*rightChunk, context, camera, canvas, entityIdx);
         }
 
         if (leftBottomChunk != rightBottomChunk) {
-            this->drawChunk(*leftBottomChunk, context, camera, canvas);
+            this->addChunkToScene(*leftBottomChunk, context, camera, canvas, entityIdx);
         }
 
-        this->drawChunk(*rightBottomChunk, context, camera, canvas);
+        this->addChunkToScene(*rightBottomChunk, context, camera, canvas, entityIdx);
     }
 }
 
@@ -147,15 +149,32 @@ void BackgroundLayer::createNewChunk(Vector2Df &start, int elements) {
     this->determineSurroundingChunk(square2D, dimension);
 }
 
-void BackgroundLayer::drawChunk(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas) {
+void BackgroundLayer::addChunkToScene(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas, int& entityIdx) {
     for (int i = 0; i < chunkElem; i++) {
         for (int j = 0; j < chunkElem; j++) {
             Vector2Df chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
                                        pChunk[i][j].getDimension().getCornerY()};
-            if (camera.isObjectVisible(chunkPosition, pChunk[i][j].getDimension().getWidth(),
-                                       pChunk[i][j].getDimension().getHeight())) {
+            Vector2Df chunkDimension = {    pChunk[i][j].getDimension().getWidth(),
+                                            pChunk[i][j].getDimension().getHeight()
+                                        };
+            if (camera.isObjectVisible(chunkPosition, chunkDimension.getX(), chunkDimension.getY())) {
                 auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
-                canvas.draw(context, chunkPosition - *camera.getCoord(), *backgroundSprite, 0);
+
+                Entity* entity;
+                if(entityPool.size() < (entityIdx + 1) ) {
+                    entity = new Entity("background_object_" + std::to_string(entityIdx));
+                    entity->addProperty(new Property<Drawable>(*backgroundSprite));
+                    HitBox hitBox{chunkPosition.getX(), chunkPosition.getY(),  chunkDimension.getX(), chunkDimension.getY(),false};
+                    entity->addProperty(new Property<HitBox>(hitBox));
+                    entityPool.push_back(std::make_shared<Entity>(*entity));
+                } else {
+                  entity = entityPool.at(entityIdx).get();
+                  entity->getProperty<Drawable>()->copyState(backgroundSprite);
+                  entity->getProperty<HitBox>()->positionAt(chunkPosition);
+                }
+
+                canvas.addToScene(entityPool.at(entityIdx));
+                entityIdx++;
             }
         }
     }

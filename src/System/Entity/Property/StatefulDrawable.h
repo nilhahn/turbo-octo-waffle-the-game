@@ -9,7 +9,7 @@
 class StatefulDrawable {
 public:
 
-    const Drawable *getDrawable(EntityState::ObjectState state);
+    Drawable *getDrawable(EntityState::ObjectState state) const;
 
     void add(EntityState::ObjectState state,
              const char *drawableId,

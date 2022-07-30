@@ -113,3 +113,8 @@ void Square2D::move(Vector2Df& delta) {
     this->corner += delta;
 }
 
+void Square2D::positionAt(Vector2Df& position) {
+    this->corner.setX(position.getX());
+    this->corner.setY(position.getY());
+}
+

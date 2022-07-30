@@ -5,6 +5,6 @@ void UserInformationLayer::init(const Context& context) {
 }
 
 void
-UserInformationLayer::draw(Context &context, const Camera &camera, Canvas &canvas) {
+UserInformationLayer::update(Context &context, const Camera &camera, Canvas &canvas) {
 
 }

@@ -1,6 +1,6 @@
 #include "StatefulDrawable.h"
 
-const Drawable *StatefulDrawable::getDrawable(EntityState::ObjectState state) {
+Drawable *StatefulDrawable::getDrawable(EntityState::ObjectState state) const{
     auto drawable = this->drawables.find(state);
     if (drawable == drawables.end()) {
         return nullptr;

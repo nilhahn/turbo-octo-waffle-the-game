@@ -4,7 +4,7 @@ Thinks I recognized:
 ->  Better way to distinguish between movement and idle. This is something I recognized when I added the debug marker
     (theres currently now proper way to switch between an idle and a movement animation)
 ->  Texture arrangements: There is currently now mechanism which allows to group textures. For example:
-    It's currently not possible to draw the object and a line of sight and/or a circle around it...
+    It's currently not possible to update the object and a line of sight and/or a circle around it...
 
 Open question:
 ->  Should I stop at this point, and take everything I learned to start from scratch?

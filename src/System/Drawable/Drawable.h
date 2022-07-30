@@ -6,6 +6,9 @@
 
 class Drawable {
 public:
+    // Default constructor so a Drawable can be used as Property
+    Drawable();
+
     Drawable(const char *id, int widthOfFrame, int heightOfFrame, unsigned numberOfFrames = 1);
 
     Drawable(const char *id, int frameOffsetX, int frameOffsetY, int widthOfFrame,
@@ -14,6 +17,8 @@ public:
     explicit Drawable(const Drawable *drawable);
 
     std::string getId() const;
+
+    void copyState(const Drawable* drawable);
 
     std::string getFile() const;
 

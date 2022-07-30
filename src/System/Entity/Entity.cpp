@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-std::map<std::string, std::unique_ptr<BaseProperty> > &Entity::getAllProperties() const {
-    return const_cast<std::map<std::string, std::unique_ptr<BaseProperty> > & > (this->properties);
+std::map<std::string, std::shared_ptr<BaseProperty> > &Entity::getAllProperties() const {
+    return const_cast<std::map<std::string, std::shared_ptr<BaseProperty> > & > (this->properties);
 }
 
 bool Entity::isEmpty() {

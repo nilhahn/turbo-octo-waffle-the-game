@@ -11,7 +11,7 @@
 class Entity {
 private:
     std::string entityId{};
-    std::map<std::string, std::unique_ptr<BaseProperty> > properties;
+    std::map<std::string, std::shared_ptr<BaseProperty> > properties;
 public:
     Entity() = default;
 
@@ -21,7 +21,7 @@ public:
 
     ~Entity() = default;
 
-    std::map<std::string, std::unique_ptr<BaseProperty> > &getAllProperties() const;
+    std::map<std::string, std::shared_ptr<BaseProperty> > &getAllProperties() const;
 
     template<typename T>
     void addProperty(Property<T> *property);

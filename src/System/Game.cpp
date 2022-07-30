@@ -40,13 +40,11 @@ bool Game::init() {
 }
 
 /**
- * draw stuff to the Window
+ * update stuff to the Window
  */
 void Game::render(unsigned int delta) {
     SDL_Renderer *renderer = this->context->getWindow()->getRenderer();
     SDL_RenderClear(renderer);
-
-    this->background.draw(*context, camera, canvas);
 
     this->canvas.drawScene(*context, camera, delta);
 
@@ -220,10 +218,11 @@ void Game::initMarker() {
 }
 
 void Game::update(unsigned int delta) {
+    this->background.update(*context, camera, canvas);
     for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
         auto elem = iter->second.get();
         HitBox* hitBox = elem->getProperty<HitBox>();
-        if(hitBox!= nullptr && this->camera.isObjectVisible(hitBox)) {
+        if(hitBox != nullptr && this->camera.isObjectVisible(hitBox)) {
             this->canvas.addToScene(iter->second);
         }
     }
@@ -234,9 +233,13 @@ void Game::configure(std::string &configFilePath) {
 }
 
 bool Game::collide(HitBox& hitBox) {
+    if(!hitBox.isActive()) {
+        return false;
+    }
     for (auto iter = this->canvas.getScene().begin(); iter != this->canvas.getScene().end(); iter++) {
         if(iter->get()->getEntityId() != PlayerFactory::entityId) {
-            if(iter->get()->getProperty<HitBox>()->collision(hitBox)) {
+            auto iterHitBox = iter->get()->getProperty<HitBox>();
+            if(iterHitBox->isActive() && iterHitBox->collision(hitBox)) {
                 return true;
             }
         }

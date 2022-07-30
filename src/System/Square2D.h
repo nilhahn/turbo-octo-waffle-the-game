@@ -58,6 +58,8 @@ public:
 
     bool operator()(const Square2D &squareA, const Square2D &squareB);
 
+    void positionAt(Vector2Df &position);
+
     static int count;
 
 private:

@@ -17,11 +17,15 @@ void Canvas::draw(Context &context, const Vector2Df &windowPosition,
 
 void Canvas::drawScene(Context& context, Camera& camera, long delta) {
     for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+        Drawable* drawable;
         auto state = iter->get()->getProperty<EntityState>();
-        if(state == nullptr) {
-            continue;
+
+        if(state != nullptr) {
+            drawable = iter->get()->getProperty<StatefulDrawable>()->getDrawable(state->getState());
+        } else {
+            drawable = iter->get()->getProperty<Drawable>();
         }
-        auto drawable = iter->get()->getProperty<StatefulDrawable>()->getDrawable(state->getState());
+
         if(drawable == nullptr) {
             continue;
         }
@@ -31,7 +35,7 @@ void Canvas::drawScene(Context& context, Camera& camera, long delta) {
         }
         this->draw(context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
                     delta,
-                    this->isInStateLeftOrDown(state->getState()));
+                    state == nullptr ? EntityState::ObjectState::IDLE : this->isInStateLeftOrDown(state->getState()));
     }
     this->clearScene();
 }
