@@ -8,6 +8,7 @@
 
 class StatefulDrawable {
 public:
+
     const Drawable *getDrawable(EntityState::ObjectState state);
 
     void add(EntityState::ObjectState state,

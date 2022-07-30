@@ -10,6 +10,8 @@
 #include "../System/Context.h"
 #include "../System/Drawable/Canvas.h"
 
+class Canvas;
+
 class WorldObject {
 public:
     typedef enum {

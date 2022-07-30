@@ -15,6 +15,27 @@ void Canvas::draw(Context &context, const Vector2Df &windowPosition,
     this->render(texture, renderer, frame, destination, flip, angle);
 }
 
+void Canvas::drawScene(Context& context, Camera& camera, long delta) {
+    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+        auto state = iter->get()->getProperty<EntityState>();
+        if(state == nullptr) {
+            continue;
+        }
+        auto drawable = iter->get()->getProperty<StatefulDrawable>()->getDrawable(state->getState());
+        if(drawable == nullptr) {
+            continue;
+        }
+        auto position = iter->get()->getProperty<HitBox>();
+        if(position == nullptr) {
+            continue;
+        }
+        this->draw(context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
+                    delta,
+                    this->isInStateLeftOrDown(state->getState()));
+    }
+    this->clearScene();
+}
+
 SDL_Rect Canvas::prepareFrame(const Vector2Df &position, const SDL_Rect &frame) {
     return {static_cast<int>(position.getX()), static_cast<int>(position.getY()), frame.w, frame.h};
 }
@@ -28,5 +49,9 @@ Canvas::render(SDL_Texture *texture,
                double angle) {
     SDL_RenderCopyEx(renderer, texture, &frame, &position, angle, nullptr,
                      flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+}
+
+bool Canvas::isInStateLeftOrDown(EntityState::ObjectState param) {
+    return param == EntityState::LEFT || param == EntityState::DOWN;;
 }
 

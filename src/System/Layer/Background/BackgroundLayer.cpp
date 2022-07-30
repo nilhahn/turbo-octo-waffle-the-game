@@ -22,15 +22,15 @@ void BackgroundLayer::init(const Context &context) {
     Vector2Df start(0.f, 0.f);
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
-    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_00",
-                                                                               std::make_unique<Drawable>(
+    this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_00",
+                                                                               std::make_shared<Drawable>(
                                                                                        "Grassland", 0, 0, 64, 64, 1)));
-    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_01",
-                                                                               std::make_unique<Drawable>("Grassland",
+    this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_01",
+                                                                               std::make_shared<Drawable>("Grassland",
                                                                                                           64, 64, 64,
                                                                                                           64, 1)));
-    this->background.insert(std::pair<std::string, std::unique_ptr<Drawable> >("GRASSLAND_02",
-                                                                               std::make_unique<Drawable>("Grassland",
+    this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_02",
+                                                                               std::make_shared<Drawable>("Grassland",
                                                                                                           64, 0, 64, 64,
                                                                                                           1)));
 }

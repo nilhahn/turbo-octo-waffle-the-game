@@ -54,13 +54,10 @@ private:
     BackgroundLayer background;
 
     std::map<std::string, std::shared_ptr<Entity> > entities;
-    std::vector<std::shared_ptr<Entity> > scene;
 
     void update(unsigned int delta);
 
     void initMage();
-
-    bool isInStateLeftOrDown(EntityState::ObjectState param);
 
     bool collide(HitBox& hitBox);
 };

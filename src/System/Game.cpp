@@ -44,18 +44,11 @@ bool Game::init() {
  */
 void Game::render(unsigned int delta) {
     SDL_Renderer *renderer = this->context->getWindow()->getRenderer();
-    SDL_RenderClear(renderer);;
+    SDL_RenderClear(renderer);
 
     this->background.draw(*context, camera, canvas);
 
-    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
-        auto state = iter->get()->getProperty<EntityState>()->getState();
-        auto drawable = iter->get()->getProperty<StatefulDrawable>()->getDrawable(state);
-        auto position = iter->get()->getProperty<HitBox>();
-        canvas.draw(*context, position->getCornerSquare() - *camera.getCoord(), const_cast<Drawable &>(*drawable),
-                    delta,
-                    this->isInStateLeftOrDown(state));
-    }
+    this->canvas.drawScene(*context, camera, delta);
 
     SDL_RenderPresent(renderer);
 }
@@ -89,9 +82,9 @@ void Game::run() {
         nextTime += SDL_GetTicks();
         while (this->isRunning()) {
             nextTime += tick;
-            this->render(nextTime - now);
-            this->handleEvents(nextTime - now);
             this->update(nextTime - now);
+            this->handleEvents(nextTime - now);
+            this->render(nextTime - now);
             now = SDL_GetTicks();
             if (nextTime >= now) {
                 SDL_Delay(nextTime - now);
@@ -227,12 +220,11 @@ void Game::initMarker() {
 }
 
 void Game::update(unsigned int delta) {
-    this->scene.clear();
     for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
         auto elem = iter->second.get();
         HitBox* hitBox = elem->getProperty<HitBox>();
         if(hitBox!= nullptr && this->camera.isObjectVisible(hitBox)) {
-            this->scene.push_back(iter->second);
+            this->canvas.addToScene(iter->second);
         }
     }
 }
@@ -241,12 +233,8 @@ void Game::configure(std::string &configFilePath) {
 
 }
 
-bool Game::isInStateLeftOrDown(EntityState::ObjectState param) {
-    return param == EntityState::LEFT || param == EntityState::DOWN;
-}
-
 bool Game::collide(HitBox& hitBox) {
-    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+    for (auto iter = this->canvas.getScene().begin(); iter != this->canvas.getScene().end(); iter++) {
         if(iter->get()->getEntityId() != PlayerFactory::entityId) {
             if(iter->get()->getProperty<HitBox>()->collision(hitBox)) {
                 return true;
