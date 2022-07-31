@@ -16,8 +16,8 @@ Game::Game() : FPS(60) {
 bool Game::init() {
     std::string title = "turbo-octo-waffel";
 
-    int windowWidth{512};
-    int windowHeight{512};
+    int windowWidth{1024};
+    int windowHeight{1024};
     Vector2Df initialCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
@@ -26,7 +26,7 @@ bool Game::init() {
 
     this->camera.init(windowWidth, windowHeight, initialCameraPos);
 
-    this->background.init(*this->context);
+    this->background.init(*this->context, windowWidth, windowHeight);
 
     this->initPlayer();
 #ifdef DEBUG_MARKER_ID

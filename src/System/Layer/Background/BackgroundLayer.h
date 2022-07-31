@@ -20,12 +20,12 @@ public:
 
     ~BackgroundLayer() override;
 
-    void init(const Context &context) override;
+    void init(const Context &context, int width, int height) override;
 
     void update(Context &context, const Camera &camera, Canvas &canvas) override;
 
 private:
-    static constexpr int chunkElem = 10;
+    static int chunkElem;
     std::uniform_int_distribution<int> dist;
     std::random_device rd;
 

@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+int BackgroundLayer::chunkElem = 10;
+
 BackgroundLayer::BackgroundLayer() : dist(0, 2) {
     this->chunks = nullptr;
     this->surroundingChunks = nullptr;
@@ -16,10 +18,12 @@ BackgroundLayer::~BackgroundLayer() {
     /* TODO: clear chunks */
 }
 
-void BackgroundLayer::init(const Context &context) {
+void BackgroundLayer::init(const Context &context, int width, int height)  {
     context.getTextureManager()->addTextureAndId("Grassland", "Grassland.png");
 
     Vector2Df start(0.f, 0.f);
+    BackgroundLayer::chunkElem = width/64;
+    std::cout << BackgroundLayer::chunkElem << std::endl;
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
     this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_00",

@@ -1,6 +1,6 @@
 #include "UserInformationLayer.h"
 
-void UserInformationLayer::init(const Context& context) {
+void UserInformationLayer::init(const Context& context, int width, int height) {
 
 }
 

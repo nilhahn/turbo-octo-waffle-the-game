@@ -24,7 +24,7 @@ public:
         return this->active;
     }
 
-    inline bool toggle() {
+    inline void toggle() {
         this->active = !this->active;
     }
 

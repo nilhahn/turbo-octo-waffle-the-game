@@ -11,7 +11,7 @@ class Layer {
 public:
     virtual ~Layer() {}
 
-    virtual void init(const Context &context) = 0;
+    virtual void init(const Context &context, int width, int height) = 0;
 
     virtual void update(Context &context, const Camera &camera, Canvas &canvas) = 0;
 };
