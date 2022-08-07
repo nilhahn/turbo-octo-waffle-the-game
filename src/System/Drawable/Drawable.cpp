@@ -27,7 +27,7 @@ Drawable::Drawable(const char *id, int frameOffsetX, int frameOffsetY, int widht
 }
 
 Drawable::Drawable(const Drawable *drawable) {
-    this->copyState(drawable);
+    this->copyState(*drawable);
 }
 
 void Drawable::prepareDrawable(const char *drawableId, int widthOfFrame, int heightOfFrame,
@@ -72,12 +72,12 @@ void Drawable::updateFrameCnt(long deltaMs) {
     }
 }
 
-void Drawable::copyState(const Drawable *drawable) {
-    this->id = drawable->getId();
-    this->encapsulatingRect = drawable->encapsulatingRect;
-    this->currentFrame = drawable->currentFrame;
-    this->numberOfFrames = drawable->numberOfFrames;
-    this->delta = drawable->delta;
-    this->deltaToNextFrame = drawable->deltaToNextFrame;
-    this->frameOffset = drawable->frameOffset;
+void Drawable::copyState(const Drawable &drawable) {
+    this->id = drawable.getId();
+    this->encapsulatingRect = drawable.encapsulatingRect;
+    this->currentFrame = drawable.currentFrame;
+    this->numberOfFrames = drawable.numberOfFrames;
+    this->delta = drawable.delta;
+    this->deltaToNextFrame = drawable.deltaToNextFrame;
+    this->frameOffset = drawable.frameOffset;
 }

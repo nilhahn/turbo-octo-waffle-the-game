@@ -1,7 +1,7 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_HITBOX_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_HITBOX_H
 
-#include "../../Vector2D.h"
+#include "../../Square2D.h"
 #include "iostream"
 
 class HitBox : public Square2D {

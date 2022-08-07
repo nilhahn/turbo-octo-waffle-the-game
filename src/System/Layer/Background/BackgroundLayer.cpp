@@ -173,7 +173,7 @@ void BackgroundLayer::addChunkToScene(Chunk **&pChunk, Context &context, const C
                     entityPool.push_back(std::make_shared<Entity>(*entity));
                 } else {
                   entity = entityPool.at(entityIdx).get();
-                  entity->getProperty<Drawable>()->copyState(backgroundSprite);
+                  entity->getProperty<Drawable>()->copyState(*backgroundSprite);
                   entity->getProperty<HitBox>()->positionAt(chunkPosition);
                 }
 

@@ -18,7 +18,7 @@ public:
 
     std::string getId() const;
 
-    void copyState(const Drawable* drawable);
+    void copyState(const Drawable& drawable);
 
     std::string getFile() const;
 
