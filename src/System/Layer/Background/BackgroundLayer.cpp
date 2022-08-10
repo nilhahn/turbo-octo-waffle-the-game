@@ -35,8 +35,7 @@ void BackgroundLayer::init(const Context &context, int width, int height)  {
                                                                                                           64, 1)));
     this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_02",
                                                                                std::make_shared<Drawable>("Grassland",
-                                                                                                          64, 0, 64, 64,
-                                                                                                          1)));
+                                                                                                          64, 0, 64, 64, 1)));
 }
 
 void BackgroundLayer::update(Context &context, const Camera &camera, Canvas &canvas) {
