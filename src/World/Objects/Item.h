@@ -1,13 +1,12 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_ITEM_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_ITEM_H
 
+#include "ItemDescriptions.h"
+
 #include <string>
 
 class Item {
 public:
-    typedef enum {
-        WEAPON, ARMOR, CONSUMABLES, TOOLS, MISC
-    } ItemType;
 
     inline void setValue(int value_) {
         this->value = value_;
@@ -55,6 +54,8 @@ protected:
     std::string id;
     std::string name;
     ItemType type;
+
+    explicit Item(ItemType typeOfItem);
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_ITEM_H

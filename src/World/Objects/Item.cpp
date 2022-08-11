@@ -1,5 +1,6 @@
-//
-// Created by MHeis on 10.08.2022.
-//
-
 #include "Item.h"
+
+
+Item::Item(Item::ItemType typeOfItem): type(typeOfItem) {
+
+}
