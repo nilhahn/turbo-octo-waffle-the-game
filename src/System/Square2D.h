@@ -35,9 +35,9 @@ public:
 
     float getLowerCornerY() const;
 
-    float getWidth();
+    float getWidth() const;
 
-    float getHeight();
+    float getHeight() const;
 
     float area(); // i don't think that this one will be used in the near future
 

@@ -3,17 +3,21 @@
 
 #include "../../Drawable/Drawable.h"
 #include "HitBox.h"
-#include "../../../World/Objects/Item.h"
+#include "../../../World/Objects/Items.h"
 
 class Equipment {
 public:
-    inline void setDrawable(Drawable& drawable_) {
-        this->drawable.copyState(drawable_);
-    }
+    void setDrawable(Drawable &drawable_);
 
-    inline Drawable* getDrawable() {
-        return &drawable;
-    }
+    const Drawable &getDrawable();
+
+    void setHitBox(HitBox &hitBox);
+
+    const HitBox &getHitBox();
+
+    void setItem(Item& item);
+
+    const Item& getItem();
 
 private:
     Drawable drawable;

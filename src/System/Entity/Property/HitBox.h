@@ -8,7 +8,9 @@ class HitBox : public Square2D {
 private:
     bool active;
 public:
-    explicit HitBox(float x = 0., float y = 0., float w = 0., float h = 0., bool isActive = true) : Square2D(x, y, w, h), active(isActive) {}
+    explicit HitBox(float x = 0., float y = 0., float w = 0., float h = 0., bool isActive = true) : Square2D(x, y, w,
+                                                                                                             h),
+                                                                                                    active(isActive) {}
 
     inline HitBox &cornerX(float x) {
         this->setCornerX(x);
@@ -28,12 +30,23 @@ public:
         this->active = !this->active;
     }
 
+    HitBox &operator=(const HitBox &hitBox) {
+        this->setCornerX(hitBox.getCornerX());
+        this->setCornerY(hitBox.getCornerY());
+        this->setWidth(hitBox.getWidth());
+        this->setHeight(hitBox.getHeight());
+
+        return *this;
+    }
+
     bool collision(HitBox &box) {
-        if(!box.isActive()) {
+        if (!box.isActive()) {
             return false;
         }
-        SDL_Rect A{static_cast<int>(this->getCornerX()), static_cast<int>(this->getCornerY()), static_cast<int>(this->getWidth()), static_cast<int>(this->getHeight())};
-        SDL_Rect B{static_cast<int>(box.getCornerX()), static_cast<int>(box.getCornerY()), static_cast<int>(box.getWidth()), static_cast<int>(box.getHeight())};
+        SDL_Rect A{static_cast<int>(this->getCornerX()), static_cast<int>(this->getCornerY()),
+                   static_cast<int>(this->getWidth()), static_cast<int>(this->getHeight())};
+        SDL_Rect B{static_cast<int>(box.getCornerX()), static_cast<int>(box.getCornerY()),
+                   static_cast<int>(box.getWidth()), static_cast<int>(box.getHeight())};
         return SDL_HasIntersection(&A, &B);
     }
 };

@@ -52,11 +52,11 @@ float Square2D::area() {
     return this->height * this->width;
 }
 
-float Square2D::getWidth() {
+float Square2D::getWidth() const {
     return this->width;
 }
 
-float Square2D::getHeight() {
+float Square2D::getHeight() const {
     return this->height;
 }
 
