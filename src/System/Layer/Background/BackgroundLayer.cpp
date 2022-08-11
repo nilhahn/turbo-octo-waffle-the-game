@@ -1,5 +1,4 @@
 #include "BackgroundLayer.h"
-#include "../../../World/Objects/BackgroundObject.h"
 
 #include <iostream>
 
