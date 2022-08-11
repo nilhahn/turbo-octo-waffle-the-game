@@ -72,6 +72,7 @@ bool Game::isRunning() {
 }
 
 void Game::run() {
+    Uint32 start{0};
     Uint32 now{0};
     Uint32 nextTime{0};
     long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
@@ -81,15 +82,17 @@ void Game::run() {
         nextTime += SDL_GetTicks();
         while (this->isRunning()) {
             nextTime += tick;
+            start = SDL_GetTicks();
             // attention: with the change to the canvas class the order of this method calls matters
-            this->update(delta);
-            this->handleEvents(delta);
-            this->render(delta);
+            this->update(tick);
+            this->handleEvents(tick);
+            this->render(tick);
             now = SDL_GetTicks();
             if (nextTime >= now) {
-                SDL_Delay(nextTime - now);
+                delta = (now - start);
+                SDL_Delay(tick - delta);
             }
-            delta = nextTime - now;
+            std::cout << delta <<"[ms]" << std::endl;
         }
         this->context->getTextureManager()->clear();
     }
@@ -110,7 +113,7 @@ void Game::inputEvent(unsigned int deltaMs) {
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
     EntityState::ObjectState state{entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState()};
-    Vector2Df vector;
+    Vector2Df vector{0.f,0.f};
 
     if (entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
 

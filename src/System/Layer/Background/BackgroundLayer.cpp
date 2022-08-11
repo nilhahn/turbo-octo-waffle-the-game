@@ -17,11 +17,11 @@ BackgroundLayer::~BackgroundLayer() {
     /* TODO: clear chunks */
 }
 
-void BackgroundLayer::init(const Context &context, int width, int height)  {
+void BackgroundLayer::init(const Context &context, int width, int height) {
     context.getTextureManager()->addTextureAndId("Grassland", "Grassland.png");
 
     Vector2Df start(0.f, 0.f);
-    BackgroundLayer::chunkElem = width/64;
+    BackgroundLayer::chunkElem = width / 64;
     std::cout << BackgroundLayer::chunkElem << std::endl;
     this->createNewChunk(start, BackgroundLayer::chunkElem);
 
@@ -34,7 +34,8 @@ void BackgroundLayer::init(const Context &context, int width, int height)  {
                                                                                                           64, 1)));
     this->background.insert(std::pair<std::string, std::shared_ptr<Drawable> >("GRASSLAND_02",
                                                                                std::make_shared<Drawable>("Grassland",
-                                                                                                          64, 0, 64, 64, 1)));
+                                                                                                          64, 0, 64, 64,
+                                                                                                          1)));
 }
 
 void BackgroundLayer::update(Context &context, const Camera &camera, Canvas &canvas) {
@@ -45,8 +46,10 @@ void BackgroundLayer::update(Context &context, const Camera &camera, Canvas &can
         Chunk ***leftBottomChunk = nullptr;
         Chunk ***rightBottomChunk = nullptr;
         Square2D nextChunkBase;
+        int iterations = 0;
 
         do {
+            iterations++;
             leftChunk = this->chunks->find(cameraRect);
 
             if (leftChunk == nullptr) {
@@ -151,28 +154,30 @@ void BackgroundLayer::createNewChunk(Vector2Df &start, int elements) {
     this->determineSurroundingChunk(square2D, dimension);
 }
 
-void BackgroundLayer::addChunkToScene(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas, int& entityIdx) {
+void BackgroundLayer::addChunkToScene(Chunk **&pChunk, Context &context, const Camera &camera, Canvas &canvas,
+                                      int &entityIdx) {
     for (int i = 0; i < chunkElem; i++) {
         for (int j = 0; j < chunkElem; j++) {
             Vector2Df chunkPosition = {pChunk[i][j].getDimension().getCornerX(),
                                        pChunk[i][j].getDimension().getCornerY()};
-            Vector2Df chunkDimension = {    pChunk[i][j].getDimension().getWidth(),
-                                            pChunk[i][j].getDimension().getHeight()
-                                        };
+            Vector2Df chunkDimension = {pChunk[i][j].getDimension().getWidth(),
+                                        pChunk[i][j].getDimension().getHeight()
+            };
             if (camera.isObjectVisible(chunkPosition, chunkDimension.getX(), chunkDimension.getY())) {
                 auto backgroundSprite = this->background.find(pChunk[i][j].getIdentifier())->second.get();
 
-                Entity* entity;
-                if(entityPool.size() < (entityIdx + 1) ) {
+                Entity *entity;
+                if (entityPool.size() < (entityIdx + 1)) {
                     entity = new Entity("background_object_" + std::to_string(entityIdx));
                     entity->addProperty(new Property<Drawable>(*backgroundSprite));
-                    HitBox hitBox{chunkPosition.getX(), chunkPosition.getY(),  chunkDimension.getX(), chunkDimension.getY(),false};
+                    HitBox hitBox{chunkPosition.getX(), chunkPosition.getY(), chunkDimension.getX(),
+                                  chunkDimension.getY(), false};
                     entity->addProperty(new Property<HitBox>(hitBox));
                     entityPool.push_back(std::make_shared<Entity>(*entity));
                 } else {
-                  entity = entityPool.at(entityIdx).get();
-                  entity->getProperty<Drawable>()->copyState(*backgroundSprite);
-                  entity->getProperty<HitBox>()->positionAt(chunkPosition);
+                    entity = entityPool.at(entityIdx).get();
+                    entity->getProperty<Drawable>()->copyState(*backgroundSprite);
+                    entity->getProperty<HitBox>()->positionAt(chunkPosition);
                 }
 
                 canvas.addToScene(entityPool.at(entityIdx));
