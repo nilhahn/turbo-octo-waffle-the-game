@@ -8,9 +8,8 @@ class HitBox : public Square2D {
 private:
     bool active;
 public:
-    explicit HitBox(float x = 0., float y = 0., float w = 0., float h = 0., bool isActive = true) : Square2D(x, y, w,
-                                                                                                             h),
-                                                                                                    active(isActive) {}
+    explicit HitBox(float x = 0., float y = 0., float w = 0., float h = 0., bool isActive = true) :
+            Square2D(x, y, w, h), active(isActive) {}
 
     inline HitBox &cornerX(float x) {
         this->setCornerX(x);
@@ -35,6 +34,7 @@ public:
         this->setCornerY(hitBox.getCornerY());
         this->setWidth(hitBox.getWidth());
         this->setHeight(hitBox.getHeight());
+        this->active = hitBox.active;
 
         return *this;
     }

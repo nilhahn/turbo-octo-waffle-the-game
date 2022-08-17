@@ -92,7 +92,6 @@ void Game::run() {
                 delta = (now - start);
                 SDL_Delay(tick - delta);
             }
-            std::cout << delta <<"[ms]" << std::endl;
         }
         this->context->getTextureManager()->clear();
     }
@@ -144,7 +143,6 @@ void Game::inputEvent(unsigned int deltaMs) {
             camera.move(vector);
         }
     }
-
 }
 
 bool Game::isKeyDown(const Uint8 *keyStates, SDL_Scancode key) {
