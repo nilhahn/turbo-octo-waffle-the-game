@@ -240,9 +240,9 @@ bool Game::collide(HitBox& hitBox) {
     if(!hitBox.isActive()) {
         return false;
     }
-    for (auto iter = this->canvas.getScene().begin(); iter != this->canvas.getScene().end(); iter++) {
-        if(iter->get()->getEntityId() != PlayerFactory::entityId) {
-            auto iterHitBox = iter->get()->getProperty<HitBox>();
+    for (const auto & iter : this->canvas.getScene()) {
+        if(iter->getEntityId() != PlayerFactory::entityId) {
+            auto iterHitBox = iter->getProperty<HitBox>();
             if(iterHitBox->isActive() && iterHitBox->collision(hitBox)) {
                 return true;
             }

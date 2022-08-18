@@ -12,6 +12,8 @@
 
 class Canvas {
 public:
+    explicit Canvas() : currentScene(0) {};
+
     void draw(Context &context,
               const Vector2Df &windowPosition,
               Drawable &drawable,
@@ -19,22 +21,24 @@ public:
               bool flip = false,
               double angle = 0.0);
 
-    void drawScene(Context& context, Camera& camera, long delta);
+    void drawScene(Context &context, Camera &camera, long delta);
 
-    inline void addToScene(std::shared_ptr<Entity>& entity) {
-        this->scene.push_back(entity);
+    inline void addToScene(std::shared_ptr<Entity> &entity) {
+        this->scene[this->currentScene].push_back(entity);
     }
 
-    inline const std::vector<std::shared_ptr<Entity> >& getScene() {
-        return this->scene;
+    inline const std::vector<std::shared_ptr<Entity> > &getScene() {
+        return this->scene[this->currentScene];
     };
 
-    inline void clearScene() {
-        this->scene.clear();
+    inline void clearScene(int sceneNo) {
+        if (sceneNo < 2) {
+            this->scene[sceneNo].clear();
+        }
     }
 
 private:
-    inline SDL_Rect prepareFrame(const Vector2Df &position, const SDL_Rect& frame);
+    inline SDL_Rect prepareFrame(const Vector2Df &position, const SDL_Rect &frame);
 
     inline void render(SDL_Texture *textureManager,
                        SDL_Renderer *renderer,
@@ -45,9 +49,8 @@ private:
 
     bool isInStateLeftOrDown(EntityState::ObjectState state);
 
-    std::vector<std::shared_ptr<Entity> > scene;
-
+    std::vector<std::shared_ptr<Entity> > scene[2];
+    int currentScene;
 };
-
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_CANVAS_H

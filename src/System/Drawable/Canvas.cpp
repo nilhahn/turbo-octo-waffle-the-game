@@ -16,7 +16,9 @@ void Canvas::draw(Context &context, const Vector2Df &windowPosition,
 }
 
 void Canvas::drawScene(Context& context, Camera& camera, long delta) {
-    for (auto iter = this->scene.begin(); iter != scene.end(); iter++) {
+    int drawScene = this->currentScene;
+    this->currentScene = (this->currentScene + 1) % 2;
+    for (auto iter = this->scene[drawScene].begin(); iter != scene[drawScene].end(); iter++) {
         Drawable* drawable;
         auto state = iter->get()->getProperty<EntityState>();
 
@@ -37,7 +39,7 @@ void Canvas::drawScene(Context& context, Camera& camera, long delta) {
                     delta,
                     state == nullptr ? EntityState::ObjectState::IDLE : this->isInStateLeftOrDown(state->getState()));
     }
-    this->clearScene();
+    this->clearScene(drawScene);
 }
 
 SDL_Rect Canvas::prepareFrame(const Vector2Df &position, const SDL_Rect &frame) {
