@@ -3,14 +3,17 @@
 
 #include <vector>
 #include <memory>
+
 #include "SDL.h"
 #include "SDL_image.h"
+
 #include "Context.h"
-#include "../Resource/Resource.h"
-#include "../Resource/TextureManager.h"
-#include "../World/WorldObject.h"
-#include "../Window/Camera.h"
-#include "Layer/Background/BackgroundLayer.h"
+#include "Resource.h"
+#include "TextureManager.h"
+#include "WorldObject.h"
+#include "Camera.h"
+
+#include "Layer/BackgroundLayer.h"
 #include "Entity/Entity.h"
 #include "Factory/Factories.h"
 

@@ -1,9 +1,9 @@
 #define SDL_MAIN_HANDLED
 
-#include <iostream>
+#include "Resource.h"
+#include "Game.h"
 
-#include "Resource/Resource.h"
-#include "System/Game.h"
+#include <iostream>
 
 /**
  * Main entry point

@@ -2,7 +2,8 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_ANIMATION_H
 
 #include <string>
-#include "../../Resource/TextureManager.h"
+
+#include "TextureManager.h"
 
 class Drawable {
 public:

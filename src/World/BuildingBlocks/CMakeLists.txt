@@ -1,0 +1,10 @@
+set(BUILDING_BLOCK_SOURCES
+        Chunk.cpp)
+
+set(BUILDING_BLOCK_INCLUDES
+        "./")
+
+add_library(${BUILDING_BLOCKS_LIBRARY} STATIC
+        ${BUILDING_BLOCK_SOURCES})
+target_include_directories(${BUILDING_BLOCKS_LIBRARY} PUBLIC
+        ${BUILDING_BLOCK_INCLUDES})

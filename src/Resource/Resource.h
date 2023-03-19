@@ -2,6 +2,7 @@
 #define RESOURCE_H
 
 #include <iostream>
+
 #include "SDL.h"
 
 class Resource

@@ -1,7 +1,8 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_BASEPROPERTY_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_BASEPROPERTY_H
 
-#include "../Context.h"
+#include <typeinfo>
+#include "Context.h"
 
 class BaseProperty {
 public:

@@ -1,9 +1,9 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_EQUIPMENT_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_EQUIPMENT_H
 
-#include "../../Drawable/Drawable.h"
+#include "Drawable.h"
 #include "HitBox.h"
-#include "../../../World/Objects/Items.h"
+#include "Items.h"
 
 class Equipment {
 public:

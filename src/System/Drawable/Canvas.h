@@ -2,13 +2,14 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_CANVAS_H
 
 #include <memory>
-#include "../../Resource/TextureManager.h"
-#include "../Vector2D.h"
+
+#include "TextureManager.h"
+#include "Vector2D.h"
 #include "Drawable.h"
-#include "../Context.h"
-#include "../Entity/Entity.h"
-#include "../../Window/Camera.h"
-#include "../Entity/Property/Properties.h"
+#include "Context.h"
+#include "Entity.h"
+#include "Camera.h"
+#include "Properties.h"
 
 class Canvas {
 public:

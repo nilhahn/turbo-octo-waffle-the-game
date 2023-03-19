@@ -2,8 +2,10 @@
 #define _WINDOW_H_
 
 #include "SDL.h"
-#include "../System/Vector2D.h"
-#include "../Resource/TextureManager.h"
+
+#include "Vector2D.h"
+#include "TextureManager.h"
+
 #include <string>
 
 class Window {
@@ -25,6 +27,5 @@ private:
 
     bool init(std::string &title, int width, int height, std::string& texturePath);
 };
-
 
 #endif //_WINDOW_H

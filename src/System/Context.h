@@ -3,7 +3,7 @@
 
 #include <random>
 
-#include "../Window/Window.h"
+#include "Window.h"
 
 class Context {
 public:

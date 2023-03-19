@@ -7,12 +7,12 @@
 #include <cmath>
 #include <random>
 
-#include "../Layer.h"
+#include "Layer.h"
 
-#include "../../Quadtree.h"
-#include "../../../World/WorldObject.h"
-#include "../../../World/InitalizationMapper.h"
-#include "../../../World/BuildingBlocks/Chunk.h"
+#include "../Quadtree.h"
+#include "../../World/WorldObject.h"
+#include "../../World/InitalizationMapper.h"
+#include "../../World/BuildingBlocks/Chunk.h"
 
 class BackgroundLayer : public Layer {
 public:

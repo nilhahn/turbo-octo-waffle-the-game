@@ -2,6 +2,7 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_TEXTUREMANAGER_H
 
 #include <map>
+#include <string>
 
 #include "SDL.h"
 #include "SDL_image.h"
