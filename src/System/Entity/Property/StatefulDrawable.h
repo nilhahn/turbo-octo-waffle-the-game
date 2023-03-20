@@ -3,8 +3,8 @@
 
 #include <memory>
 #include "EntityState.h"
-#include "../../Drawable/Drawable.h"
-#include "../../../World/WorldObject.h"
+#include "Drawable.h"
+#include "WorldObject.h"
 
 class StatefulDrawable {
 public:

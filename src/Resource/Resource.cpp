@@ -1,6 +1,6 @@
 #include "Resource.h"
 
-const std::string Resource::PATH_SEP = "/";
+const std::string Resource::PATH_SEP = "\\";
 
 std::string Resource::getResourcePath(const std::string &subDir) {
 
@@ -15,7 +15,7 @@ std::string Resource::getResourcePath(const std::string &subDir) {
     }
 
     size_t pos = baseRes.rfind("bin");
-    baseRes = baseRes.substr(0, pos) + "assets" + Resource::PATH_SEP;
+    baseRes = baseRes.substr(0, pos) + "..\\..\\" "assets" + Resource::PATH_SEP;
 
     return subDir.empty() ? baseRes : baseRes + subDir + Resource::PATH_SEP;
 }

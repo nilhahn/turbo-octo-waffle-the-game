@@ -1,10 +1,10 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_OBJECTFACTORY_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_OBJECTFACTORY_H
 
-#include "../Entity/BaseProperty.h"
-#include "../Entity/Entity.h"
-#include "../../Window/Camera.h"
-#include "../Entity/Property/Properties.h"
+#include "BaseProperty.h"
+#include "Entity.h"
+#include "Camera.h"
+#include "Properties.h"
 
 class ObjectFactory {
 public:

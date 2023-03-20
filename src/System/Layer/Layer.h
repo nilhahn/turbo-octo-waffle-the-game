@@ -1,11 +1,11 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_LAYER_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_LAYER_H
 
-#include "../Vector2D.h"
-#include "../Context.h"
-#include "../Drawable/Canvas.h"
-#include "../../Window/Camera.h"
-#include "../../Resource/TextureManager.h"
+#include "Vector2D.h"
+#include "Context.h"
+#include "Canvas.h"
+#include "Camera.h"
+#include "TextureManager.h"
 
 class Layer {
 public:

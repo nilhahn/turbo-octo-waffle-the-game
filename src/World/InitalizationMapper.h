@@ -2,7 +2,7 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_INITALIZATIONMAPPER_H
 
 #include <map>
-#include "../System/Vector2D.h"
+#include "Vector2D.h"
 #include "WorldObject.h"
 
 class InitalizationMapper {

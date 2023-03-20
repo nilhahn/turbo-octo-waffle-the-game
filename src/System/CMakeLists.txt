@@ -34,4 +34,5 @@ target_link_libraries(${SYSTEM_LIBRARY} PUBLIC
         ${DRAWABLE_LIBRARY}
         ${ENTITY_LIBRARY}
         ${FACTORY_LIBRARY}
-        ${LAYER_LIBRARY})
+        ${LAYER_LIBRARY}
+        ${RESOURCE_LIBRARY})

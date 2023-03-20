@@ -1,10 +1,10 @@
 #ifndef TURBO_OCTO_WAFFLE_THE_GAME_CHUNK_H
 #define TURBO_OCTO_WAFFLE_THE_GAME_CHUNK_H
 
-#include <SDL.h>
+#include "SDL.h"
 #include <string>
 
-#include "../../System/Square2D.h"
+#include "Square2D.h"
 
 class Chunk {
 public:

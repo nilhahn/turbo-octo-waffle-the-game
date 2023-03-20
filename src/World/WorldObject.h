@@ -2,13 +2,13 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_WORLDOBJECT_H
 
 #include <string>
-#include <SDL.h>
+#include "SDL.h"
 
-#include "../System/Vector2D.h"
-#include "../System/Drawable/Drawable.h"
-#include "../Window/Camera.h"
-#include "../System/Context.h"
-#include "../System/Drawable/Canvas.h"
+#include "Vector2D.h"
+#include "Drawable.h"
+#include "Camera.h"
+#include "Context.h"
+#include "Canvas.h"
 
 class Canvas;
 

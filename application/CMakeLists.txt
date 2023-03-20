@@ -13,13 +13,13 @@ message("World library      " ${WORLD_LIBRARY})
 add_executable(${EXECUTABLE_NAME}
         ${APPLICATION_SOURCES})
 target_include_directories(${EXECUTABLE_NAME} PUBLIC
-        ${APPLICATION_INCLUDES})
-target_include_directories(${EXECUTABLE_NAME} PUBLIC ${SDL2_INCLUDE_DIR})
-target_include_directories(${EXECUTABLE_NAME} PUBLIC ${SDL2_IMAGE_INCLUDE_DIR})
+        ${APPLICATION_INCLUDES}
+        ${SDL2_INCLUDE_DIR}
+        ${SDL2_IMAGE_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_NAME} PUBLIC
         ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARY}
         ${RESOURCE_LIBRARY}
+        ${WORLD_LIBRARY}
         ${SYSTEM_LIBRARY}
-        ${WINDOW_LIBRARY}
-        ${WORLD_LIBRARY})
+        ${WINDOW_LIBRARY})
