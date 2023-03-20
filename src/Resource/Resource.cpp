@@ -1,6 +1,10 @@
 #include "Resource.h"
 
+#ifdef _WIN32
 const std::string Resource::PATH_SEP = "\\";
+#else
+const std::string Resource::PATH_SEP = "/";
+#endif
 
 std::string Resource::getResourcePath(const std::string &subDir) {
 
@@ -15,7 +19,10 @@ std::string Resource::getResourcePath(const std::string &subDir) {
     }
 
     size_t pos = baseRes.rfind("bin");
-    baseRes = baseRes.substr(0, pos) + "..\\..\\" "assets" + Resource::PATH_SEP;
+    baseRes = baseRes.substr(0, pos) +
+            ".." + Resource::PATH_SEP +
+            ".." + Resource::PATH_SEP +
+            "assets" + Resource::PATH_SEP;
 
     return subDir.empty() ? baseRes : baseRes + subDir + Resource::PATH_SEP;
 }

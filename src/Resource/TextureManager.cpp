@@ -7,7 +7,6 @@ TextureManager *TextureManager::manager = nullptr;
 bool TextureManager::load(const std::string& fileName, const std::string& id, SDL_Renderer &renderer) {
     bool result = false;
     std::string filePath = this->resourcePath + fileName;
-    std::cout << "load " << filePath << std::endl;
     if (this->textureContainer.find(id) == textureContainer.end()) {
         SDL_Surface *surface = IMG_Load(filePath.data());
         this->textureContainer.insert({id, SDL_CreateTextureFromSurface(&renderer, surface)});
