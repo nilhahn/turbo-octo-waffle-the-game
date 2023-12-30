@@ -25,6 +25,9 @@ public:
     template<typename T>
     T *getProperty() const;
 
+    template<typename T>
+    T *getProperty(const char* key) const;
+
     std::string getEntityId() const;
 
     bool isEmpty();
@@ -44,7 +47,12 @@ void Entity::addProperty(Property<T> *property) {
 
 template<typename T>
 auto Entity::getProperty() const -> T*{
-    const auto property = properties.find(typeid(T).name());
+    return this->getProperty<T>(typeid(T).name());
+}
+
+template<typename T>
+auto Entity::getProperty(const char* key) const -> T*{
+    const auto property = properties.find(key);
     if (property == properties.end()) {
         return nullptr;
     }

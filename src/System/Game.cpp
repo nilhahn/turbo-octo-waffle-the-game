@@ -113,11 +113,15 @@ void Game::inputEvent(unsigned int deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
-    EntityState::ObjectState state{entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState()};
     Vector2Df vector{0.f,0.f};
 
     const auto player = entities.at(PlayerFactory::entityId);
+
+    const char* stateKey = typeid(EntityState).name();
+    const char* hitBoxKey = typeid(HitBox).name();
+
     if (player->getProperty<EntityState>()->getState() != EntityState::DEAD) {
+        EntityState::ObjectState state = player->getProperty<EntityState>(stateKey)->getState();
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
@@ -135,14 +139,14 @@ void Game::inputEvent(unsigned int deltaMs) {
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
 
-        const auto currentPos = player->getProperty<HitBox>();
+        const auto currentPos = player->getProperty<HitBox>(hitBoxKey);
 
         HitBox nextPos{currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()};
         nextPos.move(vector);
-        player->getProperty<EntityState>()->setState(state);
+        player->getProperty<EntityState>(stateKey)->setState(state);
 
         if (!collide(nextPos)) {
-            player->getProperty<HitBox>()->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
+            player->getProperty<HitBox>(hitBoxKey)->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
             camera.move(vector);
         }
     }
@@ -226,9 +230,10 @@ void Game::initMarker() {
 
 void Game::update(unsigned int delta) {
     this->background.update(*context, camera, canvas);
+    const char* hitBoxKey = typeid(HitBox).name();
     for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
         const auto elem = iter->second.get();
-        HitBox* hitBox = elem->getProperty<HitBox>();
+        const auto hitBox = elem->getProperty<HitBox>(hitBoxKey);
         if(hitBox != nullptr && this->camera.isObjectVisible(hitBox)) {
             this->canvas.addToScene(iter->second);
         }
@@ -243,9 +248,10 @@ bool Game::collide(HitBox& hitBox) {
     if(!hitBox.isActive()) {
         return false;
     }
+    const char* hitBoxKey = typeid(HitBox).name();
     for (const auto & iter : this->canvas.getScene()) {
         if(iter->getEntityId() != PlayerFactory::entityId) {
-            auto iterHitBox = iter->getProperty<HitBox>();
+            const auto iterHitBox = iter->getProperty<HitBox>(hitBoxKey);
             if(iterHitBox->isActive() && iterHitBox->collision(hitBox)) {
                 return true;
             }

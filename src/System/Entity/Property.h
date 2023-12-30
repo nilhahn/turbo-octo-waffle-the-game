@@ -7,29 +7,31 @@ template<class T>
 class Property : public BaseProperty {
 protected:
     T value;
-    std::string key;
 public:
-    Property() = default;
+    Property() {
+        this->key = typeid(T).name();
+    };
+
     explicit Property(T& value);
 
     T *getValue();
 
-    const char *getKey() override;
+    const char* getKey() override;
 };
 
 template<class T>
-T *Property<T>::getValue() {
+auto Property<T>::getValue() -> T* {
     return &this->value;
 }
 
-
 template<class T>
 const char *Property<T>::getKey() {
-    return typeid(T).name();
+    return this->key;
 }
 
 template<class T>
 Property<T>::Property(T &value) {
+    this->key = typeid(T).name();
     this->value = value;
 }
 

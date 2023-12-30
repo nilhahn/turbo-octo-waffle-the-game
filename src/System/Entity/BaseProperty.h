@@ -6,7 +6,9 @@
 
 class BaseProperty {
 public:
-    explicit BaseProperty() = default;
+    explicit BaseProperty() {
+        this->key = nullptr;
+    };
 
     virtual ~BaseProperty() = default;
 
@@ -14,6 +16,8 @@ public:
 
     template<class T>
     static const char *getType();
+protected:
+    const char* key;
 };
 
 template<class T>
