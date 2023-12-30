@@ -18,7 +18,7 @@ void WorldObject::setPosition(Vector2Df &position_) {
     this->position = position_;
 }
 
-void WorldObject::setPosition(float x, float y) {
+void WorldObject::setPosition(const float x, const float y) {
     this->position.setX(x);
     this->position.setY(y);
 }
@@ -45,7 +45,7 @@ void WorldObject::setId(const char *id) {
     this->objectId = id;
 }
 
-bool WorldObject::isInStateLeftOrDown() {
+bool WorldObject::isInStateLeftOrDown() const{
     return this->state == LEFT || this->state == DOWN;
 }
 

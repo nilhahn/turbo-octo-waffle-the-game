@@ -3,15 +3,11 @@
 
 #include <map>
 #include <memory>
-#include <vector>
 
 #include "Property.h"
 #include "Exception.h"
 
 class Entity {
-private:
-    std::string entityId{};
-    std::map<std::string, std::shared_ptr<BaseProperty> > properties;
 public:
     Entity() = default;
 
@@ -32,6 +28,10 @@ public:
     std::string getEntityId() const;
 
     bool isEmpty();
+
+private:
+    std::string entityId{};
+    std::map<std::string, std::shared_ptr<BaseProperty> > properties;
 };
 
 template<typename T>
@@ -43,12 +43,12 @@ void Entity::addProperty(Property<T> *property) {
 }
 
 template<typename T>
-T *Entity::getProperty() const{
-    auto property = properties.find(typeid(T).name());
+auto Entity::getProperty() const -> T*{
+    const auto property = properties.find(typeid(T).name());
     if (property == properties.end()) {
         return nullptr;
     }
-    return ((Property<T> *) property->second.get())->getValue();
+    return static_cast<Property<T>*>(property->second.get())->getValue();
 }
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_ENTITY_H

@@ -17,8 +17,8 @@ Game::Game() : FPS(60) {
 bool Game::init() {
     std::string title = "turbo-octo-waffel";
 
-    int windowWidth{1024};
-    int windowHeight{1024};
+    const int windowWidth{1024};
+    const int windowHeight{1024};
     Vector2Df initialCameraPos(0, 0);
 
     std::string resourcePath = Resource::getResourcePath();
@@ -76,7 +76,8 @@ void Game::run() {
     Uint32 start{0};
     Uint32 now{0};
     Uint32 nextTime{0};
-    long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
+
+    const long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
     long delta{0};
 
     if (this->init()) {
@@ -115,7 +116,8 @@ void Game::inputEvent(unsigned int deltaMs) {
     EntityState::ObjectState state{entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState()};
     Vector2Df vector{0.f,0.f};
 
-    if (entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->getState() != EntityState::DEAD) {
+    const auto player = entities.at(PlayerFactory::entityId);
+    if (player->getProperty<EntityState>()->getState() != EntityState::DEAD) {
 
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
@@ -133,14 +135,14 @@ void Game::inputEvent(unsigned int deltaMs) {
             vector.setX(+0.1f * static_cast<float>(deltaMs));
         }
 
-        auto currentPos = entities.at(PlayerFactory::entityId)->getProperty<HitBox>();
+        const auto currentPos = player->getProperty<HitBox>();
 
         HitBox nextPos{currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()};
         nextPos.move(vector);
-        entities.at(PlayerFactory::entityId)->getProperty<EntityState>()->setState(state);
+        player->getProperty<EntityState>()->setState(state);
 
         if (!collide(nextPos)) {
-            entities.at(PlayerFactory::entityId)->getProperty<HitBox>()->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
+            player->getProperty<HitBox>()->cornerX(nextPos.getCornerX()).cornerY(nextPos.getCornerY());
             camera.move(vector);
         }
     }
@@ -225,7 +227,7 @@ void Game::initMarker() {
 void Game::update(unsigned int delta) {
     this->background.update(*context, camera, canvas);
     for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
-        auto elem = iter->second.get();
+        const auto elem = iter->second.get();
         HitBox* hitBox = elem->getProperty<HitBox>();
         if(hitBox != nullptr && this->camera.isObjectVisible(hitBox)) {
             this->canvas.addToScene(iter->second);

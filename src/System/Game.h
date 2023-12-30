@@ -1,17 +1,14 @@
 #ifndef SFRPG_GAME_H
 #define SFRPG_GAME_H
 
-#include <vector>
 #include <memory>
 
 #include "SDL.h"
-#include "SDL_image.h"
 
 #include "Context.h"
-#include "Resource.h"
-#include "TextureManager.h"
 #include "WorldObject.h"
 #include "Camera.h"
+#include "Resource.h"
 
 #include "Layer/BackgroundLayer.h"
 #include "Entity/Entity.h"

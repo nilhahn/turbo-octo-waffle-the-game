@@ -7,6 +7,7 @@ template<class T>
 class Property : public BaseProperty {
 protected:
     T value;
+    std::string key;
 public:
     Property() = default;
     explicit Property(T& value);

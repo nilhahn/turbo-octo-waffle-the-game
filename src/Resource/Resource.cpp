@@ -10,6 +10,7 @@ std::string Resource::getResourcePath(const std::string &subDir) {
 
     static std::string baseRes;
     char *basePath = SDL_GetBasePath();
+
     if(basePath) {
         baseRes = basePath;
         SDL_free(basePath);
@@ -18,7 +19,7 @@ std::string Resource::getResourcePath(const std::string &subDir) {
         return "";
     }
 
-    size_t pos = baseRes.rfind("bin");
+    const size_t pos = baseRes.rfind("bin");
     baseRes = baseRes.substr(0, pos) +
             ".." + Resource::PATH_SEP +
             ".." + Resource::PATH_SEP +

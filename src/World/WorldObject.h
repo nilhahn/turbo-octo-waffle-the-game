@@ -14,6 +14,8 @@ class Canvas;
 
 class WorldObject {
 public:
+    virtual ~WorldObject() = default;
+
     typedef enum {
         INIT = -1, IDLE, UP, DOWN, LEFT, RIGHT, DEAD
     } ObjectState;
@@ -49,7 +51,7 @@ public:
     virtual void update(long update);
 
 protected:
-    bool isInStateLeftOrDown();
+    bool isInStateLeftOrDown() const;
 
     void setId(const char *id);
 

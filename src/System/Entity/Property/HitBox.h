@@ -2,11 +2,8 @@
 #define TURBO_OCTO_WAFFLE_THE_GAME_HITBOX_H
 
 #include "../../Square2D.h"
-#include "iostream"
 
 class HitBox : public Square2D {
-private:
-    bool active;
 public:
     explicit HitBox(float x = 0., float y = 0., float w = 0., float h = 0., bool isActive = true) :
             Square2D(x, y, w, h), active(isActive) {}
@@ -49,6 +46,9 @@ public:
                    static_cast<int>(box.getWidth()), static_cast<int>(box.getHeight())};
         return SDL_HasIntersection(&A, &B);
     }
+
+private:
+    bool active;
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_HITBOX_H
