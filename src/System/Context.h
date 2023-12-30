@@ -11,9 +11,9 @@ public:
 
     virtual ~Context();
 
-    Window *getWindow() const;
+    [[nodiscard]] Window* getWindow() const;
 
-    TextureManager *getTextureManager() const;
+    [[nodiscard]] TextureManager* getTextureManager() const;
 
     int getRand();
 

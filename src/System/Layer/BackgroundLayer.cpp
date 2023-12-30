@@ -121,7 +121,7 @@ void BackgroundLayer::createNewChunk(Vector2Df &start, int elements) {
     for (int idx = 0; idx < elements; idx++) {
         chunk[idx] = new Chunk[elements];
         for (int j = 0; j < elements; j++) {
-            SDL_Rect dimension = {.x = x, .y = y, .w = 64, .h = 64};
+            SDL_Rect dimension = {x, y, 64, 64};
 
             chunk[idx][j].setDimension(dimension);
             //rand = 0; //(*this->distribution)(*mt) % 3 // this section doesn't work on linux -> sigsegv;

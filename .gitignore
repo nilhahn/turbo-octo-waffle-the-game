@@ -34,5 +34,6 @@
 cmake-build-debug/*
 assets/*.aseprite
 .idea
+build/
 
 bin/*

@@ -3,12 +3,11 @@ set(APPLICATION_SOURCES
 set(APPLICATION_INCLUDES
         "./")
 
-message("Executable name    " ${EXECUTABLE_NAME})
-message("Resource library   " ${RESOURCE_LIBRARY})
-message("System library     " ${SYSTEM_LIBRARY})
-message("Window library     " ${WINDOW_LIBRARY})
-message("World library      " ${WORLD_LIBRARY})
-
+message("Executable name        " ${EXECUTABLE_NAME})
+message("Resource library       " ${RESOURCE_LIBRARY})
+message("System library         " ${SYSTEM_LIBRARY})
+message("Window library         " ${WINDOW_LIBRARY})
+message("World library          " ${WORLD_LIBRARY})
 
 add_executable(${EXECUTABLE_NAME}
         ${APPLICATION_SOURCES})

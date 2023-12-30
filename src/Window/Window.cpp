@@ -16,6 +16,8 @@ Window *Window::create(std::string &title, int width, int height, std::string& t
 
 Window::Window() {
     this->sdlWindow = nullptr;
+    this->manager = nullptr;
+    this->renderer = nullptr;
     std::cout << "Window create" << std::endl;
 }
 
@@ -25,7 +27,8 @@ Window::~Window() {
     SDL_Quit();
 }
 
-SDL_Renderer *Window::getRenderer() {
+SDL_Renderer *Window::getRenderer() const
+{
     return this->renderer;
 }
 
@@ -41,11 +44,11 @@ bool Window::init(std::string &title, int width, int height, std::string& textur
     return false;
 }
 
-SDL_Window *Window::getSDLWindow() {
+SDL_Window *Window::getSDLWindow() const{
     return this->sdlWindow;
 }
 
-TextureManager *Window::getTextureManager() {
+TextureManager *Window::getTextureManager() const {
     return this->manager;
 }
 

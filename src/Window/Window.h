@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 
-#include "Vector2D.h"
 #include "TextureManager.h"
 
 #include <string>
@@ -13,9 +12,9 @@ public:
     ~Window();
 
     static Window* create(std::string& title, int width, int height, std::string& texturePath);
-    SDL_Renderer* getRenderer();
-    SDL_Window* getSDLWindow();
-    TextureManager* getTextureManager();
+    [[nodiscard]] SDL_Renderer* getRenderer() const;
+    [[nodiscard]] SDL_Window* getSDLWindow() const;
+    [[nodiscard]] TextureManager* getTextureManager() const;
 
 private:
     Window();

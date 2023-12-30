@@ -8,8 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_image REQUIRED)
+include(FindSDL2)
+include(FindSDL2_image)
 
 set(EXECUTABLE_NAME ${CMAKE_PROJECT_NAME})
 

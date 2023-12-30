@@ -1,12 +1,11 @@
+#include "SDL_image.h"
 #include "TextureManager.h"
-
-#include <iostream>
 
 TextureManager *TextureManager::manager = nullptr;
 
 bool TextureManager::load(const std::string& fileName, const std::string& id, SDL_Renderer &renderer) {
     bool result = false;
-    std::string filePath = this->resourcePath + fileName;
+    const std::string filePath = this->resourcePath + fileName;
     if (this->textureContainer.find(id) == textureContainer.end()) {
         SDL_Surface *surface = IMG_Load(filePath.data());
         this->textureContainer.insert({id, SDL_CreateTextureFromSurface(&renderer, surface)});
@@ -22,7 +21,7 @@ TextureManager::TextureManager(const std::string &baseResourcePath) {
 
 SDL_Texture *TextureManager::loadTexture(const char *id, SDL_Renderer &renderer) {
     if (this->textureContainer.find(id) == this->textureContainer.end()) {
-        auto path = this->texturePath.find(id);
+        const auto path = this->texturePath.find(id);
         if(path == this->texturePath.end()) {
             return nullptr;
         }
@@ -45,7 +44,7 @@ void TextureManager::addTextureAndId(const char *id, const char *textureLocation
 }
 
 void TextureManager::removeTexture(const std::string &id) {
-    auto resource = this->textureContainer.find(id);
+    const auto resource = this->textureContainer.find(id);
     if(this->textureContainer.end() != resource) {
         SDL_DestroyTexture(resource->second);
         this->textureContainer.erase(resource);
