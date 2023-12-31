@@ -95,6 +95,7 @@ void Game::run() {
                 SDL_Delay(tick - delta);
             }
         }
+        this->entities.clear();
         this->context->getTextureManager()->clear();
     }
 }
@@ -180,7 +181,7 @@ void Game::initSkeleton() {
     std::string entityId{factory.createId(*context)};
 
     this->entities.insert(
-            std::pair<std::string, std::unique_ptr<Entity> >(entityId, std::make_unique<Entity>(entityId))
+            std::pair<std::string, std::shared_ptr<Entity> >(entityId, std::make_shared<Entity>(entityId))
     );
     factory.createEntity(*this->entities.at(entityId).get(), *context, camera);
 }

@@ -40,7 +40,7 @@ private:
 template<typename T>
 void Entity::addProperty(Property<T> *property) {
     if (property != nullptr) {
-        std::unique_ptr<BaseProperty> prop{property}; // braced initialization
+        std::shared_ptr<BaseProperty> prop{property}; // braced initialization
         this->properties.insert(std::make_pair(property->getKey(), std::move(prop)));
     }
 }
