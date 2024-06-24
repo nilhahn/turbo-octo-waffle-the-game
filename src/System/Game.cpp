@@ -74,25 +74,23 @@ bool Game::isRunning() {
 
 void Game::run() {
     Uint32 start{0};
-    Uint32 now{0};
-    Uint32 nextTime{0};
+    Uint32 sleep{0};
 
     const long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
     long delta{0};
 
     if (this->init()) {
-        nextTime += SDL_GetTicks();
         while (this->isRunning()) {
-            nextTime += tick;
             start = SDL_GetTicks();
             // attention: with the change to the canvas class the order of this method calls matters
             this->update(tick);
             this->handleEvents(tick);
             this->render(tick);
-            now = SDL_GetTicks();
-            if (nextTime >= now) {
-                delta = (now - start);
-                SDL_Delay(tick - delta);
+
+            delta = SDL_GetTicks() - start;
+            if (tick > delta) {
+                sleep = tick - delta;
+                SDL_Delay(sleep);
             }
         }
         this->entities.clear();
