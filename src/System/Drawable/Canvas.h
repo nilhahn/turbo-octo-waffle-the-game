@@ -12,6 +12,8 @@
 #include "Properties.h"
 
 class Canvas {
+private:
+    static const unsigned int noOfScenes = 1;
 public:
     explicit Canvas() : currentScene(0) {};
 
@@ -33,7 +35,7 @@ public:
     };
 
     inline void clearScene(int sceneNo) {
-        if (sceneNo < 2) {
+        if (sceneNo < noOfScenes) {
             this->scene[sceneNo].clear();
         }
     }
@@ -50,8 +52,8 @@ private:
 
     bool isInStateLeftOrDown(EntityState::ObjectState state);
 
-    std::vector<std::shared_ptr<Entity> > scene[2];
-    int currentScene;
+    std::vector<std::shared_ptr<Entity> > scene[Canvas::noOfScenes];
+    unsigned int currentScene;
 };
 
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_CANVAS_H
