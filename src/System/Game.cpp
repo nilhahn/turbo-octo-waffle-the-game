@@ -83,15 +83,11 @@ void Game::run() {
         while (this->isRunning()) {
             start = SDL_GetTicks();
             // attention: with the change to the canvas class the order of this method calls matters
-            this->update(tick);
-            this->handleEvents(tick);
-            this->render(tick);
+            this->update(delta);
+            this->handleEvents(delta);
+            this->render(delta);
 
             delta = SDL_GetTicks() - start;
-            if (tick > delta) {
-                sleep = tick - delta;
-                SDL_Delay(sleep);
-            }
         }
         this->entities.clear();
         this->context->getTextureManager()->clear();
