@@ -53,6 +53,9 @@ private:
     Camera camera;
     BackgroundLayer background;
 
+    // should this be part of this class?
+    float velocity;
+
     std::map<std::string, std::shared_ptr<Entity> > entities;
 
     void update(unsigned int delta);

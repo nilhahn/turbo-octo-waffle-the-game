@@ -20,7 +20,7 @@ void Canvas::draw(Context &context, const Vector2Df &windowPosition,
 void Canvas::drawScene(Context& context, Camera& camera, long delta) {
     unsigned int drawScene = this->currentScene;
     this->currentScene = (this->currentScene + 1) % noOfScenes;
-    std::cout << "draw scene " << drawScene << std::endl;
+
     for (auto iter = this->scene[drawScene].begin(); iter != scene[drawScene].end(); iter++) {
         Drawable* drawable;
         auto state = iter->get()->getProperty<EntityState>();

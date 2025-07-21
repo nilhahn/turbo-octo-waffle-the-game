@@ -12,6 +12,7 @@
 Game::Game() : FPS(60) {
     this->running = false;
     this->context = nullptr;
+    this->velocity = 1.0f;
 }
 
 bool Game::init() {
@@ -98,8 +99,8 @@ void Game::initPlayer() {
     PlayerFactory factory;
 
     this->entities.insert(
-            std::pair<std::string, std::unique_ptr<Entity> >(PlayerFactory::entityId,
-                                                             std::make_unique<Entity>(factory.createId()))
+        std::pair<std::string, std::unique_ptr<Entity> >(PlayerFactory::entityId,
+                                                         std::make_unique<Entity>(factory.createId()))
     );
     factory.createEntity(*this->entities.at(PlayerFactory::entityId).get(), *context, camera);
 }
@@ -108,35 +109,47 @@ void Game::inputEvent(unsigned int deltaMs) {
     int size = 0;
 
     const Uint8 *keystates = SDL_GetKeyboardState(&size);
-    Vector2Df vector{0.f,0.f};
+    Vector2Df vector{0.f, 0.f};
 
     const auto player = entities.at(PlayerFactory::entityId);
 
-    const char* stateKey = typeid(EntityState).name();
-    const char* hitBoxKey = typeid(HitBox).name();
+    const char *stateKey = typeid(EntityState).name();
+    const char *hitBoxKey = typeid(HitBox).name();
 
     if (player->getProperty<EntityState>()->getState() != EntityState::DEAD) {
         EntityState::ObjectState state = player->getProperty<EntityState>(stateKey)->getState();
 
+        // todo: normalize movement
         if (isKeyDown(keystates, SDL_SCANCODE_W)) {
             state = EntityState::UP;
-            vector.setY(-0.1f * static_cast<float>(deltaMs));
+            vector.setY(-this->velocity * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_S)) {
             state = EntityState::DOWN;
-            vector.setY(+0.1f * static_cast<float>(deltaMs));
+            vector.setY(+this->velocity * static_cast<float>(deltaMs));
         }
 
         if (isKeyDown(keystates, SDL_SCANCODE_A)) {
             state = EntityState::DOWN;
-            vector.setX(-0.1f * static_cast<float>(deltaMs));
+            vector.setX(-this->velocity * static_cast<float>(deltaMs));
         } else if (isKeyDown(keystates, SDL_SCANCODE_D)) {
             state = EntityState::RIGHT;
-            vector.setX(+0.1f * static_cast<float>(deltaMs));
+            vector.setX(+this->velocity * static_cast<float>(deltaMs));
+        }
+
+        if (isKeyDown(keystates, SDL_SCANCODE_KP_PLUS)) {
+            this->velocity = this->velocity + 0.1f;
+            std::cout << "velocity: " << this->velocity << std::endl;
+        }
+        else if (isKeyDown(keystates, SDL_SCANCODE_KP_MINUS)) {
+            this->velocity = this->velocity - 0.1f;
+            std::cout << "velocity: " << this->velocity << std::endl;
         }
 
         const auto currentPos = player->getProperty<HitBox>(hitBoxKey);
 
-        HitBox nextPos{currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()};
+        HitBox nextPos{
+            currentPos->getCornerX(), currentPos->getCornerY(), currentPos->getWidth(), currentPos->getHeight()
+        };
         nextPos.move(vector);
         player->getProperty<EntityState>(stateKey)->setState(state);
 
@@ -175,33 +188,33 @@ void Game::initSkeleton() {
     std::string entityId{factory.createId(*context)};
 
     this->entities.insert(
-            std::pair<std::string, std::shared_ptr<Entity> >(entityId, std::make_shared<Entity>(entityId))
+        std::pair<std::string, std::shared_ptr<Entity> >(entityId, std::make_shared<Entity>(entityId))
     );
     factory.createEntity(*this->entities.at(entityId).get(), *context, camera);
 }
 
 void Game::initMage() {
-/*    InitalizationMapper init;
+    /*    InitalizationMapper init;
 
-    std::string mageId = MAGE_ID;
+        std::string mageId = MAGE_ID;
 
-    init.setObjectId(mageId.data());
-    init.setInitalPosition(Vector2Df(64, 64));
+        init.setObjectId(mageId.data());
+        init.setInitalPosition(Vector2Df(64, 64));
 
-    // TODO: initialisation should be done via file input
-    auto idleDrawable = new Drawable("Mage_idle", 17, 19, 4);
+        // TODO: initialisation should be done via file input
+        auto idleDrawable = new Drawable("Mage_idle", 17, 19, 4);
 
-    this->context->getTextureManager()->addTextureAndId("Mage_idle", "Mage_Base_Idle.png");
+        this->context->getTextureManager()->addTextureAndId("Mage_idle", "Mage_Base_Idle.png");
 
-    init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
-    init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
-    init.setInitalState(WorldObject::ObjectState::IDLE);
+        init.addNewDrawableForState(WorldObject::ObjectState::IDLE, idleDrawable);
+        init.addNewDrawableForState(WorldObject::ObjectState::LEFT, idleDrawable);
+        init.addNewDrawableForState(WorldObject::ObjectState::RIGHT, idleDrawable);
+        init.addNewDrawableForState(WorldObject::ObjectState::UP, idleDrawable);
+        init.addNewDrawableForState(WorldObject::ObjectState::DOWN, idleDrawable);
+        init.setInitalState(WorldObject::ObjectState::IDLE);
 
-    this->objects.insert(
-            std::pair<std::string, std::unique_ptr<WorldObject> >(mageId.data(), std::make_unique<Skeleton>(&init)));*/
+        this->objects.insert(
+                std::pair<std::string, std::unique_ptr<WorldObject> >(mageId.data(), std::make_unique<Skeleton>(&init)));*/
 }
 
 void Game::initMarker() {
@@ -225,29 +238,28 @@ void Game::initMarker() {
 
 void Game::update(unsigned int delta) {
     this->background.update(*context, camera, canvas);
-    const char* hitBoxKey = typeid(HitBox).name();
+    const char *hitBoxKey = typeid(HitBox).name();
     for (auto iter = this->entities.begin(); iter != this->entities.end(); iter++) {
         const auto elem = iter->second.get();
         const auto hitBox = elem->getProperty<HitBox>(hitBoxKey);
-        if(hitBox != nullptr && this->camera.isObjectVisible(hitBox)) {
+        if (hitBox != nullptr && this->camera.isObjectVisible(hitBox)) {
             this->canvas.addToScene(iter->second);
         }
     }
 }
 
 void Game::configure(std::string &configFilePath) {
-
 }
 
-bool Game::collide(HitBox& hitBox) {
-    if(!hitBox.isActive()) {
+bool Game::collide(HitBox &hitBox) {
+    if (!hitBox.isActive()) {
         return false;
     }
-    const char* hitBoxKey = typeid(HitBox).name();
-    for (const auto & iter : this->canvas.getScene()) {
-        if(iter->getEntityId() != PlayerFactory::entityId) {
+    const char *hitBoxKey = typeid(HitBox).name();
+    for (const auto &iter: this->canvas.getScene()) {
+        if (iter->getEntityId() != PlayerFactory::entityId) {
             const auto iterHitBox = iter->getProperty<HitBox>(hitBoxKey);
-            if(iterHitBox->isActive() && iterHitBox->collision(hitBox)) {
+            if (iterHitBox->isActive() && iterHitBox->collision(hitBox)) {
                 return true;
             }
         }
