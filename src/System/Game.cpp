@@ -75,9 +75,9 @@ bool Game::isRunning() {
 
 void Game::run() {
     Uint32 start{0};
-    Uint32 sleep{0};
+    long sleep{0};
 
-    const long tick = static_cast<long>(1000.f / static_cast<float>(FPS));
+    const long frameTime = static_cast<long>(1000.f / static_cast<float>(FPS));
     long delta{0};
 
     if (this->init()) {
@@ -89,6 +89,13 @@ void Game::run() {
             this->render(delta);
 
             delta = SDL_GetTicks() - start;
+            if (delta <= frameTime) {
+                sleep = frameTime - delta;
+                std::cout << "sleep: " << sleep << std::endl;
+                if (sleep > 0) {
+                    SDL_Delay(sleep);
+                }
+            }
         }
         this->entities.clear();
         this->context->getTextureManager()->clear();

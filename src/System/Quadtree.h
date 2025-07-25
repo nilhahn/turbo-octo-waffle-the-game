@@ -12,13 +12,13 @@ public:
         NW = 0, NE, SE, SW
     } Quadrant;
 
-    Quadtree(Square2D &coord, V &v, Quadtree *root);
+    Quadtree(Square2D &coord, V &value, Quadtree *root);
 
-    Quadtree(Square2D &coord, V &v);
+    Quadtree(Square2D &coord, V &value);
 
     ~Quadtree();
 
-    void insert(Square2D &coord, V &v);
+    void insert(Square2D &coord, V &value);
 
     void remove(Square2D &coord);
 
@@ -70,16 +70,16 @@ Quadtree<V>::Quadtree(Square2D &coord, V &value) {
 
 template<typename V>
 Quadtree<V>::~Quadtree() {
-    for (int index = 0; index < NODES; index++) {
-        if (nullptr != children[index]) {
-            delete children[index];
+    for (auto & index : children) {
+        if (nullptr != index) {
+            delete index;
         }
-        children[index] = nullptr;
+        index = nullptr;
     }
 }
 
 template<typename V>
-void Quadtree<V>::insert(Square2D &coord, V &v) {
+void Quadtree<V>::insert(Square2D &coord, V &value) {
     Quadrant quadrant = this->getQuadrant(coord.getCornerSquare());
 
     if (coord.isIn(this->own.getCornerSquare())) {
@@ -87,10 +87,10 @@ void Quadtree<V>::insert(Square2D &coord, V &v) {
     }
 
     if (children[quadrant] == nullptr) {
-        children[quadrant] = new Quadtree(coord, v, this);
-        this->fill++;
+        children[quadrant] = new Quadtree(coord, value, this);
+        ++this->fill;
     } else {
-        children[quadrant]->insert(coord, v);
+        children[quadrant]->insert(coord, value);
     }
 }
 
@@ -155,7 +155,7 @@ void Quadtree<V>::remove(Square2D &coord) {
                     }
                 }
 
-                this->fill--;
+                --this->fill;
                 return;
             }
             this->children[index]->remove(coord);

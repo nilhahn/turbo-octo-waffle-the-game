@@ -12,7 +12,7 @@ include(FetchContent)
 FetchContent_Declare(
         SDL2
         GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
-        GIT_TAG "release-2.32.0"
+        GIT_TAG "release-2.32.8"
         EXCLUDE_FROM_ALL
 )
 FetchContent_MakeAvailable(SDL2)
@@ -24,6 +24,14 @@ FetchContent_Declare(
         EXCLUDE_FROM_ALL
 )
 FetchContent_MakeAvailable(SDL2_image)
+
+FetchContent_GetProperties(SDL2)
+FetchContent_GetProperties(SDL2_image)
+
+set(SDL2_INCLUDE_DIR ${SDL2_SOURCE_DIR}/include)
+set(SDL2_IMAGE_INCLUDE_DIR ${SDL2_image_SOURCE_DIR}/include)
+
+message(WARNING ${SDL2_SOURCE_DIR})
 
 set(EXECUTABLE_NAME ${CMAKE_PROJECT_NAME})
 

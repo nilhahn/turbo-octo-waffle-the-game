@@ -10,5 +10,4 @@ public:
     std::string createId(Context &context);
 };
 
-
 #endif //TURBO_OCTO_WAFFLE_THE_GAME_SKELETONFACTORY_H
